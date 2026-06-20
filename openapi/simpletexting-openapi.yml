@@ -1,0 +1,825 @@
+openapi: 3.0.1
+info:
+  title: SimpleTexting API
+  description: >-
+    The SimpleTexting v2 REST API lets developers send SMS and MMS messages,
+    manage contacts and contact lists, run bulk campaigns, upload media, read
+    custom fields and segments, and subscribe to webhook events. The API is
+    organized around REST, uses standard HTTP verbs and response codes, accepts
+    and returns JSON, and is authenticated with a bearer token in the
+    Authorization header.
+  termsOfService: https://simpletexting.com/terms-of-service/
+  contact:
+    name: SimpleTexting Support
+    url: https://simpletexting.com/api/
+    email: support@simpletexting.com
+  version: '2.0'
+servers:
+  - url: https://api-app2.simpletexting.com/v2
+    description: SimpleTexting v2 production API
+security:
+  - bearerAuth: []
+tags:
+  - name: Messages
+    description: Send and retrieve one-to-one SMS / MMS messages.
+  - name: Campaigns
+    description: Create and retrieve bulk campaigns to lists and segments.
+  - name: Contacts
+    description: Create, read, update, and delete individual contacts.
+  - name: Contacts - Batch Operations
+    description: Batch update and delete groups of contacts.
+  - name: Contact Lists
+    description: Manage contact lists and list membership.
+  - name: Contact Segments
+    description: Read dynamic contact segments.
+  - name: Custom Fields
+    description: Read account custom fields / merge tags.
+  - name: Media Items
+    description: Upload and manage MMS media items.
+  - name: Webhooks
+    description: Subscribe to platform events via HTTP callbacks.
+  - name: Tenant
+    description: Account information and sending phone numbers.
+paths:
+  /api/messages:
+    get:
+      operationId: getAllMessages
+      tags:
+        - Messages
+      summary: Get all Messages
+      description: Returns a paginated list of messages sent to and from the account.
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+        - name: accountPhone
+          in: query
+          schema:
+            type: string
+        - name: since
+          in: query
+          schema:
+            type: string
+        - name: contactPhone
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A page of messages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageViewMessage'
+    post:
+      operationId: sendMessage
+      tags:
+        - Messages
+      summary: Send a Message
+      description: Sends a single SMS or MMS message to one contact.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '200':
+          description: The accepted message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+  /api/messages/evaluate:
+    post:
+      operationId: evaluateMessage
+      tags:
+        - Messages
+      summary: Evaluate a Message
+      description: >-
+        Evaluates a message body without sending it, returning credit cost,
+        segment count, and encoding details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluateMessageRequest'
+      responses:
+        '200':
+          description: Message evaluation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageInfo'
+  /api/messages/{messageId}:
+    get:
+      operationId: getMessage
+      tags:
+        - Messages
+      summary: Get a Message
+      description: Retrieves a single message by its identifier.
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+  /api/campaigns:
+    get:
+      operationId: getAllCampaigns
+      tags:
+        - Campaigns
+      summary: Get all Campaigns
+      description: Returns a paginated list of campaigns.
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A page of campaigns.
+    post:
+      operationId: sendCampaign
+      tags:
+        - Campaigns
+      summary: Send a Campaign
+      description: Sends a bulk campaign immediately to one or more lists or segments.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImmediatelyCampaignRequest'
+      responses:
+        '200':
+          description: The created campaign.
+  /api/campaigns/{campaignId}:
+    get:
+      operationId: getCampaign
+      tags:
+        - Campaigns
+      summary: Get a Campaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested campaign.
+  /api/contacts:
+    get:
+      operationId: getAllContacts
+      tags:
+        - Contacts
+      summary: Get all Contacts
+      description: Returns a paginated list of contacts on the account.
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+        - name: since
+          in: query
+          schema:
+            type: string
+        - name: direction
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A page of contacts.
+    post:
+      operationId: createContact
+      tags:
+        - Contacts
+      summary: Create a Contact
+      description: Creates a contact. Use upsert to create or update by phone number.
+      parameters:
+        - name: upsert
+          in: query
+          schema:
+            type: boolean
+        - name: listsReplacement
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleContactUpdate'
+      responses:
+        '200':
+          description: The created or updated contact.
+  /api/contacts/{contactIdOrNumber}:
+    get:
+      operationId: getContact
+      tags:
+        - Contacts
+      summary: Get a Contact
+      parameters:
+        - name: contactIdOrNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested contact.
+    put:
+      operationId: updateContact
+      tags:
+        - Contacts
+      summary: Update a Contact
+      parameters:
+        - name: contactIdOrNumber
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: upsert
+          in: query
+          schema:
+            type: boolean
+        - name: listsReplacement
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleContactUpdate'
+      responses:
+        '200':
+          description: The updated contact.
+    delete:
+      operationId: deleteContact
+      tags:
+        - Contacts
+      summary: Delete a Contact
+      parameters:
+        - name: contactIdOrNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Contact deleted.
+  /api/contacts-batch/batch-update:
+    post:
+      operationId: batchUpdateContacts
+      tags:
+        - Contacts - Batch Operations
+      summary: Update a Group of Contacts
+      description: Submits an asynchronous batch update task for a group of contacts.
+      responses:
+        '200':
+          description: Batch task accepted.
+  /api/contacts-batch/batch-update/{taskId}:
+    get:
+      operationId: getBatchUpdateResult
+      tags:
+        - Contacts - Batch Operations
+      summary: Get the Result of a Batch Update Task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Batch task result.
+  /api/contacts-batch/batch-delete:
+    post:
+      operationId: batchDeleteContacts
+      tags:
+        - Contacts - Batch Operations
+      summary: Delete a Group of Contacts
+      responses:
+        '200':
+          description: Batch delete accepted.
+  /api/contact-lists:
+    get:
+      operationId: getAllLists
+      tags:
+        - Contact Lists
+      summary: Get all Lists
+      responses:
+        '200':
+          description: A page of contact lists.
+    post:
+      operationId: createList
+      tags:
+        - Contact Lists
+      summary: Create a List
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListDto'
+      responses:
+        '200':
+          description: The created list.
+  /api/contact-lists/{listId}:
+    put:
+      operationId: updateListName
+      tags:
+        - Contact Lists
+      summary: Update a List Name
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListDto'
+      responses:
+        '200':
+          description: The updated list.
+  /api/contact-lists/{listIdOrName}:
+    get:
+      operationId: getList
+      tags:
+        - Contact Lists
+      summary: Get a List
+      parameters:
+        - name: listIdOrName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested list.
+    delete:
+      operationId: deleteList
+      tags:
+        - Contact Lists
+      summary: Delete a List
+      parameters:
+        - name: listIdOrName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: List deleted.
+  /api/contact-lists/{listIdOrName}/contacts:
+    post:
+      operationId: addContactToList
+      tags:
+        - Contact Lists
+      summary: Add Contact To List
+      parameters:
+        - name: listIdOrName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactPhoneOrIdDto'
+      responses:
+        '200':
+          description: Contact added to list.
+  /api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}:
+    delete:
+      operationId: removeContactFromList
+      tags:
+        - Contact Lists
+      summary: Remove Contact From List
+      parameters:
+        - name: listIdOrName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: contactPhoneOrId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Contact removed from list.
+  /api/contact-segments:
+    get:
+      operationId: getAllSegments
+      tags:
+        - Contact Segments
+      summary: Get all Segments
+      responses:
+        '200':
+          description: A list of contact segments.
+  /api/custom-fields:
+    get:
+      operationId: getAllCustomFields
+      tags:
+        - Custom Fields
+      summary: Get all Custom Fields
+      responses:
+        '200':
+          description: A list of custom fields / merge tags.
+  /api/mediaitems:
+    get:
+      operationId: getMediaItems
+      tags:
+        - Media Items
+      summary: Get Media Items
+      responses:
+        '200':
+          description: A page of media items.
+  /api/mediaitems/upload:
+    post:
+      operationId: uploadMedia
+      tags:
+        - Media Items
+      summary: Upload Media
+      description: Uploads a media file for use in MMS messages.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: The uploaded media item.
+  /api/mediaitems/loadByLink:
+    post:
+      operationId: uploadMediaByLink
+      tags:
+        - Media Items
+      summary: Upload Media Using a URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+      responses:
+        '200':
+          description: The uploaded media item.
+  /api/mediaitems/{mediaItemId}:
+    get:
+      operationId: getMediaItem
+      tags:
+        - Media Items
+      summary: Get Media Item
+      parameters:
+        - name: mediaItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested media item.
+    delete:
+      operationId: deleteMedia
+      tags:
+        - Media Items
+      summary: Delete Media
+      parameters:
+        - name: mediaItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Media item deleted.
+  /api/webhooks:
+    get:
+      operationId: getAllWebhooks
+      tags:
+        - Webhooks
+      summary: Get all Webhooks
+      responses:
+        '200':
+          description: A list of webhooks.
+    post:
+      operationId: createWebhook
+      tags:
+        - Webhooks
+      summary: Create a Webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: The created webhook.
+  /api/webhooks/{webhookId}:
+    put:
+      operationId: updateWebhook
+      tags:
+        - Webhooks
+      summary: Update a Webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: The updated webhook.
+    delete:
+      operationId: deleteWebhook
+      tags:
+        - Webhooks
+      summary: Delete a Webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Webhook deleted.
+  /api/tenant:
+    get:
+      operationId: getTenant
+      tags:
+        - Tenant
+      summary: Get general information
+      description: Returns general account (tenant) information, including credit balance.
+      responses:
+        '200':
+          description: Tenant information.
+  /api/phones:
+    get:
+      operationId: getAllPhones
+      tags:
+        - Tenant
+      summary: Get all phones
+      description: Returns the sending phone numbers provisioned on the account.
+      responses:
+        '200':
+          description: A page of sending phone numbers.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Send the API token as a bearer token in the Authorization header:
+        `Authorization: Bearer <token>`. Generate a token in the SimpleTexting
+        web app under Settings.
+  schemas:
+    SendMessageRequest:
+      type: object
+      required:
+        - contactPhone
+        - mode
+        - text
+      properties:
+        contactPhone:
+          type: string
+          description: Destination phone number in E.164 format.
+        accountPhone:
+          type: string
+          description: Sending phone number to use; defaults to the account's primary number.
+        mode:
+          type: string
+          enum:
+            - AUTO
+            - SINGLE_SMS_STRICTLY
+            - MMS_PREFERRED
+        subject:
+          type: string
+        text:
+          type: string
+        fallbackText:
+          type: string
+        mediaItems:
+          type: array
+          items:
+            type: string
+    EvaluateMessageRequest:
+      type: object
+      required:
+        - mode
+        - text
+      properties:
+        mode:
+          type: string
+          enum:
+            - AUTO
+            - SINGLE_SMS_STRICTLY
+            - MMS_PREFERRED
+        subject:
+          type: string
+        text:
+          type: string
+        fallbackText:
+          type: string
+        mediaItems:
+          type: array
+          items:
+            type: string
+    MessageInfo:
+      type: object
+      properties:
+        segmentsCount:
+          type: integer
+        creditsCost:
+          type: integer
+        encoding:
+          type: string
+        charactersCount:
+          type: integer
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        contactPhone:
+          type: string
+        accountPhone:
+          type: string
+        text:
+          type: string
+        direction:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    PageViewMessage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+    SingleContactUpdate:
+      type: object
+      properties:
+        contactPhone:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        birthday:
+          type: string
+        customFields:
+          type: object
+          additionalProperties:
+            type: string
+        comment:
+          type: string
+        listIds:
+          type: array
+          items:
+            type: string
+    ListDto:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    ContactPhoneOrIdDto:
+      type: object
+      properties:
+        contactPhoneOrId:
+          type: string
+    MessageTemplate:
+      type: object
+      required:
+        - mode
+        - text
+      properties:
+        mode:
+          type: string
+          enum:
+            - AUTO
+            - SINGLE_SMS_STRICTLY
+            - MMS_PREFERRED
+        subject:
+          type: string
+        text:
+          type: string
+        unsubscribeText:
+          type: string
+        fallbackText:
+          type: string
+        fallbackUnsubscribeText:
+          type: string
+        mediaItems:
+          type: array
+          items:
+            type: string
+    ImmediatelyCampaignRequest:
+      type: object
+      required:
+        - messageTemplate
+        - title
+      properties:
+        title:
+          type: string
+        listIds:
+          type: array
+          items:
+            type: string
+        segmentIds:
+          type: array
+          items:
+            type: string
+        accountPhone:
+          type: string
+        customFieldsMaxLength:
+          type: object
+        messageTemplate:
+          $ref: '#/components/schemas/MessageTemplate'
+    WebhookRequest:
+      type: object
+      required:
+        - triggers
+        - url
+      properties:
+        url:
+          type: string
+        triggers:
+          type: array
+          items:
+            type: string
+            enum:
+              - INCOMING_MESSAGE
+              - OUTGOING_MESSAGE
+              - DELIVERY_REPORT
+              - NON_DELIVERED_REPORT
+              - UNSUBSCRIBE_REPORT
+        requestPerSecLimit:
+          type: integer
+          format: int32
+        accountPhone:
+          type: string
+        contactPhone:
+          type: string

@@ -1,0 +1,1463 @@
+{
+  "item": [
+    {
+      "id": "b5fa4d56-cee3-4f45-b743-ab3feccec204",
+      "name": "Messages",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8b787c89-822b-411e-9f1c-81c935aa0549",
+          "name": "Get all Messages",
+          "request": {
+            "name": "Get all Messages",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "accountPhone",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "since",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "contactPhone",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "27be153a-a067-4002-89d5-877054fe65d3",
+          "name": "Send a Message",
+          "request": {
+            "name": "Send a Message",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhone\": \"<string>\",\n  \"accountPhone\": \"<string>\",\n  \"mode\": \"AUTO\",\n  \"subject\": \"<string>\",\n  \"text\": \"<string>\",\n  \"fallbackText\": \"<string>\",\n  \"mediaItems\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "ea9cd0eb-0277-4ae7-bb1a-78598166cac6",
+          "name": "Evaluate a Message",
+          "request": {
+            "name": "Evaluate a Message",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "messages",
+                "evaluate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mode\": \"AUTO\",\n  \"subject\": \"<string>\",\n  \"text\": \"<string>\",\n  \"fallbackText\": \"<string>\",\n  \"mediaItems\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "07c23215-f4c9-4277-8f56-92b542790ac0",
+          "name": "Get a Message",
+          "request": {
+            "name": "Get a Message",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "messages",
+                ":messageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "e01431ca-f24d-42b7-852d-6e19c39c9d15",
+      "name": "Campaigns",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a08980fb-686c-4d93-8cc4-79143ff8ee2c",
+          "name": "Get all Campaigns",
+          "request": {
+            "name": "Get all Campaigns",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "5f69fc2a-f622-4432-82a0-600a25b7fd0b",
+          "name": "Send a Campaign",
+          "request": {
+            "name": "Send a Campaign",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"listIds\": [],\n  \"segmentIds\": [],\n  \"accountPhone\": \"<string>\",\n  \"customFieldsMaxLength\": {},\n  \"messageTemplate\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "b00c40fe-7de0-42eb-8d27-049cbd76eec6",
+          "name": "Get a Campaign",
+          "request": {
+            "name": "Get a Campaign",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "campaigns",
+                ":campaignId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "95090f31-3d50-46bc-b0bd-e27b855e3370",
+      "name": "Contacts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1f3b4a03-e2c8-4fe4-9d10-f2e1ce8b9c67",
+          "name": "Get all Contacts",
+          "request": {
+            "name": "Get all Contacts",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "since",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "direction",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "2ce982d2-2b16-4b65-9740-72ff951e0bb2",
+          "name": "Create a Contact",
+          "request": {
+            "name": "Create a Contact",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "upsert",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "listsReplacement",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhone\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"birthday\": \"<string>\",\n  \"customFields\": {},\n  \"comment\": \"<string>\",\n  \"listIds\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "37d48aca-0b4f-4fbf-b745-a4e7df340551",
+          "name": "Get a Contact",
+          "request": {
+            "name": "Get a Contact",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts",
+                ":contactIdOrNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "d924c301-b649-457a-9da7-0cc6f1f73565",
+          "name": "Update a Contact",
+          "request": {
+            "name": "Update a Contact",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts",
+                ":contactIdOrNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "upsert",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "listsReplacement",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhone\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"birthday\": \"<string>\",\n  \"customFields\": {},\n  \"comment\": \"<string>\",\n  \"listIds\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "105e5fa6-aa92-47cb-a2c9-dce7aa0bf0e1",
+          "name": "Delete a Contact",
+          "request": {
+            "name": "Delete a Contact",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts",
+                ":contactIdOrNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "cba12b94-7b7e-4976-a0a4-6847e8d5a775",
+      "name": "Contacts - Batch Operations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "753fc2ba-1d04-4d2e-a97e-cb0265ce4cbb",
+          "name": "Update a Group of Contacts",
+          "request": {
+            "name": "Update a Group of Contacts",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts-batch",
+                "batch-update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "a6846e24-8f08-443e-923c-379cac01eee5",
+          "name": "Get the Result of a Batch Update Task",
+          "request": {
+            "name": "Get the Result of a Batch Update Task",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts-batch",
+                "batch-update",
+                ":taskId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "bfa4115e-0754-49a2-9cc6-72189726efcb",
+          "name": "Delete a Group of Contacts",
+          "request": {
+            "name": "Delete a Group of Contacts",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contacts-batch",
+                "batch-delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "53221f62-db95-48e6-a6c7-e4bff7e6bdd8",
+      "name": "Contact Lists",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "509842c1-7455-4a39-9bfe-cd402fe1d5e4",
+          "name": "Get all Lists",
+          "request": {
+            "name": "Get all Lists",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "2bea8111-2883-4aeb-be42-57061b380633",
+          "name": "Create a List",
+          "request": {
+            "name": "Create a List",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "e74d4f15-4b91-4ddd-88be-f2f4ae2a310f",
+          "name": "Update a List Name",
+          "request": {
+            "name": "Update a List Name",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "3405ac8c-dcb7-467f-9bc5-5c832bc73e2b",
+          "name": "Get a List",
+          "request": {
+            "name": "Get a List",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "20be6e1b-989f-481c-974c-4a00da040c5e",
+          "name": "Delete a List",
+          "request": {
+            "name": "Delete a List",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "82d97d35-1eda-438c-b218-105c6f6232a9",
+          "name": "Add Contact To List",
+          "request": {
+            "name": "Add Contact To List",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhoneOrId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "9721f25d-b69b-46fe-8c58-7b5466b492e3",
+          "name": "Remove Contact From List",
+          "request": {
+            "name": "Remove Contact From List",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName",
+                "contacts",
+                ":contactPhoneOrId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "b439fa14-0040-45a8-8593-4a9706282b8c",
+      "name": "Contact Segments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffc44e81-21bf-4807-bf9c-a773c305a1ee",
+          "name": "Get all Segments",
+          "request": {
+            "name": "Get all Segments",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contact-segments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "fbe54181-5ea2-4fc4-aa3c-6d5e91a02a9d",
+      "name": "Custom Fields",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39de9831-b14e-4a28-8615-4e01f12dc061",
+          "name": "Get all Custom Fields",
+          "request": {
+            "name": "Get all Custom Fields",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "custom-fields"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "26cfc66f-0774-4840-98c8-2dbccb469658",
+      "name": "Media Items",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "30f8fcc9-8839-4e0a-8f34-5eadc3b21bda",
+          "name": "Get Media Items",
+          "request": {
+            "name": "Get Media Items",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "mediaitems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "253f3083-4141-410a-9f9d-8fcb2d3a99e0",
+          "name": "Upload Media",
+          "request": {
+            "name": "Upload Media",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "adf91b54-eee8-4267-a111-3916dc101db6",
+          "name": "Upload Media Using a URL",
+          "request": {
+            "name": "Upload Media Using a URL",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                "loadByLink"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "bd689428-e4ac-4d33-a87c-749ead71b9d5",
+          "name": "Get Media Item",
+          "request": {
+            "name": "Get Media Item",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                ":mediaItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "055c48d4-54c7-45c8-8914-b0e866ebacbf",
+          "name": "Delete Media",
+          "request": {
+            "name": "Delete Media",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                ":mediaItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "4b4564c1-cf0b-4c2a-8cc0-9a3cb42dceaa",
+      "name": "Webhooks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "be4e2086-4098-43bf-ac06-e2f8dd917173",
+          "name": "Get all Webhooks",
+          "request": {
+            "name": "Get all Webhooks",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "webhooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "9f25eb4c-f8df-44c6-b7c6-51f9541d2868",
+          "name": "Create a Webhook",
+          "request": {
+            "name": "Create a Webhook",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "webhooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<string>\",\n  \"triggers\": [],\n  \"requestPerSecLimit\": 0,\n  \"accountPhone\": \"<string>\",\n  \"contactPhone\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "1e87316c-276e-4d84-bad3-f2b7afddc1eb",
+          "name": "Update a Webhook",
+          "request": {
+            "name": "Update a Webhook",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "webhooks",
+                ":webhookId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<string>\",\n  \"triggers\": [],\n  \"requestPerSecLimit\": 0,\n  \"accountPhone\": \"<string>\",\n  \"contactPhone\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "b1e930c4-5621-43e7-a50b-50f8f880d280",
+          "name": "Delete a Webhook",
+          "request": {
+            "name": "Delete a Webhook",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "webhooks",
+                ":webhookId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "480c5064-d369-4431-9949-f3ad94e68eb4",
+      "name": "Tenant",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "45d99813-8b24-49ed-b1ed-ccbb00572448",
+          "name": "Get general information",
+          "request": {
+            "name": "Get general information",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "tenant"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "89a0d6f3-9d88-4558-b3e1-54971300ae27",
+          "name": "Get all phones",
+          "request": {
+            "name": "Get all phones",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "phones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c474ae8a-7edb-48cd-b8e2-b2f8392aa7ad",
+    "name": "SimpleTexting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SimpleTexting v2 REST API for SMS/MMS messaging, contacts, lists, campaigns, media, sending numbers, and webhooks.\n\nContact Support:\n Name: SimpleTexting Support\n Email: support@simpletexting.com",
+      "type": "text/plain"
+    }
+  }
+}

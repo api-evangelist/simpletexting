@@ -1,0 +1,180 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: SimpleTexting
+providerId: simpletexting
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- SMS
+- MMS
+- Messaging
+- Marketing
+- Text Messaging
+- Plans
+description: >-
+  SimpleTexting sells monthly credit-based plans where one SMS up to 160
+  characters equals one credit, an extended SMS (up to 306 characters) costs
+  2 credits, and an MMS costs 3 credits. Plans are tiered by the number of
+  included monthly credits, with per-credit cost dropping as volume rises.
+  Each plan includes three user seats; additional seats are $20/month and
+  additional sending numbers are $10/month. Overage credits beyond the
+  monthly allotment are billed at $0.055 per credit. Annual billing saves
+  roughly 20% versus monthly. The same API and feature set is available on
+  all paid plans; there is a free trial rather than a permanent free tier.
+notes: >-
+  Representative monthly (month-to-month) US plan tiers and rates as
+  published on the SimpleTexting pricing page in 2026; verify current
+  tiers, credits, and per-credit pricing on the pricing page, as they change.
+sources:
+- https://simpletexting.com/pricing/
+- https://simpletexting.com/api/
+plans:
+- id: simpletexting-credits
+  name: Monthly Credit Plans
+  type: usage
+  description: >-
+    Tiered monthly plans bundling a fixed number of messaging credits;
+    SMS = 1 credit, extended SMS = 2 credits, MMS = 3 credits.
+  entries:
+  - label: 500 Credits
+    name: credits_500
+    type: flat
+    metric: credits
+    limit: 500
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $39/month
+    userMultiplied: false
+  - label: 1,000 Credits
+    name: credits_1000
+    type: flat
+    metric: credits
+    limit: 1000
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $59/month
+    userMultiplied: false
+  - label: 2,000 Credits
+    name: credits_2000
+    type: flat
+    metric: credits
+    limit: 2000
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $89/month
+    userMultiplied: false
+  - label: 3,000 Credits
+    name: credits_3000
+    type: flat
+    metric: credits
+    limit: 3000
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $119/month
+    userMultiplied: false
+  - label: 7,500 Credits
+    name: credits_7500
+    type: flat
+    metric: credits
+    limit: 7500
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $239/month
+    userMultiplied: false
+  - label: 15,000 Credits
+    name: credits_15000
+    type: flat
+    metric: credits
+    limit: 15000
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $409/month
+    userMultiplied: false
+  - label: 25,000 Credits
+    name: credits_25000
+    type: flat
+    metric: credits
+    limit: 25000
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $559/month
+    userMultiplied: false
+  - label: 50,000 Credits
+    name: credits_50000
+    type: flat
+    metric: credits
+    limit: 50000
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $909/month
+    userMultiplied: false
+  - label: Overage Credits
+    name: overage
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $0.055 per credit beyond plan allotment
+    userMultiplied: false
+  - label: Additional User Seat
+    name: extra_seat
+    type: flat
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $20/month per seat (3 seats included)
+    userMultiplied: true
+  - label: Additional Sending Number
+    name: extra_number
+    type: flat
+    metric: numbers
+    limit: -1
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: $10/month per additional number
+    userMultiplied: true
+  elements:
+  - name: SMS / MMS Messaging
+  - name: Campaigns
+  - name: Contacts and Lists
+  - name: Autoresponders and Keywords
+  - name: API Access
+  - name: Webhooks
+- id: simpletexting-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom high-volume agreements with negotiated per-credit pricing,
+    dedicated support, and onboarding. Contact SimpleTexting sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

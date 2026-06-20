@@ -1,0 +1,109 @@
+aid: simpletexting
+name: SimpleTexting
+review:
+  question: Does SimpleTexting expose a documented public WebSocket or streaming API?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    SimpleTexting's only event-driven surface is outbound HTTP webhooks
+    (server-to-server POST callbacks the client receives), not a streaming
+    transport the client consumes from SimpleTexting. Per API Evangelist
+    AsyncAPI scope (which covers WebSocket and HTTP Server-Sent Events that a
+    client subscribes to), no AsyncAPI document was authored, because
+    SimpleTexting publishes neither a WebSocket nor an SSE endpoint. The
+    webhook surface is modeled as REST CRUD operations in the OpenAPI
+    document instead.
+findings:
+  summary: |
+    SimpleTexting does not publish a documented public WebSocket or
+    Server-Sent Events API. The v2 platform is a REST (HTTPS) API under
+    https://api-app2.simpletexting.com/v2 using bearer-token authentication.
+    Real-time delivery and inbound events are delivered through outbound
+    HTTP webhooks: the developer registers a callback URL via
+    POST /api/webhooks and SimpleTexting POSTs event payloads to it. This is
+    a one-way server-to-server callback, not a bidirectional WebSocket or a
+    client-consumed SSE stream. Webhook triggers include INCOMING_MESSAGE,
+    OUTGOING_MESSAGE, DELIVERY_REPORT, NON_DELIVERED_REPORT, and
+    UNSUBSCRIBE_REPORT, and a requestPerSecLimit can throttle callback delivery.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api-app2.simpletexting.com/v2
+      documented: true
+    - protocol: Webhook
+      scheme: https
+      note: Outbound HTTP POST callbacks to a developer-registered URL for message and report events. Server-to-server, not WebSocket or client-consumed SSE.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in the SimpleTexting API reference.
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events stream is documented for clients to subscribe to.
+  webhookTriggers:
+    - INCOMING_MESSAGE
+    - OUTGOING_MESSAGE
+    - DELIVERY_REPORT
+    - NON_DELIVERED_REPORT
+    - UNSUBSCRIBE_REPORT
+  endpointsConfirmedRest:
+    - POST   https://api-app2.simpletexting.com/v2/api/messages
+    - GET    https://api-app2.simpletexting.com/v2/api/messages
+    - POST   https://api-app2.simpletexting.com/v2/api/messages/evaluate
+    - GET    https://api-app2.simpletexting.com/v2/api/messages/{messageId}
+    - GET    https://api-app2.simpletexting.com/v2/api/campaigns
+    - POST   https://api-app2.simpletexting.com/v2/api/campaigns
+    - GET    https://api-app2.simpletexting.com/v2/api/campaigns/{campaignId}
+    - GET    https://api-app2.simpletexting.com/v2/api/contacts
+    - POST   https://api-app2.simpletexting.com/v2/api/contacts
+    - GET    https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}
+    - PUT    https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}
+    - DELETE https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}
+    - POST   https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update
+    - GET    https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update/{taskId}
+    - POST   https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-delete
+    - GET    https://api-app2.simpletexting.com/v2/api/contact-lists
+    - POST   https://api-app2.simpletexting.com/v2/api/contact-lists
+    - GET    https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}
+    - PUT    https://api-app2.simpletexting.com/v2/api/contact-lists/{listId}
+    - DELETE https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}
+    - POST   https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}/contacts
+    - DELETE https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}
+    - GET    https://api-app2.simpletexting.com/v2/api/contact-segments
+    - GET    https://api-app2.simpletexting.com/v2/api/custom-fields
+    - GET    https://api-app2.simpletexting.com/v2/api/mediaitems
+    - POST   https://api-app2.simpletexting.com/v2/api/mediaitems/upload
+    - POST   https://api-app2.simpletexting.com/v2/api/mediaitems/loadByLink
+    - GET    https://api-app2.simpletexting.com/v2/api/mediaitems/{mediaItemId}
+    - DELETE https://api-app2.simpletexting.com/v2/api/mediaitems/{mediaItemId}
+    - GET    https://api-app2.simpletexting.com/v2/api/webhooks
+    - POST   https://api-app2.simpletexting.com/v2/api/webhooks
+    - PUT    https://api-app2.simpletexting.com/v2/api/webhooks/{webhookId}
+    - DELETE https://api-app2.simpletexting.com/v2/api/webhooks/{webhookId}
+    - GET    https://api-app2.simpletexting.com/v2/api/tenant
+    - GET    https://api-app2.simpletexting.com/v2/api/phones
+sources:
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+    note: v2 OpenAPI reference; servers list https://api-app2.simpletexting.com/v2, bearer auth, all endpoints HTTPS REST. No WebSocket or SSE.
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+    note: Developer guides; webhooks are outbound HTTP POST callbacks, not a streaming transport.
+  - url: https://simpletexting.com/api/
+    type: Documentation
+    note: API product page describing REST SMS/MMS API with transparent pricing.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or client-consumed SSE surface exists, so no AsyncAPI
+    document was created. The webhook (outbound callback) surface is fully
+    represented as REST CRUD operations in openapi/simpletexting-openapi.yml,
+    and the Webhooks API is listed in apis.yml.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

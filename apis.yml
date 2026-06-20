@@ -1,0 +1,186 @@
+aid: simpletexting
+url: https://raw.githubusercontent.com/api-evangelist/simpletexting/refs/heads/main/apis.yml
+name: SimpleTexting
+kind: company
+description: SimpleTexting is a business SMS and MMS marketing platform. Its v2 REST
+  API lets developers send single text messages, run bulk campaigns to lists and
+  segments, manage contacts and contact lists, upload MMS media, provision sending
+  numbers, and subscribe to delivery and incoming-message webhooks, all authenticated
+  with a bearer token.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- SMS
+- MMS
+- Messaging
+- Marketing
+- Text Messaging
+created: '2026-06-20'
+modified: '2026-06-20'
+specificationVersion: '0.19'
+apis:
+- aid: simpletexting:messages
+  name: SimpleTexting Messages API
+  tags:
+  - Messages
+  - SMS
+  - MMS
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  - url: collections/simpletexting.postman_collection.json
+    type: PostmanCollection
+  - url: collections/simpletexting.opencollection.json
+    type: OpenCollection
+  description: Send a single SMS or MMS message to one contact, evaluate a message
+    body for credit cost and segment count before sending, and retrieve sent and
+    received messages with pagination.
+- aid: simpletexting:contacts
+  name: SimpleTexting Contacts API
+  tags:
+  - Contacts
+  - CRM
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  - url: collections/simpletexting.postman_collection.json
+    type: PostmanCollection
+  - url: collections/simpletexting.opencollection.json
+    type: OpenCollection
+  description: Create, read, update, upsert, and delete individual contacts with
+    first/last name, email, birthday, custom fields, and list membership, plus
+    asynchronous batch update and batch delete operations and access to custom
+    fields and dynamic segments.
+- aid: simpletexting:lists
+  name: SimpleTexting Lists API
+  tags:
+  - Lists
+  - Segments
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  - url: collections/simpletexting.postman_collection.json
+    type: PostmanCollection
+  - url: collections/simpletexting.opencollection.json
+    type: OpenCollection
+  description: Create, read, rename, and delete contact lists, and add or remove
+    contacts from a list by phone number or contact id.
+- aid: simpletexting:campaigns
+  name: SimpleTexting Campaigns API
+  tags:
+  - Campaigns
+  - Bulk Messaging
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  - url: collections/simpletexting.postman_collection.json
+    type: PostmanCollection
+  - url: collections/simpletexting.opencollection.json
+    type: OpenCollection
+  description: Send a bulk campaign immediately to one or more lists or segments
+    using a message template, and retrieve campaigns with pagination.
+- aid: simpletexting:autoresponders
+  name: SimpleTexting Autoresponders API
+  tags:
+  - Autoresponders
+  - Drip
+  - Keywords
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://simpletexting.com/api/docs/
+  baseURL: https://app2.simpletexting.com/v1
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  description: Keyword and autoresponder workflows, including renting and configuring
+    keywords and exporting autoresponder analytics, exposed through the SimpleTexting
+    v1 API surface that complements the v2 REST API.
+- aid: simpletexting:sending-numbers
+  name: SimpleTexting Sending Numbers API
+  tags:
+  - Sending Numbers
+  - Phones
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  - url: collections/simpletexting.postman_collection.json
+    type: PostmanCollection
+  - url: collections/simpletexting.opencollection.json
+    type: OpenCollection
+  description: Retrieve the sending phone numbers provisioned on the account and
+    general tenant information, including the account credit balance.
+- aid: simpletexting:webhooks
+  name: SimpleTexting Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  properties:
+  - url: https://simpletexting.com/api/docs/
+    type: Documentation
+  - url: https://api-doc.simpletexting.com/
+    type: APIReference
+  - url: openapi/simpletexting-openapi.yml
+    type: OpenAPI
+  - url: review.yml
+    type: Review
+  - url: collections/simpletexting.postman_collection.json
+    type: PostmanCollection
+  - url: collections/simpletexting.opencollection.json
+    type: OpenCollection
+  description: Create, read, update, and delete webhooks that fire on incoming and
+    outgoing messages, delivery and non-delivery reports, and unsubscribe events,
+    with an optional per-second request rate limit.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/simpletexting
+- type: Website
+  url: https://simpletexting.com/
+- type: Documentation
+  url: https://simpletexting.com/api/docs/
+- type: Plans
+  url: plans/simpletexting-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/simpletexting-rate-limits.yml
+- type: FinOps
+  url: finops/simpletexting-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

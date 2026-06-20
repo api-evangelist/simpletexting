@@ -1,0 +1,528 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages"
+          },
+          "docs": "Returns a paginated list of messages sent to and from the account."
+        },
+        {
+          "info": {
+            "name": "Send a Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages",
+            "body": {
+              "type": "json",
+              "data": "{\"contactPhone\": \"<string>\", \"accountPhone\": \"<string>\", \"mode\": \"AUTO\", \"subject\": \"<string>\", \"text\": \"<string>\", \"fallbackText\": \"<string>\", \"mediaItems\": []}"
+            }
+          },
+          "docs": "Sends a single SMS or MMS message to one contact."
+        },
+        {
+          "info": {
+            "name": "Evaluate a Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages/evaluate",
+            "body": {
+              "type": "json",
+              "data": "{\"mode\": \"AUTO\", \"subject\": \"<string>\", \"text\": \"<string>\", \"fallbackText\": \"<string>\", \"mediaItems\": []}"
+            }
+          },
+          "docs": "Evaluates a message body without sending it, returning credit cost, segment count, and encoding details."
+        },
+        {
+          "info": {
+            "name": "Get a Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages/{messageId}"
+          },
+          "docs": "Retrieves a single message by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns"
+          },
+          "docs": "Returns a paginated list of campaigns."
+        },
+        {
+          "info": {
+            "name": "Send a Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns",
+            "body": {
+              "type": "json",
+              "data": "{\"title\": \"<string>\", \"listIds\": [], \"segmentIds\": [], \"accountPhone\": \"<string>\", \"customFieldsMaxLength\": {}, \"messageTemplate\": {}}"
+            }
+          },
+          "docs": "Sends a bulk campaign immediately to one or more lists or segments."
+        },
+        {
+          "info": {
+            "name": "Get a Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns/{campaignId}"
+          },
+          "docs": "Get a Campaign"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts"
+          },
+          "docs": "Returns a paginated list of contacts on the account."
+        },
+        {
+          "info": {
+            "name": "Create a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts",
+            "body": {
+              "type": "json",
+              "data": "{\"contactPhone\": \"<string>\", \"firstName\": \"<string>\", \"lastName\": \"<string>\", \"email\": \"<string>\", \"birthday\": \"<string>\", \"customFields\": {}, \"comment\": \"<string>\", \"listIds\": []}"
+            }
+          },
+          "docs": "Creates a contact. Use upsert to create or update by phone number."
+        },
+        {
+          "info": {
+            "name": "Get a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}"
+          },
+          "docs": "Get a Contact"
+        },
+        {
+          "info": {
+            "name": "Update a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}",
+            "body": {
+              "type": "json",
+              "data": "{\"contactPhone\": \"<string>\", \"firstName\": \"<string>\", \"lastName\": \"<string>\", \"email\": \"<string>\", \"birthday\": \"<string>\", \"customFields\": {}, \"comment\": \"<string>\", \"listIds\": []}"
+            }
+          },
+          "docs": "Update a Contact"
+        },
+        {
+          "info": {
+            "name": "Delete a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}"
+          },
+          "docs": "Delete a Contact"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contacts - Batch Operations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a Group of Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update"
+          },
+          "docs": "Submits an asynchronous batch update task for a group of contacts."
+        },
+        {
+          "info": {
+            "name": "Get the Result of a Batch Update Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update/{taskId}"
+          },
+          "docs": "Get the Result of a Batch Update Task"
+        },
+        {
+          "info": {
+            "name": "Delete a Group of Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-delete"
+          },
+          "docs": "Delete a Group of Contacts"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contact Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists"
+          },
+          "docs": "Get all Lists"
+        },
+        {
+          "info": {
+            "name": "Create a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists",
+            "body": {
+              "type": "json",
+              "data": "{\"name\": \"<string>\"}"
+            }
+          },
+          "docs": "Create a List"
+        },
+        {
+          "info": {
+            "name": "Update a List Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listId}",
+            "body": {
+              "type": "json",
+              "data": "{\"name\": \"<string>\"}"
+            }
+          },
+          "docs": "Update a List Name"
+        },
+        {
+          "info": {
+            "name": "Get a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}"
+          },
+          "docs": "Get a List"
+        },
+        {
+          "info": {
+            "name": "Delete a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}"
+          },
+          "docs": "Delete a List"
+        },
+        {
+          "info": {
+            "name": "Add Contact To List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}/contacts",
+            "body": {
+              "type": "json",
+              "data": "{\"contactPhoneOrId\": \"<string>\"}"
+            }
+          },
+          "docs": "Add Contact To List"
+        },
+        {
+          "info": {
+            "name": "Remove Contact From List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}"
+          },
+          "docs": "Remove Contact From List"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contact Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-segments"
+          },
+          "docs": "Get all Segments"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Custom Fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Custom Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/custom-fields"
+          },
+          "docs": "Get all Custom Fields"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Media Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Media Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems"
+          },
+          "docs": "Get Media Items"
+        },
+        {
+          "info": {
+            "name": "Upload Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a media file for use in MMS messages."
+        },
+        {
+          "info": {
+            "name": "Upload Media Using a URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/loadByLink",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upload Media Using a URL"
+        },
+        {
+          "info": {
+            "name": "Get Media Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/{mediaItemId}"
+          },
+          "docs": "Get Media Item"
+        },
+        {
+          "info": {
+            "name": "Delete Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/{mediaItemId}"
+          },
+          "docs": "Delete Media"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks"
+          },
+          "docs": "Get all Webhooks"
+        },
+        {
+          "info": {
+            "name": "Create a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{\"url\": \"<string>\", \"triggers\": [], \"requestPerSecLimit\": 0, \"accountPhone\": \"<string>\", \"contactPhone\": \"<string>\"}"
+            }
+          },
+          "docs": "Create a Webhook"
+        },
+        {
+          "info": {
+            "name": "Update a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/{webhookId}",
+            "body": {
+              "type": "json",
+              "data": "{\"url\": \"<string>\", \"triggers\": [], \"requestPerSecLimit\": 0, \"accountPhone\": \"<string>\", \"contactPhone\": \"<string>\"}"
+            }
+          },
+          "docs": "Update a Webhook"
+        },
+        {
+          "info": {
+            "name": "Delete a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/{webhookId}"
+          },
+          "docs": "Delete a Webhook"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tenant",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get general information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/tenant"
+          },
+          "docs": "Returns general account (tenant) information, including credit balance."
+        },
+        {
+          "info": {
+            "name": "Get all phones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/phones"
+          },
+          "docs": "Returns the sending phone numbers provisioned on the account."
+        }
+      ]
+    }
+  ]
+}

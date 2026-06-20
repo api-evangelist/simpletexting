@@ -1,0 +1,96 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: SimpleTexting
+providerId: simpletexting
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- SMS
+- MMS
+- Messaging
+- Marketing
+- Text Messaging
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of SimpleTexting spend. SimpleTexting bills a fixed monthly
+  subscription per credit tier, where an SMS up to 160 characters consumes
+  one credit, an extended SMS (up to 306 characters) consumes two credits,
+  and an MMS consumes three credits. Usage beyond the plan allotment is
+  billed as overage at $0.055 per credit. Additional user seats ($20/mo) and
+  additional sending numbers ($10/mo) are recurring add-on charges. Annual
+  billing reduces effective cost by roughly 20%.
+notes: >-
+  Per-tier pricing and the credit-to-message ratio are subject to change;
+  verify against the SimpleTexting pricing page during reconciliation.
+sources:
+- https://simpletexting.com/pricing/
+- https://simpletexting.com/api/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: SimpleTexting
+serviceCategory: Communications
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: SimpleTexting
+  ServiceCategory: Communications
+  ProviderName: SimpleTexting
+  PublisherName: SimpleTexting
+  InvoiceIssuerName: SimpleTexting
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+meters:
+- name: plan_credits
+  description: Monthly credits included in the subscribed plan tier; SMS=1, extended SMS=2, MMS=3 credits.
+  unit: credits
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: overage_credits
+  description: Credits consumed beyond the plan allotment, billed at $0.055 per credit.
+  unit: credits
+  aggregation: sum
+  dimensions:
+  - account
+- name: user_seats
+  description: User seats beyond the three included, billed at $20/month per seat.
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - account
+- name: sending_numbers
+  description: Additional sending phone numbers beyond the included number, billed at $10/month each.
+  unit: numbers
+  aggregation: sum
+  dimensions:
+  - account
+  - number
+principles:
+- name: Visibility
+  description: Track credit burn via GET /api/tenant balance and the messages endpoint; reconcile against plan allotment monthly.
+- name: Allocation
+  description: Tag campaigns, lists, and sending numbers per team or initiative to attribute credit spend.
+- name: Optimization
+  description: Keep messages under 160 characters to stay at 1 credit; avoid unintended MMS (3 credits); right-size the plan tier to minimize $0.055 overage; use annual billing for ~20% savings.
+- name: Accountability
+  description: Assign owners per sending number and per campaign; review monthly credit usage and overage against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

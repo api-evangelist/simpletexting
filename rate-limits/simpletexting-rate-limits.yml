@@ -1,0 +1,61 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: SimpleTexting
+providerId: simpletexting
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- SMS
+- MMS
+- Messaging
+- Marketing
+- Text Messaging
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  SimpleTexting's API enforces request throttling and message-sending
+  throughput limits. Outbound message throughput (messages per second) is
+  governed by the type and registration status of the sending number
+  (toll-free, 10DLC local, or short code) and the associated carrier
+  approval, rather than a single documented API quota. Webhooks accept a
+  configurable requestPerSecLimit to cap callback delivery rate. Specific
+  numeric request-per-second and per-minute API limits are not published in
+  the public API reference and are not reconciled in this artifact.
+notes: >-
+  Confirm current per-account API request limits, message throughput per
+  number type, and 10DLC / toll-free campaign throughput allowances with
+  SimpleTexting support or in-app during reconciliation; values vary by
+  number type, carrier registration, and plan.
+sources:
+- https://api-doc.simpletexting.com/
+- https://simpletexting.com/api/docs/
+- https://simpletexting.com/api/
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-account API request throttling; numeric values not published in the public reference.
+- name: Message Throughput (MPS)
+  scope: number
+  metric: messages
+  limit: see provider documentation
+  notes: Outbound messages-per-second governed by sending number type (toll-free, 10DLC, short code) and carrier registration.
+- name: Webhook Delivery Rate
+  scope: webhook
+  metric: requests
+  limit: configurable via requestPerSecLimit
+  notes: The requestPerSecLimit field on a webhook caps how fast SimpleTexting posts callback events to your endpoint.
+policies:
+- name: Number-Based Throughput
+  description: Sending throughput depends on number type and 10DLC / toll-free registration status; registered campaigns receive higher throughput.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on HTTP 429 and honor any Retry-After header.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

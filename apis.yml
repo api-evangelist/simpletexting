@@ -169,6 +169,12 @@ apis:
     outgoing messages, delivery and non-delivery reports, and unsubscribe events,
     with an optional per-second request rate limit.
 common:
+- type: DomainSecurity
+  url: security/simpletexting-domain-security.yml
+- type: Authentication
+  url: authentication/simpletexting-authentication.yml
+- url: https://simpletexting.com/feed/
+  type: Blog
 - type: LinkedIn
   url: https://www.linkedin.com/company/simpletexting
 - type: Website

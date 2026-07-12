@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/simpletexting-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Send the API token as a bearer token in the Authorization header: `Authorization:
+    Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+  sources:
+  - openapi/simpletexting-openapi.yml

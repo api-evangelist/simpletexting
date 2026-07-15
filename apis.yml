@@ -169,6 +169,8 @@ apis:
     outgoing messages, delivery and non-delivery reports, and unsubscribe events,
     with an optional per-second request rate limit.
 common:
+- type: AgenticAccess
+  url: agentic-access/simpletexting-agentic-access.yml
 - type: DomainSecurity
   url: security/simpletexting-domain-security.yml
 - type: Authentication

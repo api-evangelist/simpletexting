@@ -1,0 +1,123 @@
+openapi: 3.0.1
+info:
+  title: SimpleTexting Campaigns API
+  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
+  termsOfService: https://simpletexting.com/terms-of-service/
+  contact:
+    name: SimpleTexting Support
+    url: https://simpletexting.com/api/
+    email: support@simpletexting.com
+  version: '2.0'
+servers:
+- url: https://api-app2.simpletexting.com/v2
+  description: SimpleTexting v2 production API
+security:
+- bearerAuth: []
+tags:
+- name: Campaigns
+  description: Create and retrieve bulk campaigns to lists and segments.
+paths:
+  /api/campaigns:
+    get:
+      operationId: getAllCampaigns
+      tags:
+      - Campaigns
+      summary: Get all Campaigns
+      description: Returns a paginated list of campaigns.
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      - name: size
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A page of campaigns.
+    post:
+      operationId: sendCampaign
+      tags:
+      - Campaigns
+      summary: Send a Campaign
+      description: Sends a bulk campaign immediately to one or more lists or segments.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImmediatelyCampaignRequest'
+      responses:
+        '200':
+          description: The created campaign.
+  /api/campaigns/{campaignId}:
+    get:
+      operationId: getCampaign
+      tags:
+      - Campaigns
+      summary: Get a Campaign
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested campaign.
+components:
+  schemas:
+    MessageTemplate:
+      type: object
+      required:
+      - mode
+      - text
+      properties:
+        mode:
+          type: string
+          enum:
+          - AUTO
+          - SINGLE_SMS_STRICTLY
+          - MMS_PREFERRED
+        subject:
+          type: string
+        text:
+          type: string
+        unsubscribeText:
+          type: string
+        fallbackText:
+          type: string
+        fallbackUnsubscribeText:
+          type: string
+        mediaItems:
+          type: array
+          items:
+            type: string
+    ImmediatelyCampaignRequest:
+      type: object
+      required:
+      - messageTemplate
+      - title
+      properties:
+        title:
+          type: string
+        listIds:
+          type: array
+          items:
+            type: string
+        segmentIds:
+          type: array
+          items:
+            type: string
+        accountPhone:
+          type: string
+        customFieldsMaxLength:
+          type: object
+        messageTemplate:
+          $ref: '#/components/schemas/MessageTemplate'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'

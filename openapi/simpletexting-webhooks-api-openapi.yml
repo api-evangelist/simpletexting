@@ -1,0 +1,109 @@
+openapi: 3.0.1
+info:
+  title: SimpleTexting Campaigns Webhooks API
+  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
+  termsOfService: https://simpletexting.com/terms-of-service/
+  contact:
+    name: SimpleTexting Support
+    url: https://simpletexting.com/api/
+    email: support@simpletexting.com
+  version: '2.0'
+servers:
+- url: https://api-app2.simpletexting.com/v2
+  description: SimpleTexting v2 production API
+security:
+- bearerAuth: []
+tags:
+- name: Webhooks
+  description: Subscribe to platform events via HTTP callbacks.
+paths:
+  /api/webhooks:
+    get:
+      operationId: getAllWebhooks
+      tags:
+      - Webhooks
+      summary: Get all Webhooks
+      responses:
+        '200':
+          description: A list of webhooks.
+    post:
+      operationId: createWebhook
+      tags:
+      - Webhooks
+      summary: Create a Webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: The created webhook.
+  /api/webhooks/{webhookId}:
+    put:
+      operationId: updateWebhook
+      tags:
+      - Webhooks
+      summary: Update a Webhook
+      parameters:
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: The updated webhook.
+    delete:
+      operationId: deleteWebhook
+      tags:
+      - Webhooks
+      summary: Delete a Webhook
+      parameters:
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Webhook deleted.
+components:
+  schemas:
+    WebhookRequest:
+      type: object
+      required:
+      - triggers
+      - url
+      properties:
+        url:
+          type: string
+        triggers:
+          type: array
+          items:
+            type: string
+            enum:
+            - INCOMING_MESSAGE
+            - OUTGOING_MESSAGE
+            - DELIVERY_REPORT
+            - NON_DELIVERED_REPORT
+            - UNSUBSCRIBE_REPORT
+        requestPerSecLimit:
+          type: integer
+          format: int32
+        accountPhone:
+          type: string
+        contactPhone:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'

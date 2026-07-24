@@ -1,0 +1,152 @@
+openapi: 3.0.1
+info:
+  title: SimpleTexting Campaigns Contact Lists API
+  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
+  termsOfService: https://simpletexting.com/terms-of-service/
+  contact:
+    name: SimpleTexting Support
+    url: https://simpletexting.com/api/
+    email: support@simpletexting.com
+  version: '2.0'
+servers:
+- url: https://api-app2.simpletexting.com/v2
+  description: SimpleTexting v2 production API
+security:
+- bearerAuth: []
+tags:
+- name: Contact Lists
+  description: Manage contact lists and list membership.
+paths:
+  /api/contact-lists:
+    get:
+      operationId: getAllLists
+      tags:
+      - Contact Lists
+      summary: Get all Lists
+      responses:
+        '200':
+          description: A page of contact lists.
+    post:
+      operationId: createList
+      tags:
+      - Contact Lists
+      summary: Create a List
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListDto'
+      responses:
+        '200':
+          description: The created list.
+  /api/contact-lists/{listId}:
+    put:
+      operationId: updateListName
+      tags:
+      - Contact Lists
+      summary: Update a List Name
+      parameters:
+      - name: listId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListDto'
+      responses:
+        '200':
+          description: The updated list.
+  /api/contact-lists/{listIdOrName}:
+    get:
+      operationId: getList
+      tags:
+      - Contact Lists
+      summary: Get a List
+      parameters:
+      - name: listIdOrName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested list.
+    delete:
+      operationId: deleteList
+      tags:
+      - Contact Lists
+      summary: Delete a List
+      parameters:
+      - name: listIdOrName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: List deleted.
+  /api/contact-lists/{listIdOrName}/contacts:
+    post:
+      operationId: addContactToList
+      tags:
+      - Contact Lists
+      summary: Add Contact To List
+      parameters:
+      - name: listIdOrName
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactPhoneOrIdDto'
+      responses:
+        '200':
+          description: Contact added to list.
+  /api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}:
+    delete:
+      operationId: removeContactFromList
+      tags:
+      - Contact Lists
+      summary: Remove Contact From List
+      parameters:
+      - name: listIdOrName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactPhoneOrId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Contact removed from list.
+components:
+  schemas:
+    ListDto:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    ContactPhoneOrIdDto:
+      type: object
+      properties:
+        contactPhoneOrId:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'

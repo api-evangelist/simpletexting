@@ -1,0 +1,157 @@
+openapi: 3.0.1
+info:
+  title: SimpleTexting Campaigns Contacts API
+  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
+  termsOfService: https://simpletexting.com/terms-of-service/
+  contact:
+    name: SimpleTexting Support
+    url: https://simpletexting.com/api/
+    email: support@simpletexting.com
+  version: '2.0'
+servers:
+- url: https://api-app2.simpletexting.com/v2
+  description: SimpleTexting v2 production API
+security:
+- bearerAuth: []
+tags:
+- name: Contacts
+  description: Create, read, update, and delete individual contacts.
+paths:
+  /api/contacts:
+    get:
+      operationId: getAllContacts
+      tags:
+      - Contacts
+      summary: Get all Contacts
+      description: Returns a paginated list of contacts on the account.
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      - name: size
+        in: query
+        schema:
+          type: integer
+      - name: since
+        in: query
+        schema:
+          type: string
+      - name: direction
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A page of contacts.
+    post:
+      operationId: createContact
+      tags:
+      - Contacts
+      summary: Create a Contact
+      description: Creates a contact. Use upsert to create or update by phone number.
+      parameters:
+      - name: upsert
+        in: query
+        schema:
+          type: boolean
+      - name: listsReplacement
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleContactUpdate'
+      responses:
+        '200':
+          description: The created or updated contact.
+  /api/contacts/{contactIdOrNumber}:
+    get:
+      operationId: getContact
+      tags:
+      - Contacts
+      summary: Get a Contact
+      parameters:
+      - name: contactIdOrNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested contact.
+    put:
+      operationId: updateContact
+      tags:
+      - Contacts
+      summary: Update a Contact
+      parameters:
+      - name: contactIdOrNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: upsert
+        in: query
+        schema:
+          type: boolean
+      - name: listsReplacement
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleContactUpdate'
+      responses:
+        '200':
+          description: The updated contact.
+    delete:
+      operationId: deleteContact
+      tags:
+      - Contacts
+      summary: Delete a Contact
+      parameters:
+      - name: contactIdOrNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Contact deleted.
+components:
+  schemas:
+    SingleContactUpdate:
+      type: object
+      properties:
+        contactPhone:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        birthday:
+          type: string
+        customFields:
+          type: object
+          additionalProperties:
+            type: string
+        comment:
+          type: string
+        listIds:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'

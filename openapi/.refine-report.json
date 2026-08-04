@@ -1,0 +1,32 @@
+{
+  "provider": "simpletexting",
+  "sources": [
+    "simpletexting-campaigns-api-openapi.yml",
+    "simpletexting-contact-lists-api-openapi.yml",
+    "simpletexting-contact-segments-api-openapi.yml",
+    "simpletexting-contacts-api-openapi.yml",
+    "simpletexting-contacts-batch-operations-api-openapi.yml",
+    "simpletexting-custom-fields-api-openapi.yml",
+    "simpletexting-media-items-api-openapi.yml",
+    "simpletexting-messages-api-openapi.yml",
+    "simpletexting-tenant-api-openapi.yml",
+    "simpletexting-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "simpletexting-campaigns-api-openapi.yml",
+    "simpletexting-contact-lists-api-openapi.yml",
+    "simpletexting-contact-segments-api-openapi.yml",
+    "simpletexting-contacts-api-openapi.yml",
+    "simpletexting-contacts-batch-operations-api-openapi.yml",
+    "simpletexting-custom-fields-api-openapi.yml",
+    "simpletexting-media-items-api-openapi.yml",
+    "simpletexting-messages-api-openapi.yml",
+    "simpletexting-tenant-api-openapi.yml",
+    "simpletexting-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

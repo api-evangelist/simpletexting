@@ -27,8 +27,14 @@ tags:
 - Messaging
 - Marketing
 - Text Messaging
+- SMS Marketing
+- Communications
+- Campaigns
+- Contacts
+- Webhooks
+- A2P 10DLC
 created: '2026-06-20'
-modified: '2026-06-20'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 apis:
 - aid: simpletexting:simpletexting-campaigns-api
@@ -41,6 +47,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-campaigns-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-campaigns-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -61,6 +69,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-contact-lists-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-contact-lists-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -81,6 +91,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-contact-segments-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-contact-segments-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -101,6 +113,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-contacts-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-contacts-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -121,6 +135,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-contacts-batch-operations-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-contacts-batch-operations-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -141,6 +157,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-custom-fields-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-custom-fields-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -161,6 +179,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-media-items-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-media-items-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -181,6 +201,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-messages-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-messages-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -201,6 +223,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-tenant-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-tenant-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -221,6 +245,55 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/simpletexting-webhooks-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-webhooks-api-overlay.yaml
+  - type: Documentation
+    url: https://simpletexting.com/api/docs/
+  - type: APIReference
+    url: https://api-doc.simpletexting.com/
+  - type: PostmanCollection
+    url: collections/simpletexting.postman_collection.json
+  - type: OpenCollection
+    url: collections/simpletexting.opencollection.json
+  - type: Review
+    url: review.yml
+- aid: simpletexting:simpletexting-tenant-phones-api
+  name: SimpleTexting Tenant phones API
+  description: The Tenant phones API from SimpleTexting — 1 operation(s) for tenant phones.
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  tags:
+  - Tenant phones
+  properties:
+  - type: OpenAPI
+    url: openapi/simpletexting-tenant-phones-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-tenant-phones-api-overlay.yaml
+  - type: Documentation
+    url: https://simpletexting.com/api/docs/
+  - type: APIReference
+    url: https://api-doc.simpletexting.com/
+  - type: PostmanCollection
+    url: collections/simpletexting.postman_collection.json
+  - type: OpenCollection
+    url: collections/simpletexting.opencollection.json
+  - type: Review
+    url: review.yml
+- aid: simpletexting:simpletexting-webhook-reports-api
+  name: SimpleTexting Webhook Reports API
+  description: >-
+    Use webhooks to communicate between the SimpleTexting platform and your server. Webhooks can be used
+    to forward messages as well as provide info about unsubscribes and message delivery. SimpleTexting
+    can trigger webhooks for new incoming messages, delivery reports and unsubscribes.
+  humanURL: https://api-doc.simpletexting.com/
+  baseURL: https://api-app2.simpletexting.com/v2
+  tags:
+  - Webhook Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/simpletexting-webhook-reports-api-openapi.yml
+  - type: Overlay
+    url: overlays/simpletexting-webhook-reports-api-overlay.yaml
   - type: Documentation
     url: https://simpletexting.com/api/docs/
   - type: APIReference
@@ -252,6 +325,53 @@ common:
   url: rate-limits/simpletexting-rate-limits.yml
 - type: FinOps
   url: finops/simpletexting-finops.yml
+- type: Packages
+  url: packages/simpletexting-packages.yml
+- type: LLMsTxt
+  url: llms/simpletexting-llms.txt
+- type: Conformance
+  url: conformance/simpletexting-conformance.yml
+- type: Compliance
+  url: conformance/simpletexting-conformance.yml
+- type: ErrorCatalog
+  url: errors/simpletexting-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/simpletexting-lifecycle.yml
+- type: StatusPage
+  url: https://status.simpletexting.com/
+- type: Conventions
+  url: conventions/simpletexting-conventions.yml
+- type: DataModel
+  url: data-model/simpletexting-data-model.yml
+- type: Components
+  url: components/simpletexting-components.yml
+- type: Webhooks
+  url: asyncapi/simpletexting-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DeveloperPortal
+  url: https://simpletexting.com/api/
+- type: APIReference
+  url: https://api-doc.simpletexting.com/
+- type: HelpCenter
+  url: https://help.simpletexting.com/en/
+- type: Support
+  url: https://help.simpletexting.com/en/
+- type: Pricing
+  url: https://simpletexting.com/pricing/
+- type: SignUp
+  url: https://app2.simpletexting.com/sign-up
+- type: Login
+  url: https://app2.simpletexting.com/
+- type: TermsOfService
+  url: https://simpletexting.com/terms/
+- type: PrivacyPolicy
+  url: https://simpletexting.com/privacy-policy/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v1

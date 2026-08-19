@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Tenant phones API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tenant phones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all phones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/phones",
+            "params": [
+              {
+                "name": "page",
+                "value": "250",
+                "type": "query",
+                "description": "The number of phone numbers returned with each request\n\n**Example:** `250`"
+              },
+              {
+                "name": "size",
+                "value": "150",
+                "type": "query",
+                "description": "The size of the page\n\n**Example:** `150`"
+              }
+            ]
+          },
+          "docs": "Retrieve all phone numbers for account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

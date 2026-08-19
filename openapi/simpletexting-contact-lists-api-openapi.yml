@@ -1,152 +1,431 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: SimpleTexting Campaigns Contact Lists API
-  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
-  termsOfService: https://simpletexting.com/terms-of-service/
-  contact:
-    name: SimpleTexting Support
-    url: https://simpletexting.com/api/
-    email: support@simpletexting.com
-  version: '2.0'
+  title: SimpleTexting API Documentation Contact Lists API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
 servers:
 - url: https://api-app2.simpletexting.com/v2
-  description: SimpleTexting v2 production API
 security:
-- bearerAuth: []
+- api_key: []
 tags:
 - name: Contact Lists
-  description: Manage contact lists and list membership.
+  description: Create, update, and delete contact lists.
 paths:
-  /api/contact-lists:
-    get:
-      operationId: getAllLists
-      tags:
-      - Contact Lists
-      summary: Get all Lists
-      responses:
-        '200':
-          description: A page of contact lists.
-    post:
-      operationId: createList
-      tags:
-      - Contact Lists
-      summary: Create a List
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ListDto'
-      responses:
-        '200':
-          description: The created list.
   /api/contact-lists/{listId}:
     put:
-      operationId: updateListName
       tags:
       - Contact Lists
       summary: Update a List Name
+      description: 'Update the name of an existing list.
+
+
+        **Example:** Here we updated a list name with a new name `My Newer List`:
+
+
+        `{ "name": "My Newer List" }`'
+      operationId: updateList
       parameters:
       - name: listId
         in: path
+        description: 'List ID in hexadecimal format or name.
+
+
+          **Example:** 507f1f77bcf86cd799439011 / My Newer list'
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ListDto'
+        required: true
       responses:
         '200':
-          description: The updated list.
-  /api/contact-lists/{listIdOrName}:
+          description: Success. List name updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIdDto'
+  /api/contact-lists:
     get:
-      operationId: getList
       tags:
       - Contact Lists
-      summary: Get a List
+      summary: Get all Lists
+      description: 'Retrieves all lists from your SimpleTexting account.
+
+
+        **Example:** Here we return all lists from an account:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contact-lists?page=100&size=2`'
+      operationId: getLists
       parameters:
-      - name: listIdOrName
-        in: path
-        required: true
+      - name: page
+        in: query
+        description: 'An ordinal number of the page to return with the results of a request (with the lists of the given account). Please note that page numbering starts at zero (`0`)
+
+
+          **Example:** `15`'
+        required: false
         schema:
-          type: string
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 15
+      - name: size
+        in: query
+        description: 'The number of the returned lists to show per page
+
+
+          **Example:** `50`'
+        required: false
+        schema:
+          maximum: 500
+          type: integer
+          format: int32
+          default: 50
+        example: 50
       responses:
         '200':
-          description: The requested list.
-    delete:
-      operationId: deleteList
+          description: Success. Returns all lists in a given SimpleTexting account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageViewList'
+    post:
       tags:
       - Contact Lists
-      summary: Delete a List
-      parameters:
-      - name: listIdOrName
-        in: path
+      summary: Create a List
+      description: 'This endpoint is used to create a new contact list in a given SimpleTexting account.
+
+
+        **Example:** Here we create a list whose name is `My New List`:
+
+
+        `{ "name": "My New List" }`'
+      operationId: createList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListDto'
         required: true
-        schema:
-          type: string
       responses:
-        '204':
-          description: List deleted.
+        '201':
+          description: Success. List created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIdDto'
   /api/contact-lists/{listIdOrName}/contacts:
     post:
-      operationId: addContactToList
       tags:
       - Contact Lists
       summary: Add Contact To List
+      description: Add contact to specified list.
+      operationId: addContactToList
       parameters:
       - name: listIdOrName
         in: path
+        description: 'List ID or name to add the contact.
+
+
+          **Example:** 507f191e810c19729de860ea / My First List'
         required: true
         schema:
           type: string
+        example: 507f191e810c19729de860ea / My First List
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactPhoneOrIdDto'
+        required: true
       responses:
         '200':
-          description: Contact added to list.
-  /api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}:
-    delete:
-      operationId: removeContactFromList
+          description: Success. Fetched list.
+  /api/contact-lists/{listIdOrName}:
+    get:
       tags:
       - Contact Lists
-      summary: Remove Contact From List
+      summary: Get a List
+      description: 'Return a contact list by its unique list ID or name.
+
+
+        **Example:** Below, we return the information associated with the List whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Lists](#operation/getLists) endpoint to retrieve List IDs for all of your Lists:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`'
+      operationId: getList
       parameters:
       - name: listIdOrName
         in: path
+        description: 'List ID in hexadecimal format or name.
+
+
+          **Example:** 507f1f77bcf86cd799439011 / My new list'
         required: true
         schema:
           type: string
-      - name: contactPhoneOrId
+        example: 507f1f77bcf86cd799439011
+      responses:
+        '200':
+          description: Success. Fetched list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+    delete:
+      tags:
+      - Contact Lists
+      summary: Delete a List
+      description: 'Delete an existing list using the list ID or name.
+
+
+        **Example:** Here we delete a List whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Lists] (#operation/getLists) endpoint to retrieve List IDs for all of your Lists:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`'
+      operationId: deleteList
+      parameters:
+      - name: listIdOrName
         in: path
+        description: 'List ID in hexadecimal format or name.
+
+
+          **Example:** 507f1f77bcf86cd799439011 / My new list'
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       responses:
         '204':
-          description: Contact removed from list.
+          description: Success. List was deleted
+  /api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}:
+    delete:
+      tags:
+      - Contact Lists
+      summary: Remove Contact From List
+      description: Remove contact from specified list.
+      operationId: removeContactFromGroup
+      parameters:
+      - name: listIdOrName
+        in: path
+        description: 'List ID or name to remove the contact from.
+
+
+          **Example:** 507f191e810c19729de860ea / My First List'
+        required: true
+        schema:
+          type: string
+        example: 507f191e810c19729de860ea / My First List
+      - name: contactPhoneOrId
+        in: path
+        description: 'Contact ID in hexadecimal format or the contact''s phone number.
+
+
+          **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
+        required: true
+        schema:
+          type: string
+        example: 3051234567
+      responses:
+        '204':
+          description: Success. Contact was removed from list.
 components:
   schemas:
-    ListDto:
+    ObjectIdDto:
       type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    ListDto:
       required:
       - name
+      type: object
       properties:
         name:
           type: string
+          description: 'A list name containing less than 42 characters
+
+
+            **Example:** `My new list`'
+          example: My new list
+    List:
+      type: object
+      properties:
+        listId:
+          type: string
+          description: 'List ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        name:
+          type: string
+          description: 'The list name
+
+
+            **Example:** `My First List`'
+          example: My First List
+        created:
+          type: string
+          description: 'When the list was created. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        updated:
+          type: string
+          description: 'When the list was updated. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        description:
+          type: string
+          description: 'Title is present when list is created automatically by a keyword via the dashboard, otherwise defaults to null
+
+
+            **Example:** `List for ''MYFIRSTKEYWORD'' keyword`'
+          example: List for 'SALE' keyword
+        totalContactsCount:
+          type: integer
+          description: 'The number of contacts
+
+
+            **Example:** `25`'
+          format: int32
+          example: 25
+        activeContactsCount:
+          type: integer
+          description: 'The number of active contacts
+
+
+            **Example:** `40`'
+          format: int32
+          example: 40
+        invalidContactsCount:
+          type: integer
+          description: 'The number of invalid contacts
+
+
+            **Example:** `1`'
+          format: int32
+          example: 1
+        unsubscribedContactsCount:
+          type: integer
+          description: 'The number of unsubscribed contacts
+
+
+            **Example:** `2`'
+          format: int32
+          example: 2
+        keywords:
+          type: array
+          description: 'Keywords associated with the list
+
+
+            **Example:** `["SALE","MYFIRSTKEYWORD"]`'
+          example: MYFIRSTKEYWORD
+          items:
+            type: string
+            description: 'Keywords associated with the list
+
+
+              **Example:** `["SALE","MYFIRSTKEYWORD"]`'
+            example: MYFIRSTKEYWORD
+      description: Page content and number of elements is restricted by page size.
     ContactPhoneOrIdDto:
       type: object
       properties:
         contactPhoneOrId:
           type: string
+          description: 'Contact ID in hexadecimal format or the contact''s phone number.
+
+
+            **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
+          example: 3051234567 / 507f1f77bcf86cd799439011
+    PageViewList:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/List'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

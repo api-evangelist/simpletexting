@@ -1,16 +1,7 @@
 {
   "provider": "simpletexting",
   "sources": [
-    "simpletexting-campaigns-api-openapi.yml",
-    "simpletexting-contact-lists-api-openapi.yml",
-    "simpletexting-contact-segments-api-openapi.yml",
-    "simpletexting-contacts-api-openapi.yml",
-    "simpletexting-contacts-batch-operations-api-openapi.yml",
-    "simpletexting-custom-fields-api-openapi.yml",
-    "simpletexting-media-items-api-openapi.yml",
-    "simpletexting-messages-api-openapi.yml",
-    "simpletexting-tenant-api-openapi.yml",
-    "simpletexting-webhooks-api-openapi.yml"
+    "simpletexting-openapi.yml"
   ],
   "outputs": [
     "simpletexting-campaigns-api-openapi.yml",
@@ -22,11 +13,19 @@
     "simpletexting-media-items-api-openapi.yml",
     "simpletexting-messages-api-openapi.yml",
     "simpletexting-tenant-api-openapi.yml",
+    "simpletexting-tenant-phones-api-openapi.yml",
+    "simpletexting-webhook-reports-api-openapi.yml",
     "simpletexting-webhooks-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "archived openapi/simpletexting-openapi.yml"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "simpletexting-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "simpletexting-openapi.yml: declared missing tag: Tenant phones",
+    "apis.yml register: written (+2 apis, 12 total)"
+  ],
   "skipped": []
 }

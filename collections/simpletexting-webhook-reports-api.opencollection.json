@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Webhook Reports API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhook Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Unsubscribe Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/report/unsubscribe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers when a client sends STOP to your number.\n\n**Example:** We create the Unsubscribe report for `8005551234` for the status of the outgoing messages to `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/unsubscribe.php\",\"triggers\": [\"UNSUBSCRIBE_REPORT\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`\n\nYour custom domain `http://www.yourdomain.com/unsubscribe.php` has been set as an unsubscribe report URL for this example. The SimpleTexting server will i"
+        },
+        {
+          "info": {
+            "name": "Incoming/Outgoing Message Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/report/incoming",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers when an outgoing message or incoming message is handled.\n\n**Example:** We create the incoming webhook for `8005551234` from contact phone `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/receivesms.php\",\"triggers\": [\"INCOMING_MESSAGE\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`"
+        },
+        {
+          "info": {
+            "name": "Delivery/Non Delivered Message Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/report/delivery",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers when an outgoing message is reported as delivered or undelivered by the carrier.\n\n**Example:** We create the Delivery report for `8005551234` for the status of the outgoing messages to `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/delivery.php\",\"triggers\": [\"DELIVERY_REPORT\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`\n\nYour custom domain `http://www.yourdomain.com/delivery.php` has been set as a delivery report webhook for this example. The"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

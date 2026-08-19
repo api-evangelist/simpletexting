@@ -1,0 +1,346 @@
+{
+  "item": [
+    {
+      "id": "29796a01-befa-4df1-b0ef-9b606faf930b",
+      "name": "Webhook Reports",
+      "description": {
+        "content": "Use webhooks to communicate between the SimpleTexting platform and your server. Webhooks can be used to forward messages as well as provide info about unsubscribes and message delivery. SimpleTexting can trigger webhooks for new incoming messages, delivery reports and unsubscribes.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "adf7d979-4cd3-4f56-846a-1208bceb41e1",
+          "name": "Unsubscribe Report",
+          "request": {
+            "name": "Unsubscribe Report",
+            "description": {
+              "content": "Triggers when a client sends STOP to your number.\n\n**Example:** We create the Unsubscribe report for `8005551234` for the status of the outgoing messages to `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/unsubscribe.php\",\"triggers\": [\"UNSUBSCRIBE_REPORT\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`\n\nYour custom domain `http://www.yourdomain.com/unsubscribe.php` has been set as an unsubscribe report URL for this example. The SimpleTexting server will invoke the given call when the subscriber with the number 8001234567 unsubscribes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "",
+                "report",
+                "unsubscribe"
+              ],
+              "host": [
+                "yourdomain",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportId\": \"<string>\",\n  \"webhookId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"values\": {\n    \"contactId\": \"<string>\",\n    \"phone\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bf85be34-093d-4d72-8c6a-73578b25a924",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "",
+                    "report",
+                    "unsubscribe"
+                  ],
+                  "host": [
+                    "yourdomain",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reportId\": \"507f191e810c19729de860ea\",\n  \"webhookId\": \"507f191e810c19729de860ea\",\n  \"type\": \"UNSUBSCRIBE_REPORT\",\n  \"values\": {\n    \"contactId\": \"507f191e810c19729de860ea\",\n    \"phone\": \"8001234567\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dfdbed1f-757a-45de-a592-44c4e0ce7a09",
+          "name": "Incoming/Outgoing Message Report",
+          "request": {
+            "name": "Incoming/Outgoing Message Report",
+            "description": {
+              "content": "Triggers when an outgoing message or incoming message is handled.\n\n**Example:** We create the incoming webhook for `8005551234` from contact phone `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/receivesms.php\",\"triggers\": [\"INCOMING_MESSAGE\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "",
+                "report",
+                "incoming"
+              ],
+              "host": [
+                "yourdomain",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportId\": \"<string>\",\n  \"webhookId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"values\": {\n    \"messageId\": \"<string>\",\n    \"subject\": \"<string>\",\n    \"mediaItems\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"text\": \"<string>\",\n    \"accountPhone\": \"<string>\",\n    \"contactPhone\": \"<string>\",\n    \"timestamp\": \"<dateTime>\",\n    \"category\": \"<string>\",\n    \"referenceType\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cdab2559-ace1-4c27-83e7-e5b6c798826d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "",
+                    "report",
+                    "incoming"
+                  ],
+                  "host": [
+                    "yourdomain",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reportId\": \"507f191e810c19729de860ea\",\n  \"webhookId\": \"507f191e810c19729de860ea\",\n  \"type\": \"UNSUBSCRIBE_REPORT\",\n  \"values\": {\n    \"messageId\": \"507f191e810c19729de860ea\",\n    \"subject\": \"Some message from SimpleTexting\",\n    \"mediaItems\": [\n      \"507f1f77bcf86cd799439011\",\n      \"507f1f77bcf86cd799439333\"\n    ],\n    \"text\": \"Hello! How are you?\",\n    \"accountPhone\": \"8005551234\",\n    \"contactPhone\": \"8001234567\",\n    \"timestamp\": \"2020-04-28T23:20:08.489Z\",\n    \"category\": \"SMS\",\n    \"referenceType\": \"API\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8502f08b-fc8d-48d8-933a-5c727d7198a9",
+          "name": "Delivery/Non Delivered Message Report",
+          "request": {
+            "name": "Delivery/Non Delivered Message Report",
+            "description": {
+              "content": "Triggers when an outgoing message is reported as delivered or undelivered by the carrier.\n\n**Example:** We create the Delivery report for `8005551234` for the status of the outgoing messages to `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/delivery.php\",\"triggers\": [\"DELIVERY_REPORT\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`\n\nYour custom domain `http://www.yourdomain.com/delivery.php` has been set as a delivery report webhook for this example. The SimpleTexting server will invoke the given call when a message with the messageId `507f191e810c19729de860ea` is delivered.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "",
+                "report",
+                "delivery"
+              ],
+              "host": [
+                "yourdomain",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportId\": \"<string>\",\n  \"webhookId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"values\": {\n    \"messageId\": \"<string>\",\n    \"category\": \"<string>\",\n    \"referenceType\": \"<string>\",\n    \"accountPhone\": \"<string>\",\n    \"contactPhone\": \"<string>\",\n    \"carrier\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc84f344-f3e6-4f29-8742-ce06bc290968",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "",
+                    "report",
+                    "delivery"
+                  ],
+                  "host": [
+                    "yourdomain",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reportId\": \"507f191e810c19729de860ea\",\n  \"webhookId\": \"507f191e810c19729de860ea\",\n  \"type\": \"UNSUBSCRIBE_REPORT\",\n  \"values\": {\n    \"messageId\": \"507f191e810c19729de860ea\",\n    \"category\": \"SMS\",\n    \"referenceType\": \"API\",\n    \"accountPhone\": \"8005551234\",\n    \"contactPhone\": \"8001234567\",\n    \"carrier\": \"Verizon\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "891d7b72-31cf-4a22-9ad3-f890bd0c10e3",
+    "name": "SimpleTexting API Documentation Webhook Reports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

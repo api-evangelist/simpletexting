@@ -1,14 +1,66 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/simpletexting-openapi.yml
+generated: '2026-08-13'
+method: searched
+docs: https://api-doc.simpletexting.com/
+source: >-
+  https://api-doc.simpletexting.com/ (Authentication section of SimpleTexting's own
+  reference) and the `api_key` securityScheme in the OpenAPI it publishes
+  (openapi/_original/simpletexting-openapi.yml, harvested 2026-08-13), confirmed by a
+  live unauthenticated probe of https://api-app2.simpletexting.com/v2/api/messages
+  returning HTTP 401 ERR_AUTH_TOKEN_MISSING.
 summary:
   types:
-  - http
+  - apiKey
+  api_key_in:
+  - header
+  oauth2: false
+  scopes: false
+  mtls: false
 schemes:
-- name: bearerAuth
-  type: http
-  scheme: bearer
-  description: 'Send the API token as a bearer token in the Authorization header: `Authorization:
-    Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: Authorization
+  format: 'Authorization: Bearer <token>'
+  description: >-
+    A single long-lived account bearer token, sent in the Authorization header on
+    every request. SimpleTexting's reference: "Each time you make a request to our
+    API, we use a bearer token in your header to authenticate your account. API
+    requests without authentication will fail. Your API token can be found under
+    settings." Despite the "Bearer" convention, the scheme is declared in the
+    OpenAPI as apiKey-in-header rather than http/bearer.
+  token_source: https://app2.simpletexting.com/integrations/webhooks (API / integrations settings)
   sources:
-  - openapi/simpletexting-openapi.yml
+  - openapi/_original/simpletexting-openapi.yml
+  - https://api-doc.simpletexting.com/
+access_gate:
+  approval_required: true
+  evidence: >-
+    "For additional security, our API is by approval only. If you'd like access, sign
+    up for a trial account and email support@simpletexting.net with details about your
+    use case." — https://api-doc.simpletexting.com/
+  contact: support@simpletexting.net
+authorization_model:
+  scopes: none
+  restricted_keys: none
+  rotation_policy: not published
+  expiry: not published
+  note: >-
+    One token carries full account authority over messaging, contacts, media and
+    webhooks. There is no scope, no read-only key, no per-integration credential and
+    no documented rotation or expiry, so least-privilege delegation to an agent is not
+    possible today.
+observed:
+  probed: '2026-08-13'
+  request: GET https://api-app2.simpletexting.com/v2/api/messages with no Authorization header
+  http_status: 401
+  content_type: application/problem+json;charset=utf-8
+  error_code: ERR_AUTH_TOKEN_MISSING
+legacy_v1:
+  docs: https://simpletexting.com/api/docs/
+  schemes:
+    - {name: bearer, in: header, parameter: Authorization, status: current for v1}
+    - {name: token, in: query, parameter: token, status: deprecated,
+       note: '"Api token auth is only available for users that started using the v1 api before 09.01.2021"'}
+  warning: >-
+    Query-parameter token auth leaks credentials into logs, proxies and referrers. It
+    is closed to new accounts but still served for older ones.

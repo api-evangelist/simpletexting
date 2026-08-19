@@ -1,0 +1,32 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  Packaged Agent Skills generated from SimpleTexting's own OpenAPI
+  (openapi/_original/simpletexting-openapi.yml, harvested 2026-08-13 from
+  https://api-doc.simpletexting.com/). Every operationId below was verified
+  verbatim in openapi/*.yml; cross-cutting rules cite
+  ../conventions/simpletexting-conventions.yml,
+  ../errors/simpletexting-problem-types.yml and
+  ../authentication/simpletexting-authentication.yml. SimpleTexting publishes no
+  skills or AGENTS.md of its own (searched 2026-08-13).
+skills:
+  - file: simpletexting-send-a-text-message.md
+    name: Send a single SMS or MMS
+    api: openapi/simpletexting-messages-api-openapi.yml
+    operations: [getTenantPhones, evaluateMessage, createMessage, getMessage]
+  - file: simpletexting-run-a-bulk-campaign.md
+    name: Run a bulk campaign to a list or segment
+    api: openapi/simpletexting-campaigns-api-openapi.yml
+    operations: [getLists, getSegments, evaluateMessage, createCampaign, getCampaign]
+  - file: simpletexting-build-a-contact-list.md
+    name: Build and maintain a contact list
+    api: openapi/simpletexting-contact-lists-api-openapi.yml
+    operations: [createList, createContact, addContactToList, getContacts, processBatchUpdate, getBatchUpdateResults]
+  - file: simpletexting-subscribe-to-events.md
+    name: Subscribe to delivery and incoming-message events
+    api: openapi/simpletexting-webhooks-api-openapi.yml
+    operations: [createWebhook, getWebhooks, updateWebhook, deleteWebhook]
+  - file: simpletexting-send-an-mms-with-media.md
+    name: Send an MMS with uploaded media
+    api: openapi/simpletexting-media-items-api-openapi.yml
+    operations: [upload, uploadByLink, getMediaItems, evaluateMessage, createMessage]

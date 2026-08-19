@@ -1,0 +1,66 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  Derived from the 49 component schemas and their $ref links plus the
+  id-reference fields (listIds, segmentIds, mediaItems, contactPhone,
+  accountPhone) in openapi/_original/simpletexting-openapi.yml, harvested
+  2026-08-13 from https://api-doc.simpletexting.com/.
+docs: https://api-doc.simpletexting.com/
+description: >-
+  The entity-relationship graph behind SimpleTexting's v2 API: an account (tenant)
+  owns sending phone numbers; contacts belong to lists and are matched by segments;
+  messages and campaigns move text and media to those contacts; webhooks report the
+  events back.
+notation: >-
+  relationships use has_one / has_many / belongs_to with the foreign-key field name;
+  direction is from the entity that owns the reference.
+identifiers:
+  format: 24-character hexadecimal string (MongoDB ObjectId shape)
+  example: 507f191e810c19729de860ea
+  alternates: >-
+    Contacts may be addressed by phone number ({contactIdOrNumber}); contact lists by
+    name ({listIdOrName}).
+entities:
+  - {name: Tenant, schema: TenantInfo, domain: account, description: The SimpleTexting account. Exposes the owner email via getTenantInfo.}
+  - {name: TenantPhone, schema: TenantPhone, domain: account, description: A sending number provisioned on the account (number + name).}
+  - {name: Contact, schema: Contact, domain: audience, description: A person reachable by phone, with names, email, birthday, comment, subscriptionStatus, custom fields and list membership.}
+  - {name: ContactList, schema: List, domain: audience, description: A named, manually-managed group of contacts.}
+  - {name: Segment, schema: Segment, domain: audience, description: A dynamic, rule-based grouping of contacts. Read-only over the API.}
+  - {name: CustomField, schema: CustomField, domain: audience, description: An account-defined contact attribute with a merge tag and a default max length.}
+  - {name: Message, schema: Message, domain: messaging, description: A single inbound or outbound SMS/EXTENDED_SMS/MMS, with directionType, category, timestamp and media.}
+  - {name: Campaign, schema: FetchedCampaignDto, domain: messaging, description: A bulk send to lists and/or segments, built from a MessageTemplate and reporting an outcome.}
+  - {name: MessageTemplate, schema: MessageTemplate, domain: messaging, description: The body of a campaign — mode, subject, text, fallbackText, media.}
+  - {name: CampaignOutcome, schema: FetchedCampaignOutcomeDto, domain: messaging, description: Delivery counters for a campaign.}
+  - {name: TrackingLink, schema: TrackingLink, domain: messaging, description: A shortened/tracked link inside a campaign message.}
+  - {name: MediaItem, schema: StFileDto, domain: media, description: An uploaded MMS asset — name, size, contentType, gallery, status, link.}
+  - {name: Webhook, schema: Webhook, domain: events, description: A subscription binding a URL to one or more event triggers, optionally filtered by account/contact phone.}
+  - {name: BatchUpdateTask, schema: ContactsBatchUpdateResult, domain: audience, description: The asynchronous result of a batch contact update, polled by taskId.}
+  - {name: BatchDeleteResult, schema: ContactsBatchDeleteResult, domain: audience, description: The per-contact result of a batch delete.}
+relationships:
+  - {from: Tenant, to: TenantPhone, kind: has_many, via: getTenantPhones}
+  - {from: Tenant, to: Contact, kind: has_many, via: account}
+  - {from: Contact, to: ContactList, kind: has_many, via: lists}
+  - {from: ContactList, to: Contact, kind: has_many, via: 'addContactToList / removeContactFromGroup'}
+  - {from: Contact, to: CustomField, kind: has_many, via: customFields}
+  - {from: Segment, to: Contact, kind: has_many, via: 'rule evaluation (read-only)'}
+  - {from: Message, to: Contact, kind: belongs_to, via: contactPhone}
+  - {from: Message, to: TenantPhone, kind: belongs_to, via: accountPhone}
+  - {from: Message, to: MediaItem, kind: has_many, via: mediaItems}
+  - {from: Campaign, to: ContactList, kind: has_many, via: listIds}
+  - {from: Campaign, to: Segment, kind: has_many, via: segmentIds}
+  - {from: Campaign, to: MessageTemplate, kind: has_one, via: messageTemplate}
+  - {from: Campaign, to: CampaignOutcome, kind: has_one, via: outcome}
+  - {from: Campaign, to: TrackingLink, kind: has_many, via: trackingLinks}
+  - {from: Campaign, to: TenantPhone, kind: belongs_to, via: accountPhone}
+  - {from: MessageTemplate, to: MediaItem, kind: has_many, via: mediaItems}
+  - {from: Webhook, to: TenantPhone, kind: belongs_to, via: 'accountPhone (optional filter)'}
+  - {from: Webhook, to: Contact, kind: belongs_to, via: 'contactPhone (optional filter)'}
+  - {from: BatchUpdateTask, to: Contact, kind: has_many, via: updates}
+enumerations:
+  message_mode: [AUTO, SINGLE_SMS_STRICTLY, MMS_PREFERRED]
+  message_category: [SMS, EXTENDED_SMS, MMS]
+  webhook_trigger: [INCOMING_MESSAGE, OUTGOING_MESSAGE, DELIVERY_REPORT, NON_DELIVERED_REPORT, UNSUBSCRIBE_REPORT]
+collection_envelope:
+  schemas: [PageViewContact, PageViewList, PageViewMessage, PageViewSegment, PageViewCustomField, PageViewStFileDto, PageViewTenantPhone, PageViewWebhook, PageViewFetchedCampaignDto]
+  fields: [content, totalPages, totalElements]
+  note: Every list endpoint returns the same PageView envelope; see conventions/simpletexting-conventions.yml.

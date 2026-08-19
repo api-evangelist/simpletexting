@@ -1,0 +1,151 @@
+{
+  "item": [
+    {
+      "id": "7c250389-8e18-4c45-b726-00f783d42e87",
+      "name": "Custom Fields",
+      "description": {
+        "content": "SimpleTexting's Custom Fields feature plays a key role in managing your customer data. Not only does it give you enormous flexibility when it comes to [collecting](https://help.simpletexting.com/using-simpletexting/apps-and-features/collecting-subscriber-data) or [importing](https://help.simpletexting.com/using-simpletexting/lists-and-contacts/importing-contacts) data, it also lets you quickly and easily personalize each message in a [mass text](https://simpletexting.com/mass-texting/) campaign.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3e96a0ec-21e4-4b36-b460-57ebecdea786",
+          "name": "Get all Custom Fields",
+          "request": {
+            "name": "Get all Custom Fields",
+            "description": {
+              "content": "This endpoint allows you to retrieve all custom fields.\n\n**Example:** Here we return all Custom Fields from an account:\n\n`https://api-app2.simpletexting.com/v2/api/custom-fields?page=100&size=500`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "custom-fields"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "An ordinal number of the page to return with the results of a request (with the custom fields of the given account). Please note that page numbering starts at zero (`0`)\n\n\n**Example:** `40`"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "The number of the returned custom fields to show per page\n\n**Example:** `50`"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f7438f80-a0e1-4a17-b130-b226954b3920",
+              "name": "Success. All custom fields retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "custom-fields"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "40"
+                    },
+                    {
+                      "key": "size",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"label\": \"My Custom Field\",\n      \"type\": \"text\",\n      \"mergeTag\": \"my_custom_field\",\n      \"defaultMaxLength\": 30\n    },\n    {\n      \"label\": \"My Custom Field\",\n      \"type\": \"text\",\n      \"mergeTag\": \"my_custom_field\",\n      \"defaultMaxLength\": 30\n    }\n  ],\n  \"totalPages\": 2572,\n  \"totalElements\": 2665\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9cc2c362-cfb6-4af9-8c68-d134109cfdb0",
+    "name": "SimpleTexting API Documentation Custom Fields API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

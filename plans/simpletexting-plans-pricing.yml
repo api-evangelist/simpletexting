@@ -1,3 +1,6 @@
+generated: '2026-08-13'
+method: searched
+source: https://simpletexting.com/pricing/
 specification: API Commons Plans
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
@@ -27,6 +30,33 @@ notes: >-
   Representative monthly (month-to-month) US plan tiers and rates as
   published on the SimpleTexting pricing page in 2026; verify current
   tiers, credits, and per-credit pricing on the pricing page, as they change.
+plan_count: 2
+verification:
+  checked: '2026-08-13'
+  url: https://simpletexting.com/pricing/
+  http_status: 200
+  note: >-
+    SimpleTexting presents pricing as a "build your own plan" credit slider rather
+    than a fixed tier table, so only the values the page renders at load were
+    directly re-verified on 2026-08-13: the 500-credit anchor at $39.00/month
+    ($398.40 billed annually, a 20% saving), overage at 5.5 cents per credit, 3
+    users included, additional users $20/month, additional numbers $10/month, and
+    a local number at $10/month plus a $4 one-time activation fee. The remaining
+    credit tiers below were captured in an earlier pass from the same slider and
+    are retained as representative; treat them as indicative, not quoted.
+  additions_2026_08_13:
+    - {item: Local number activation, price: $4 one-time, plus: $10/month}
+    - {item: Toll-free number, price: no additional fee, note: variable activation time}
+    - {item: Dedicated short code, price: from $1,000/month}
+    - {item: Annual billing discount, value: ~20% versus month-to-month}
+    - {item: Nonprofit discount, value: 15% off any monthly plan}
+    - {item: Money-back guarantee, value: 30 days}
+  api_access: >-
+    API access is included on paid plans; there is no separate API SKU. SimpleTexting
+    additionally gates API use by approval — an account must email
+    support@simpletexting.net with a use case before the API is enabled
+    (https://api-doc.simpletexting.com/).
+  free_tier: none — a free trial with no credit card required, but no permanent free plan
 sources:
 - https://simpletexting.com/pricing/
 - https://simpletexting.com/api/

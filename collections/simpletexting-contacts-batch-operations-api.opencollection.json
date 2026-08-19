@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Contacts - Batch Operations API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts - Batch Operations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a Group of Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple fields at once for a batch of contacts. You can update their first name, last name, emails, lists, and more.\n\n**Example:** Here we are updating two contacts, seen in the array. The list replacement is set to true, so they will be removed from their existing list and added to a new one:\n\n`{ \"updates\": [ { \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"co"
+        },
+        {
+          "info": {
+            "name": "Delete a Group of Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a group of contacts from SimpleTexting using their phone numbers.\n\n**Example:** Below, we delete a batch of contacts identified here by their phone number in the array:\n\n`{ \"contactPhones\": [ \"1234567890\", \"0987654321\", \"1122334455\" ] }`"
+        },
+        {
+          "info": {
+            "name": "Get the Result of a Batch Update Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update/:taskId",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "6176fb3e141c0060668b2c03",
+                "type": "path",
+                "description": "The ID of the task for the batch update\n\n**Example:** `6176fb3e141c0060668b2c03`"
+              }
+            ]
+          },
+          "docs": "Return the result of a batch update by the task id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

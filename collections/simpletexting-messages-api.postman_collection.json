@@ -1,0 +1,483 @@
+{
+  "item": [
+    {
+      "id": "7c6eb991-cc7d-4e2d-868b-5c6295138b50",
+      "name": "Messages",
+      "description": {
+        "content": "In SimpleTexting, users can send and receive messages. With our API, this can be done programmatically.\n\n**Note:** If the message contains a link from a common third-party link shortener such as bit.ly, it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fd285606-b1d5-4bbe-9549-6068194626b5",
+          "name": "Get all Messages",
+          "request": {
+            "name": "Get all Messages",
+            "description": {
+              "content": "Retrieves a list of all messages sent to a specific contact from a specific number on your account.\n\n**Example:** Here we return all messages from an account:\n\n`https://api-app2.simpletexting.com/v2/api/messages?page=100&size=500`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "An ordinal number of the page to return with the results of a request (with the messages of the given number). Please note that page numbering starts at zero (`0`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "The number of the returned messages to show per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "accountPhone",
+                  "value": "<string>",
+                  "description": "The phone number on your account the messages were sent to. If blank, the request will return the messages sent to the primary account phone"
+                },
+                {
+                  "disabled": false,
+                  "key": "since",
+                  "value": "<dateTime>",
+                  "description": "First sent/received timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+                },
+                {
+                  "disabled": false,
+                  "key": "contactPhone",
+                  "value": "<string>",
+                  "description": "The contact's phone number"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e9cad6bc-f1e4-46dd-815f-afac84d2db58",
+              "name": "Success. Returns a list of messages.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "25"
+                    },
+                    {
+                      "key": "size",
+                      "value": "50"
+                    },
+                    {
+                      "key": "accountPhone",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "since",
+                      "value": "2021-04-28T23:20:08.489Z"
+                    },
+                    {
+                      "key": "contactPhone",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"id\": \"507f191e810c19729de860ea\",\n      \"subject\": \"Some message from SimpleTexting\",\n      \"text\": \"Hello! How are you?\",\n      \"contactPhone\": \"8001234567\",\n      \"accountPhone\": \"8005551234\",\n      \"directionType\": \"MO\",\n      \"timestamp\": \"2020-04-28T23:20:08.489Z\",\n      \"referenceType\": \"API_SEND\",\n      \"category\": \"SMS\",\n      \"mediaItems\": [\n        \"507f1f77bcf86cd799439011\",\n        \"507f1f77bcf86cd799439333\"\n      ]\n    },\n    {\n      \"id\": \"507f191e810c19729de860ea\",\n      \"subject\": \"Some message from SimpleTexting\",\n      \"text\": \"Hello! How are you?\",\n      \"contactPhone\": \"8001234567\",\n      \"accountPhone\": \"8005551234\",\n      \"directionType\": \"MO\",\n      \"timestamp\": \"2020-04-28T23:20:08.489Z\",\n      \"referenceType\": \"API_SEND\",\n      \"category\": \"SMS\",\n      \"mediaItems\": [\n        \"507f1f77bcf86cd799439011\",\n        \"507f1f77bcf86cd799439333\"\n      ]\n    }\n  ],\n  \"totalPages\": 9756,\n  \"totalElements\": 753\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fbfc8226-34c8-4dfb-b98c-76cdfd033545",
+          "name": "Send a Message",
+          "request": {
+            "name": "Send a Message",
+            "description": {
+              "content": "Send either an MMS or SMS message to a contact. Use this programmatically to send to multiple contacts.\n\nIf the message contains a link from a common third-party link shortener such as [bit.ly](http://bit.ly/), it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).\n\nThere are limitations on Media Files with MMS messages. The size limitations of these items are discussed [here](#tag/File-Information).\n\n**Example:** Below, we have an example of an MMS message being sent. We specified that we wanted to send an `MMS` message to `1234567` from one of the numbers on our account - `8005551234`. We also provided some fallback text, should the receiving cell phone be unable to receive an MMS, and provided a link/ID to the media we wished to attach:\n\n`{ \"contactPhone\": \"1234567890\", \"accountPhone\": \"8005551234\", \"mode\": \"MMS_PREFERRED\", \"text\": \"Hello! How are you?\", \"subject\": \"Some message from SimpleTexting\", \"fallbackText\": \"[url=%%fallback_link%%]\", \"mediaItems\": [ \"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\" ] }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhone\": \"<string>\",\n  \"mode\": \"<string>\",\n  \"text\": \"<string>\",\n  \"accountPhone\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"fallbackText\": \"<string>\",\n  \"mediaItems\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "81fc7639-3211-4133-9ba9-6556d0367f91",
+              "name": "Successful. Message was created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactPhone\": \"1234567890\",\n  \"mode\": \"MMS_PREFERRED\",\n  \"text\": \"Hello! How are you?\",\n  \"accountPhone\": \"8005551234\",\n  \"subject\": \"Some message from SimpleTexting\",\n  \"fallbackText\": \"[url=%%fallback_link%%]\",\n  \"mediaItems\": [\n    \"https://txt.so/img.jpg\",\n    \"507f1f77bcf86cd799439011\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\",\n  \"credits\": 8499\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "85966481-b21d-4294-ac91-7bed498feec9",
+          "name": "Evaluate a Message",
+          "request": {
+            "name": "Evaluate a Message",
+            "description": {
+              "content": "Evaluate the body of your message before sending it to a contact or contacts.\n\n**Example:** We evaluate a message to determine a number of properties. These include the number of credits it will use, whether it is an extended SMS or a regular SMS and any potential errors that may occur:\n\n`https://api-app2.simpletexting.com/v2/api/messages/evaluate`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "messages",
+                "evaluate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mode\": \"<string>\",\n  \"text\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"fallbackText\": \"<string>\",\n  \"mediaItems\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "96b3e369-f30a-4dbc-b6d0-b16eecd5479b",
+              "name": "Success. You have a message to evaluate.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "messages",
+                    "evaluate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mode\": \"MMS_PREFERRED\",\n  \"text\": \"Hello! How are you?\",\n  \"subject\": \"New In Store\",\n  \"fallbackText\": \"[url=%%fallback_link%%]\",\n  \"mediaItems\": [\n    \"https://txt.so/img.jpg\",\n    \"507f1f77bcf86cd799439011\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detectedCategory\": \"SMS\",\n  \"length\": 134,\n  \"remains\": 23,\n  \"maxLength\": 150,\n  \"unicode\": true,\n  \"sumOfCredits\": 1,\n  \"warnings\": [\n    \"Text is blank\",\n    \"Text is blank\"\n  ],\n  \"errors\": [\n    \"Invalid phone number\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a631baa7-e230-40c2-b242-8cc1067618ae",
+          "name": "Get a Message",
+          "request": {
+            "name": "Get a Message",
+            "description": {
+              "content": "Retrieve a specific message from the system via its message ID.\n\n**Example:** Below, we return the information associated with the message whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Messages](#operation/getMessages) endpoint to retrieve message IDs for all of your messages:\n\n`https://api-app2.simpletexting.com/v2/api/messages/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "messages",
+                ":messageId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "messageId",
+                  "description": "(Required) Message ID in hexadecimal format"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "71a9c5b6-a257-44c0-a00b-d68a651d49ad",
+              "name": "Success. Retrieved a message.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "messages",
+                    ":messageId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "messageId",
+                      "description": "(Required) Message ID in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\",\n  \"subject\": \"Some message from SimpleTexting\",\n  \"text\": \"Hello! How are you?\",\n  \"contactPhone\": \"8001234567\",\n  \"accountPhone\": \"8005551234\",\n  \"directionType\": \"MO\",\n  \"timestamp\": \"2020-04-28T23:20:08.489Z\",\n  \"referenceType\": \"API_SEND\",\n  \"category\": \"SMS\",\n  \"mediaItems\": [\n    \"507f1f77bcf86cd799439011\",\n    \"507f1f77bcf86cd799439333\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "cfb42d34-4c47-4151-bed4-4dc194a18d33",
+    "name": "SimpleTexting API Documentation Messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

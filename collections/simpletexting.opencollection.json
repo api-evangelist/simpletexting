@@ -1,16 +1,465 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "SimpleTexting API",
-    "version": "2.0"
+    "name": "SimpleTexting API Documentation",
+    "version": "2.0.0"
   },
   "request": {
     "auth": {
-      "type": "bearer",
-      "token": "{{bearerToken}}"
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
     }
   },
   "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/:webhookId",
+            "params": [
+              {
+                "name": "webhookId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Webhook ID in hexadecimal format"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing webhook using its unique ID."
+        },
+        {
+          "info": {
+            "name": "Delete a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/:webhookId",
+            "params": [
+              {
+                "name": "webhookId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Webhook ID in hexadecimal format"
+              }
+            ]
+          },
+          "docs": "Delete an existing Webhook by its unique ID.\n\n**Example:** Here we delete a Webhook whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Webhooks](#operation/getWebhooks) endpoint to retrieve message IDs for all of your Webhooks:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Get all Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks",
+            "params": [
+              {
+                "name": "page",
+                "value": "5",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the webhooks of the given account). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned webhooks to show per page"
+              }
+            ]
+          },
+          "docs": "Retrieve all the webhooks that you've created.\n\n**Example:** Here we return all Webhooks from an account:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks`"
+        },
+        {
+          "info": {
+            "name": "Create a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new webhook from scratch."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/:contactIdOrNumber",
+            "params": [
+              {
+                "name": "contactIdOrNumber",
+                "value": "3051234567",
+                "type": "path",
+                "description": "Phone number (preferred) or Contact ID in hexadecimal format\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              }
+            ]
+          },
+          "docs": "Get a contact via their unique ID or phone number. Phone number is the preferred parameter for this call.\n\n**Example:** Below, we return the information associated with the Contact whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve contact IDs for all of your contacts:\n\n`https://api-app2.simpletexting.com/v2/api/contacts/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Update a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/:contactIdOrNumber",
+            "params": [
+              {
+                "name": "contactIdOrNumber",
+                "value": "3051234567",
+                "type": "path",
+                "description": "Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              },
+              {
+                "name": "upsert",
+                "value": "false",
+                "type": "query",
+                "description": "If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true.\n\n**Example:** `false`"
+              },
+              {
+                "name": "listsReplacement",
+                "value": "false",
+                "type": "query",
+                "description": "If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list.\n\n**Example:** `false`"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a contact’s phone number or any other field.\n\n**Example:** Below we update our contact, 3051234567. We declared their custom field value for `zipcode` is `12345` and that they get added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`. In our URL, we requested that the contact gets added to a new list while remaining on the current one. We also requested not to update the contact's information if they already exist within the system:\n\nURL:\n\n`https:"
+        },
+        {
+          "info": {
+            "name": "Delete a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/:contactIdOrNumber",
+            "params": [
+              {
+                "name": "contactIdOrNumber",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Contact ID in hexadecimal format or phone number\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              }
+            ]
+          },
+          "docs": "Delete a contact via their unique ID or phone.\n\n**Example:** Here we delete a Contact whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve Contact IDs for all of your Contacts:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Get all Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts",
+            "params": [
+              {
+                "name": "page",
+                "value": "250",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the contacts of the given account). Please note that page numbering starts at zero (`0`)\n\n**Example:** `250`"
+              },
+              {
+                "name": "size",
+                "value": "150",
+                "type": "query",
+                "description": "The number of the returned contacts to show per page\n\n**Example:** `150`"
+              },
+              {
+                "name": "since",
+                "value": "2021-04-28T23:20:08.489Z",
+                "type": "query",
+                "description": "List contacts updated since a specified date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.\n\n**Example:** `2021-04-28T23:20:08.489Z`"
+              },
+              {
+                "name": "direction",
+                "value": "desc",
+                "type": "query",
+                "description": "Specify the sort order of your results. By default, results are sorted by the 'updated' field:\n\n- **ASC:** Sort values in *ascending* order\n\n- **DESC:** Sort values in *descending* order\n\n**Example:** `desc`"
+              }
+            ]
+          },
+          "docs": "For a given account, return all contacts that have been created in the account. A paginated list of contacts will be returned to you:\n\n**Example:** Here we return all Contacts from an account since April 28th 2021:\n\n`https://api-app2.simpletexting.com/v2/api/contacts?page=100&size=2&since=2021-04-28T23:20:08.489Z&direction=ASC`"
+        },
+        {
+          "info": {
+            "name": "Create a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts",
+            "params": [
+              {
+                "name": "upsert",
+                "value": "false",
+                "type": "query",
+                "description": "If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true."
+              },
+              {
+                "name": "listsReplacement",
+                "value": "false",
+                "type": "query",
+                "description": "If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new contact and add them to a specific list.\n\n**Example:** Below we created our contact, John Doe. We declared his custom field value for `zipcode` is `12345` and that he gets added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`:\n\n`{ \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"comment\": \"VIP client\", \"listIds\": [ \""
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contact Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a List Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listId",
+            "params": [
+              {
+                "name": "listId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My Newer list"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the name of an existing list.\n\n**Example:** Here we updated a list name with a new name `My Newer List`:\n\n`{ \"name\": \"My Newer List\" }`"
+        },
+        {
+          "info": {
+            "name": "Get all Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists",
+            "params": [
+              {
+                "name": "page",
+                "value": "15",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the lists of the given account). Please note that page numbering starts at zero (`0`)\n\n**Example:** `15`"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned lists to show per page\n\n**Example:** `50`"
+              }
+            ]
+          },
+          "docs": "Retrieves all lists from your SimpleTexting account.\n\n**Example:** Here we return all lists from an account:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists?page=100&size=2`"
+        },
+        {
+          "info": {
+            "name": "Create a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is used to create a new contact list in a given SimpleTexting account.\n\n**Example:** Here we create a list whose name is `My New List`:\n\n`{ \"name\": \"My New List\" }`"
+        },
+        {
+          "info": {
+            "name": "Add Contact To List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName/contacts",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f191e810c19729de860ea / My First List",
+                "type": "path",
+                "description": "List ID or name to add the contact.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add contact to specified list."
+        },
+        {
+          "info": {
+            "name": "Get a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+              }
+            ]
+          },
+          "docs": "Return a contact list by its unique list ID or name.\n\n**Example:** Below, we return the information associated with the List whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Lists](#operation/getLists) endpoint to retrieve List IDs for all of your Lists:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Delete a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+              }
+            ]
+          },
+          "docs": "Delete an existing list using the list ID or name.\n\n**Example:** Here we delete a List whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Lists] (#operation/getLists) endpoint to retrieve List IDs for all of your Lists:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Remove Contact From List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName/contacts/:contactPhoneOrId",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f191e810c19729de860ea / My First List",
+                "type": "path",
+                "description": "List ID or name to remove the contact from.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+              },
+              {
+                "name": "contactPhoneOrId",
+                "value": "3051234567",
+                "type": "path",
+                "description": "Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              }
+            ]
+          },
+          "docs": "Remove contact from specified list."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhook Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Unsubscribe Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/report/unsubscribe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers when a client sends STOP to your number.\n\n**Example:** We create the Unsubscribe report for `8005551234` for the status of the outgoing messages to `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/unsubscribe.php\",\"triggers\": [\"UNSUBSCRIBE_REPORT\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`\n\nYour custom domain `http://www.yourdomain.com/unsubscribe.php` has been set as an unsubscribe report URL for this example. The SimpleTexting server will i"
+        },
+        {
+          "info": {
+            "name": "Incoming/Outgoing Message Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/report/incoming",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers when an outgoing message or incoming message is handled.\n\n**Example:** We create the incoming webhook for `8005551234` from contact phone `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/receivesms.php\",\"triggers\": [\"INCOMING_MESSAGE\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`"
+        },
+        {
+          "info": {
+            "name": "Delivery/Non Delivered Message Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/report/delivery",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Triggers when an outgoing message is reported as delivered or undelivered by the carrier.\n\n**Example:** We create the Delivery report for `8005551234` for the status of the outgoing messages to `8001234567`:\n\n`{\"url\": \"http://www.yourdomain.com/delivery.php\",\"triggers\": [\"DELIVERY_REPORT\"],\"requestPerSecLimit\": 25,\"accountPhone\": \"8005551234\",\"contactPhone\": \"8001234567\"}`\n\nYour custom domain `http://www.yourdomain.com/delivery.php` has been set as a delivery report webhook for this example. The"
+        }
+      ]
+    },
     {
       "info": {
         "name": "Messages",
@@ -24,9 +473,41 @@
           },
           "http": {
             "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/messages"
+            "url": "https://api-app2.simpletexting.com/v2/api/messages",
+            "params": [
+              {
+                "name": "page",
+                "value": "25",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the messages of the given number). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned messages to show per page"
+              },
+              {
+                "name": "accountPhone",
+                "value": "8005551234",
+                "type": "query",
+                "description": "The phone number on your account the messages were sent to. If blank, the request will return the messages sent to the primary account phone"
+              },
+              {
+                "name": "since",
+                "value": "2021-04-28T23:20:08.489Z",
+                "type": "query",
+                "description": "First sent/received timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+              },
+              {
+                "name": "contactPhone",
+                "value": "8001234567",
+                "type": "query",
+                "description": "The contact's phone number"
+              }
+            ]
           },
-          "docs": "Returns a paginated list of messages sent to and from the account."
+          "docs": "Retrieves a list of all messages sent to a specific contact from a specific number on your account.\n\n**Example:** Here we return all messages from an account:\n\n`https://api-app2.simpletexting.com/v2/api/messages?page=100&size=500`"
         },
         {
           "info": {
@@ -38,10 +519,10 @@
             "url": "https://api-app2.simpletexting.com/v2/api/messages",
             "body": {
               "type": "json",
-              "data": "{\"contactPhone\": \"<string>\", \"accountPhone\": \"<string>\", \"mode\": \"AUTO\", \"subject\": \"<string>\", \"text\": \"<string>\", \"fallbackText\": \"<string>\", \"mediaItems\": []}"
+              "data": "{}"
             }
           },
-          "docs": "Sends a single SMS or MMS message to one contact."
+          "docs": "Send either an MMS or SMS message to a contact. Use this programmatically to send to multiple contacts.\n\nIf the message contains a link from a common third-party link shortener such as [bit.ly](http://bit.ly/), it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).\n\nThere are limitations on Media Files with MMS messages. The size limitations of "
         },
         {
           "info": {
@@ -53,10 +534,10 @@
             "url": "https://api-app2.simpletexting.com/v2/api/messages/evaluate",
             "body": {
               "type": "json",
-              "data": "{\"mode\": \"AUTO\", \"subject\": \"<string>\", \"text\": \"<string>\", \"fallbackText\": \"<string>\", \"mediaItems\": []}"
+              "data": "{}"
             }
           },
-          "docs": "Evaluates a message body without sending it, returning credit cost, segment count, and encoding details."
+          "docs": "Evaluate the body of your message before sending it to a contact or contacts.\n\n**Example:** We evaluate a message to determine a number of properties. These include the number of credits it will use, whether it is an extended SMS or a regular SMS and any potential errors that may occur:\n\n`https://api-app2.simpletexting.com/v2/api/messages/evaluate`"
         },
         {
           "info": {
@@ -65,125 +546,140 @@
           },
           "http": {
             "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/messages/{messageId}"
+            "url": "https://api-app2.simpletexting.com/v2/api/messages/:messageId",
+            "params": [
+              {
+                "name": "messageId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Message ID in hexadecimal format"
+              }
+            ]
           },
-          "docs": "Retrieves a single message by its identifier."
+          "docs": "Retrieve a specific message from the system via its message ID.\n\n**Example:** Below, we return the information associated with the message whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Messages](#operation/getMessages) endpoint to retrieve message IDs for all of your messages:\n\n`https://api-app2.simpletexting.com/v2/api/messages/507f1f77bcf86cd799439011`"
         }
       ]
     },
     {
       "info": {
-        "name": "Campaigns",
+        "name": "Media Items",
         "type": "folder"
       },
       "items": [
         {
           "info": {
-            "name": "Get all Campaigns",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/campaigns"
-          },
-          "docs": "Returns a paginated list of campaigns."
-        },
-        {
-          "info": {
-            "name": "Send a Campaign",
+            "name": "Upload Media",
             "type": "http"
           },
           "http": {
             "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/campaigns",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/upload",
+            "params": [
+              {
+                "name": "shared",
+                "value": "false",
+                "type": "query",
+                "description": "Define whether a media file is shared with teammates"
+              }
+            ],
             "body": {
-              "type": "json",
-              "data": "{\"title\": \"<string>\", \"listIds\": [], \"segmentIds\": [], \"accountPhone\": \"<string>\", \"customFieldsMaxLength\": {}, \"messageTemplate\": {}}"
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
             }
           },
-          "docs": "Sends a bulk campaign immediately to one or more lists or segments."
+          "docs": "Upload a media file from a local directory to SimpleTexting.\n\n**Example:** Here we upload an image from our local directory using an HTTP request. We state that the media should be shared with teammates:\n\n`POST /api/mediaitems/upload?shared=true HTTP/1.1 Host: https://api-app2.simpletexting.com/v2/ accept: */* Authorization: Bearer {{YOUR_TOKEN}} Content-Length: 176 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW ----WebKitFormBound`"
         },
         {
           "info": {
-            "name": "Get a Campaign",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/campaigns/{campaignId}"
-          },
-          "docs": "Get a Campaign"
-        }
-      ]
-    },
-    {
-      "info": {
-        "name": "Contacts",
-        "type": "folder"
-      },
-      "items": [
-        {
-          "info": {
-            "name": "Get all Contacts",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts"
-          },
-          "docs": "Returns a paginated list of contacts on the account."
-        },
-        {
-          "info": {
-            "name": "Create a Contact",
+            "name": "Upload Media Using a URL",
             "type": "http"
           },
           "http": {
             "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/loadByLink",
+            "params": [
+              {
+                "name": "shared",
+                "value": "false",
+                "type": "query",
+                "description": "Define whether a media file is shared with teammates"
+              }
+            ],
             "body": {
               "type": "json",
-              "data": "{\"contactPhone\": \"<string>\", \"firstName\": \"<string>\", \"lastName\": \"<string>\", \"email\": \"<string>\", \"birthday\": \"<string>\", \"customFields\": {}, \"comment\": \"<string>\", \"listIds\": []}"
+              "data": "{}"
             }
           },
-          "docs": "Creates a contact. Use upsert to create or update by phone number."
+          "docs": "This endpoint allows you to upload media via a URL so that you can send it in a message to a contact.\n\n**Example:** Below we upload some media via a hosted URL to the SimpleTexting system:\n\n`{ \"link\": \"https://dropbox.com/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg\" }`"
         },
         {
           "info": {
-            "name": "Get a Contact",
+            "name": "Get Media Items",
             "type": "http"
           },
           "http": {
             "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}"
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems",
+            "params": [
+              {
+                "name": "page",
+                "value": "29",
+                "type": "query",
+                "description": "Number of pages"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "Page size"
+              }
+            ]
           },
-          "docs": "Get a Contact"
+          "docs": "This endpoint allows you to retrieve all Media Items.\n\n**Example:** Here we return all Media Items from an account:\n\n`https://api-app2.simpletexting.com/v2/api/mediaitems?page=100&size=500`"
         },
         {
           "info": {
-            "name": "Update a Contact",
+            "name": "Get Media Item",
             "type": "http"
           },
           "http": {
-            "method": "PUT",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}",
-            "body": {
-              "type": "json",
-              "data": "{\"contactPhone\": \"<string>\", \"firstName\": \"<string>\", \"lastName\": \"<string>\", \"email\": \"<string>\", \"birthday\": \"<string>\", \"customFields\": {}, \"comment\": \"<string>\", \"listIds\": []}"
-            }
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/:mediaItemId",
+            "params": [
+              {
+                "name": "mediaItemId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Media item ID in hexadecimal format"
+              }
+            ]
           },
-          "docs": "Update a Contact"
+          "docs": "Get Media Item"
         },
         {
           "info": {
-            "name": "Delete a Contact",
+            "name": "Delete Media",
             "type": "http"
           },
           "http": {
             "method": "DELETE",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts/{contactIdOrNumber}"
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/:mediaItemId",
+            "params": [
+              {
+                "name": "mediaItemId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "The mediaItemId in hexadecimal format"
+              }
+            ]
           },
-          "docs": "Delete a Contact"
+          "docs": "Remove media that you have previously uploaded to SimpleTexting.\n\n**Example:** Here we delete a Media Item whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Media Items](#operation/getMediaItems) endpoint to retrieve Media Items IDs for all of your Media Items:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`"
         }
       ]
     },
@@ -200,20 +696,13 @@
           },
           "http": {
             "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update"
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
           },
-          "docs": "Submits an asynchronous batch update task for a group of contacts."
-        },
-        {
-          "info": {
-            "name": "Get the Result of a Batch Update Task",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update/{taskId}"
-          },
-          "docs": "Get the Result of a Batch Update Task"
+          "docs": "Update multiple fields at once for a batch of contacts. You can update their first name, last name, emails, lists, and more.\n\n**Example:** Here we are updating two contacts, seen in the array. The list replacement is set to true, so they will be removed from their existing list and added to a new one:\n\n`{ \"updates\": [ { \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"co"
         },
         {
           "info": {
@@ -222,275 +711,135 @@
           },
           "http": {
             "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-delete"
-          },
-          "docs": "Delete a Group of Contacts"
-        }
-      ]
-    },
-    {
-      "info": {
-        "name": "Contact Lists",
-        "type": "folder"
-      },
-      "items": [
-        {
-          "info": {
-            "name": "Get all Lists",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists"
-          },
-          "docs": "Get all Lists"
-        },
-        {
-          "info": {
-            "name": "Create a List",
-            "type": "http"
-          },
-          "http": {
-            "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists",
-            "body": {
-              "type": "json",
-              "data": "{\"name\": \"<string>\"}"
-            }
-          },
-          "docs": "Create a List"
-        },
-        {
-          "info": {
-            "name": "Update a List Name",
-            "type": "http"
-          },
-          "http": {
-            "method": "PUT",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listId}",
-            "body": {
-              "type": "json",
-              "data": "{\"name\": \"<string>\"}"
-            }
-          },
-          "docs": "Update a List Name"
-        },
-        {
-          "info": {
-            "name": "Get a List",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}"
-          },
-          "docs": "Get a List"
-        },
-        {
-          "info": {
-            "name": "Delete a List",
-            "type": "http"
-          },
-          "http": {
-            "method": "DELETE",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}"
-          },
-          "docs": "Delete a List"
-        },
-        {
-          "info": {
-            "name": "Add Contact To List",
-            "type": "http"
-          },
-          "http": {
-            "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}/contacts",
-            "body": {
-              "type": "json",
-              "data": "{\"contactPhoneOrId\": \"<string>\"}"
-            }
-          },
-          "docs": "Add Contact To List"
-        },
-        {
-          "info": {
-            "name": "Remove Contact From List",
-            "type": "http"
-          },
-          "http": {
-            "method": "DELETE",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}"
-          },
-          "docs": "Remove Contact From List"
-        }
-      ]
-    },
-    {
-      "info": {
-        "name": "Contact Segments",
-        "type": "folder"
-      },
-      "items": [
-        {
-          "info": {
-            "name": "Get all Segments",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/contact-segments"
-          },
-          "docs": "Get all Segments"
-        }
-      ]
-    },
-    {
-      "info": {
-        "name": "Custom Fields",
-        "type": "folder"
-      },
-      "items": [
-        {
-          "info": {
-            "name": "Get all Custom Fields",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/custom-fields"
-          },
-          "docs": "Get all Custom Fields"
-        }
-      ]
-    },
-    {
-      "info": {
-        "name": "Media Items",
-        "type": "folder"
-      },
-      "items": [
-        {
-          "info": {
-            "name": "Get Media Items",
-            "type": "http"
-          },
-          "http": {
-            "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems"
-          },
-          "docs": "Get Media Items"
-        },
-        {
-          "info": {
-            "name": "Upload Media",
-            "type": "http"
-          },
-          "http": {
-            "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/upload",
-            "body": {
-              "type": "multipart-form",
-              "data": []
-            }
-          },
-          "docs": "Uploads a media file for use in MMS messages."
-        },
-        {
-          "info": {
-            "name": "Upload Media Using a URL",
-            "type": "http"
-          },
-          "http": {
-            "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/loadByLink",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-delete",
             "body": {
               "type": "json",
               "data": "{}"
             }
           },
-          "docs": "Upload Media Using a URL"
+          "docs": "Delete a group of contacts from SimpleTexting using their phone numbers.\n\n**Example:** Below, we delete a batch of contacts identified here by their phone number in the array:\n\n`{ \"contactPhones\": [ \"1234567890\", \"0987654321\", \"1122334455\" ] }`"
         },
         {
           "info": {
-            "name": "Get Media Item",
+            "name": "Get the Result of a Batch Update Task",
             "type": "http"
           },
           "http": {
             "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/{mediaItemId}"
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts-batch/batch-update/:taskId",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "6176fb3e141c0060668b2c03",
+                "type": "path",
+                "description": "The ID of the task for the batch update\n\n**Example:** `6176fb3e141c0060668b2c03`"
+              }
+            ]
           },
-          "docs": "Get Media Item"
-        },
-        {
-          "info": {
-            "name": "Delete Media",
-            "type": "http"
-          },
-          "http": {
-            "method": "DELETE",
-            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/{mediaItemId}"
-          },
-          "docs": "Delete Media"
+          "docs": "Return the result of a batch update by the task id."
         }
       ]
     },
     {
       "info": {
-        "name": "Webhooks",
+        "name": "Campaigns",
         "type": "folder"
       },
       "items": [
         {
           "info": {
-            "name": "Get all Webhooks",
+            "name": "Get all Campaigns",
             "type": "http"
           },
           "http": {
             "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/webhooks"
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns",
+            "params": [
+              {
+                "name": "page",
+                "value": "100",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the campaigns sent from the given number). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "2",
+                "type": "query",
+                "description": "The number of the returned campaigns to show per page"
+              },
+              {
+                "name": "accountPhone",
+                "value": "8005551234",
+                "type": "query",
+                "description": "The phone number the campaign was sent from"
+              },
+              {
+                "name": "type",
+                "value": "IMMEDIATELY",
+                "type": "query",
+                "description": "The type of the campaigns you wish to retrieve:\n\n  - **ALL:** Returns all campaign types\n\n  - **IMMEDIATELY:** Returns immediate campaigns\n\n  - **SCHEDULED:** Returns scheduled campaigns\n\n  - **RECURRING:** Returns recurring campaigns\n\n  - **RECURRING_SCHEDULED:** Returns recurring scheduled campaigns"
+              },
+              {
+                "name": "state",
+                "value": "SENDING",
+                "type": "query",
+                "description": "The current state of the campaigns you wish to retrieve:\n\n  - **ERROR:** Returns campaigns that were not sent because of errors\n\n  - **PAUSED:** Returns Paused campaigns on your account\n\n  - **SENDING:** Returns sending campaigns\n\n  - **COMPLETED:** Returns all successfully sent campaigns on your account\n\n  - **MONITORING:** Returns all campaigns that includes \"stop\" words or malicious links"
+              },
+              {
+                "name": "listNameOrId",
+                "value": "My First List",
+                "type": "query",
+                "description": "The list name or list ID"
+              },
+              {
+                "name": "startDateFrom",
+                "value": "2021-04-28T23:20:08.489Z",
+                "type": "query",
+                "description": "List campaigns starting from a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+              },
+              {
+                "name": "startDateTo",
+                "value": "2021-05-28T23:20:08.489Z",
+                "type": "query",
+                "description": "List campaigns up to a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+              }
+            ]
           },
-          "docs": "Get all Webhooks"
+          "docs": "Get all campaigns from the SimpleTexting system. You can filter campaigns by type using the `type` query parameter. By default, if `type` is not specified, only immediate campaigns are returned (scheduled and recurring campaigns will not be included).\n\n**Example:** We request all `SENT` campaigns sent from the `8005551234` number to the list `My  First List`:\n\n`https://api-app2.simpletexting.com/v2/api/campaigns?page=100&size=2&accountPhone=8005551234&state=SENT&listNameOrId=My First List&startD"
         },
         {
           "info": {
-            "name": "Create a Webhook",
+            "name": "Send a Campaign",
             "type": "http"
           },
           "http": {
             "method": "POST",
-            "url": "https://api-app2.simpletexting.com/v2/api/webhooks",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns",
             "body": {
               "type": "json",
-              "data": "{\"url\": \"<string>\", \"triggers\": [], \"requestPerSecLimit\": 0, \"accountPhone\": \"<string>\", \"contactPhone\": \"<string>\"}"
+              "data": "{}"
             }
           },
-          "docs": "Create a Webhook"
+          "docs": "Create and send a campaign.\n\n**Example:** Here we created a campaign from our short code `8005551234` and sent it to a segment identified here by its ID, along with a list called `My First List`. We also specified that the `First Name` custom field will only take up 20 characters. Finally, we specified that 2 pieces of media will be attached. One is housed on SimpleTexting and identified by its ID, the other is getting pulled from an external link:\n\n`{ \"title\": \"My first campaign\", \"listsOrSegme"
         },
         {
           "info": {
-            "name": "Update a Webhook",
+            "name": "Get a Campaign",
             "type": "http"
           },
           "http": {
-            "method": "PUT",
-            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/{webhookId}",
-            "body": {
-              "type": "json",
-              "data": "{\"url\": \"<string>\", \"triggers\": [], \"requestPerSecLimit\": 0, \"accountPhone\": \"<string>\", \"contactPhone\": \"<string>\"}"
-            }
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Campaign ID in hexadecimal format"
+              }
+            ]
           },
-          "docs": "Update a Webhook"
-        },
-        {
-          "info": {
-            "name": "Delete a Webhook",
-            "type": "http"
-          },
-          "http": {
-            "method": "DELETE",
-            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/{webhookId}"
-          },
-          "docs": "Delete a Webhook"
+          "docs": "Get a campaign via its unique ID.\n\n**Example:** Below, we return the information associated with the campaign whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Campaigns](#operation/fetchCampaigns) endpoint to retrieve campaign IDs for all of your campaigns:\n\n`https://api-app2.simpletexting.com/v2/api/507f1f77bcf86cd799439011`"
         }
       ]
     },
@@ -509,8 +858,16 @@
             "method": "GET",
             "url": "https://api-app2.simpletexting.com/v2/api/tenant"
           },
-          "docs": "Returns general account (tenant) information, including credit balance."
-        },
+          "docs": "Retrieves a general information about account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tenant phones",
+        "type": "folder"
+      },
+      "items": [
         {
           "info": {
             "name": "Get all phones",
@@ -518,11 +875,92 @@
           },
           "http": {
             "method": "GET",
-            "url": "https://api-app2.simpletexting.com/v2/api/phones"
+            "url": "https://api-app2.simpletexting.com/v2/api/phones",
+            "params": [
+              {
+                "name": "page",
+                "value": "250",
+                "type": "query",
+                "description": "The number of phone numbers returned with each request\n\n**Example:** `250`"
+              },
+              {
+                "name": "size",
+                "value": "150",
+                "type": "query",
+                "description": "The size of the page\n\n**Example:** `150`"
+              }
+            ]
           },
-          "docs": "Returns the sending phone numbers provisioned on the account."
+          "docs": "Retrieve all phone numbers for account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Custom Fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Custom Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/custom-fields",
+            "params": [
+              {
+                "name": "page",
+                "value": "40",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the custom fields of the given account). Please note that page numbering starts at zero (`0`)\n\n\n**Example:** `40`"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned custom fields to show per page\n\n**Example:** `50`"
+              }
+            ]
+          },
+          "docs": "This endpoint allows you to retrieve all custom fields.\n\n**Example:** Here we return all Custom Fields from an account:\n\n`https://api-app2.simpletexting.com/v2/api/custom-fields?page=100&size=500`"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contact Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-segments",
+            "params": [
+              {
+                "name": "page",
+                "value": "0",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the segments of the given account). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned segments to show per page"
+              }
+            ]
+          },
+          "docs": "Retrieves all segments from your SimpleTexting account.\n\n**Example:** Here we return all segments from an account:\n\n`https://api-app2.simpletexting.com/v2/api/contact-segments?page=100&size=2`"
         }
       ]
     }
-  ]
+  ],
+  "bundled": true
 }

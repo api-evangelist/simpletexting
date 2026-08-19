@@ -1,211 +1,530 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: SimpleTexting Campaigns Messages API
-  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
-  termsOfService: https://simpletexting.com/terms-of-service/
-  contact:
-    name: SimpleTexting Support
-    url: https://simpletexting.com/api/
-    email: support@simpletexting.com
-  version: '2.0'
+  title: SimpleTexting API Documentation Messages API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
 servers:
 - url: https://api-app2.simpletexting.com/v2
-  description: SimpleTexting v2 production API
 security:
-- bearerAuth: []
+- api_key: []
 tags:
 - name: Messages
-  description: Send and retrieve one-to-one SMS / MMS messages.
+  description: 'In SimpleTexting, users can send and receive messages. With our API, this can be done programmatically.
+
+
+    **Note:** If the message contains a link from a common third-party link shortener such as bit.ly, it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).'
 paths:
   /api/messages:
     get:
-      operationId: getAllMessages
       tags:
       - Messages
       summary: Get all Messages
-      description: Returns a paginated list of messages sent to and from the account.
+      description: 'Retrieves a list of all messages sent to a specific contact from a specific number on your account.
+
+
+        **Example:** Here we return all messages from an account:
+
+
+        `https://api-app2.simpletexting.com/v2/api/messages?page=100&size=500`'
+      operationId: getMessages
       parameters:
       - name: page
         in: query
+        description: An ordinal number of the page to return with the results of a request (with the messages of the given number). Please note that page numbering starts at zero (`0`)
+        required: false
         schema:
+          minimum: 0
           type: integer
+          format: int32
+          default: 0
+        example: 25
       - name: size
         in: query
+        description: The number of the returned messages to show per page
+        required: false
         schema:
+          maximum: 500
           type: integer
+          format: int32
+          default: 50
+        example: 50
       - name: accountPhone
         in: query
+        description: The phone number on your account the messages were sent to. If blank, the request will return the messages sent to the primary account phone
+        required: false
         schema:
           type: string
+        example: 8005551234
       - name: since
         in: query
+        description: First sent/received timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        required: false
         schema:
           type: string
+          format: date-time
+        example: '2021-04-28T23:20:08.489Z'
       - name: contactPhone
         in: query
+        description: The contact's phone number
+        required: false
         schema:
           type: string
+        example: 8001234567
       responses:
         '200':
-          description: A page of messages.
+          description: Success. Returns a list of messages.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageViewMessage'
     post:
-      operationId: sendMessage
       tags:
       - Messages
       summary: Send a Message
-      description: Sends a single SMS or MMS message to one contact.
+      description: 'Send either an MMS or SMS message to a contact. Use this programmatically to send to multiple contacts.
+
+
+        If the message contains a link from a common third-party link shortener such as [bit.ly](http://bit.ly/), it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).
+
+
+        There are limitations on Media Files with MMS messages. The size limitations of these items are discussed [here](#tag/File-Information).
+
+
+        **Example:** Below, we have an example of an MMS message being sent. We specified that we wanted to send an `MMS` message to `1234567` from one of the numbers on our account - `8005551234`. We also provided some fallback text, should the receiving cell phone be unable to receive an MMS, and provided a link/ID to the media we wished to attach:
+
+
+        `{ "contactPhone": "1234567890", "accountPhone": "8005551234", "mode": "MMS_PREFERRED", "text": "Hello! How are you?", "subject": "Some message from SimpleTexting", "fallbackText": "[url=%%fallback_link%%]", "mediaItems": [ "https://txt.so/img.jpg", "507f1f77bcf86cd799439011" ] }`'
+      operationId: createMessage
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SendMessageRequest'
+        required: true
       responses:
-        '200':
-          description: The accepted message.
+        '201':
+          description: Successful. Message was created.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/MessageRequestInfo'
   /api/messages/evaluate:
     post:
-      operationId: evaluateMessage
       tags:
       - Messages
       summary: Evaluate a Message
-      description: Evaluates a message body without sending it, returning credit cost, segment count, and encoding details.
+      description: 'Evaluate the body of your message before sending it to a contact or contacts.
+
+
+        **Example:** We evaluate a message to determine a number of properties. These include the number of credits it will use, whether it is an extended SMS or a regular SMS and any potential errors that may occur:
+
+
+        `https://api-app2.simpletexting.com/v2/api/messages/evaluate`'
+      operationId: evaluateMessage
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/EvaluateMessageRequest'
+        required: true
       responses:
-        '200':
-          description: Message evaluation result.
+        '201':
+          description: Success. You have a message to evaluate.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageInfo'
   /api/messages/{messageId}:
     get:
-      operationId: getMessage
       tags:
       - Messages
       summary: Get a Message
-      description: Retrieves a single message by its identifier.
+      description: 'Retrieve a specific message from the system via its message ID.
+
+
+        **Example:** Below, we return the information associated with the message whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Messages](#operation/getMessages) endpoint to retrieve message IDs for all of your messages:
+
+
+        `https://api-app2.simpletexting.com/v2/api/messages/507f1f77bcf86cd799439011`'
+      operationId: getMessage
       parameters:
       - name: messageId
         in: path
+        description: Message ID in hexadecimal format
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       responses:
         '200':
-          description: The requested message.
+          description: Success. Retrieved a message.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
 components:
   schemas:
-    EvaluateMessageRequest:
-      type: object
-      required:
-      - mode
-      - text
-      properties:
-        mode:
-          type: string
-          enum:
-          - AUTO
-          - SINGLE_SMS_STRICTLY
-          - MMS_PREFERRED
-        subject:
-          type: string
-        text:
-          type: string
-        fallbackText:
-          type: string
-        mediaItems:
-          type: array
-          items:
-            type: string
-    MessageInfo:
-      type: object
-      properties:
-        segmentsCount:
-          type: integer
-        creditsCost:
-          type: integer
-        encoding:
-          type: string
-        charactersCount:
-          type: integer
-    PageViewMessage:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        page:
-          type: integer
-        size:
-          type: integer
-        totalElements:
-          type: integer
-    SendMessageRequest:
-      type: object
-      required:
-      - contactPhone
-      - mode
-      - text
-      properties:
-        contactPhone:
-          type: string
-          description: Destination phone number in E.164 format.
-        accountPhone:
-          type: string
-          description: Sending phone number to use; defaults to the account's primary number.
-        mode:
-          type: string
-          enum:
-          - AUTO
-          - SINGLE_SMS_STRICTLY
-          - MMS_PREFERRED
-        subject:
-          type: string
-        text:
-          type: string
-        fallbackText:
-          type: string
-        mediaItems:
-          type: array
-          items:
-            type: string
     Message:
       type: object
       properties:
         id:
           type: string
-        contactPhone:
+          description: 'Message ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        subject:
           type: string
-        accountPhone:
-          type: string
+          description: 'Subject (available for MMS)
+
+
+            **Example:** `Some message from SimpleTexting`'
+          example: Some message from SimpleTexting
         text:
           type: string
-        direction:
+          description: 'Text
+
+
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        contactPhone:
           type: string
-        createdAt:
+          description: 'Contact phone
+
+
+            **Example:** `8001234567`'
+          example: '8001234567'
+        accountPhone:
           type: string
+          description: 'Account phone (primary or secondary)
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        directionType:
+          type: string
+          description: "The direction in which the message was sent:\n\n  - **MT:** Refers to `Mobile Terminating`, meaning messages sent *to* the contacts' cell phones\n\n  - **MO:** Refers to `Mobile Originating`, meaning messages sent *from* the contacts' cell phones"
+          example: MO
+          enum:
+          - MT
+          - MO
+        timestamp:
+          type: string
+          description: 'Time of sending. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2020-04-28T23:20:08.489Z`'
           format: date-time
+          example: '2020-04-28T23:20:08.489Z'
+        referenceType:
+          type: string
+          description: 'Reference type (available only for MT (Mobile-Terminating) messages)
+
+
+            **Example:** `API`'
+          example: API_SEND
+        category:
+          type: string
+          description: "Message category:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: SMS
+          enum:
+          - SMS
+          - MMS
+          - EXTENDED_SMS
+        mediaItems:
+          type: array
+          description: 'List of MMS media descriptors: ID in hexadecimal format for st-stored file
+
+
+            **Example:** `["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]`'
+          example:
+          - 507f1f77bcf86cd799439011
+          - 507f1f77bcf86cd799439333
+          items:
+            type: string
+            description: 'List of MMS media descriptors: ID in hexadecimal format for st-stored file
+
+
+              **Example:** `["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]`'
+            example: '["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]'
+      description: Page content and number of elements is restricted by page size.
+    MessageInfo:
+      type: object
+      properties:
+        detectedCategory:
+          type: string
+          description: "Autodetected category of message:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: SMS
+          enum:
+          - SMS
+          - MMS
+          - EXTENDED_SMS
+        length:
+          type: integer
+          description: 'The message length in characters
+
+
+            **Example:** `134`'
+          format: int32
+          example: 134
+        remains:
+          type: integer
+          description: 'The remaining characters
+
+
+            **Example:** `23`'
+          format: int32
+          example: 23
+        maxLength:
+          type: integer
+          description: 'The maximum message length in characters with the current message type and encoding
+
+
+            **Example:** `150`'
+          format: int32
+          example: 150
+        unicode:
+          type: boolean
+          description: 'Returns true if there is some number of Latin-1 or GSM-7 characters present
+
+
+            **Example:** `true`'
+          example: true
+        sumOfCredits:
+          type: integer
+          description: 'How much credits message will cost
+
+
+            **Example:** `1`'
+          format: int32
+          example: 1
+        warnings:
+          type: array
+          description: 'A list of warning messages if present
+
+
+            **Example:** `["Text is blank"]`'
+          example: Text is blank
+          items:
+            type: string
+            description: 'A list of warning messages if present
+
+
+              **Example:** `["Text is blank"]`'
+            example: Text is blank
+        errors:
+          type: array
+          description: 'List of error messages if present
+
+
+            **Example:** `["Invalid phone number"]`'
+          example:
+          - Invalid phone number
+          items:
+            type: string
+            description: 'List of error messages if present
+
+
+              **Example:** `["Invalid phone number"]`'
+            example: '["Invalid phone number"]'
+    MessageRequestInfo:
+      type: object
+      properties:
+        id:
+          title: Object ID in hexadecimal format
+          type: string
+          example: 507f191e810c19729de860ea
+        credits:
+          title: Actual credits amount. Can be negative.
+          type: integer
+          format: int64
+    PageViewMessage:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Message'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
+    SendMessageRequest:
+      required:
+      - contactPhone
+      - mode
+      - text
+      type: object
+      properties:
+        contactPhone:
+          type: string
+          description: 'Contact''s phone
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        accountPhone:
+          type: string
+          description: 'The account phone to send from. If this field is left blank, the primary account number will be used as a default
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        mode:
+          type: string
+          description: "Determines how your message will be presented:\n\n  - **AUTO:** this means that SimpleTexting will find more relative types for your message content\n\n  - **SINGLE_SMS_STRICTLY:** this will send only a single SMS or return an error\n\n  - **MMS_PREFERRED:** this will send an MMS or fallback SMS if MMS is not enabled by your contacts' carriers\n\n**Example:** `MMS_PREFERRED`\n\n`AUTO` is the default value for this field."
+          example: MMS_PREFERRED
+          enum:
+          - AUTO
+          - SINGLE_SMS_STRICTLY
+          - MMS_PREFERRED
+        subject:
+          type: string
+          description: 'MMS Subject (available for MMS)
+
+
+            **Example:** `Some message from SimpleTexting`'
+          example: Some message from SimpleTexting
+        text:
+          type: string
+          description: 'Text Body
+
+
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        fallbackText:
+          type: string
+          description: 'Custom fallback text if MMS cannot be received. Should contain ''[url=%%fallback_link%%]'' placeholder that will be replaced with a link to the message
+
+
+            **Example:** `[url=%%fallback_link%%]`'
+          example: '[url=%%fallback_link%%]'
+        mediaItems:
+          type: array
+          description: 'List of MMS media URLs for temporal storing or media items IDs
+
+
+            **Example:** `[\"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\"]`'
+          example:
+          - https://txt.so/img.jpg
+          - 507f1f77bcf86cd799439011
+          items:
+            type: string
+            description: 'List of MMS media URLs for temporal storing or media items IDs
+
+
+              **Example:** `[\"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\"]`'
+            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439011"]'
+    EvaluateMessageRequest:
+      required:
+      - mode
+      - text
+      type: object
+      properties:
+        mode:
+          type: string
+          description: "Determines how your message will be presented:\n\n  - **AUTO:** this means that SimpleTexting will find more relative types for your message content\n\n  - **SINGLE_SMS_STRICTLY:** this will send only a single SMS or return an error\n\n  - **MMS_PREFERRED:** this will send an MMS or fallback SMS if MMS is not enabled by your contacts' carriers\n\n**Example:** `MMS_PREFERRED`\n\n`AUTO` is the default value for this field.\n\n**Example:** `MMS_PREFERRED`"
+          example: MMS_PREFERRED
+          enum:
+          - AUTO
+          - SINGLE_SMS_STRICTLY
+          - MMS_PREFERRED
+        subject:
+          type: string
+          description: 'MMS Subject (available for MMS)
+
+
+            **Example:** `New In Store`'
+          example: New In Store
+        text:
+          type: string
+          description: 'Text Body
+
+
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        fallbackText:
+          type: string
+          description: 'A custom fallback text if a contact can''t receive an MMS message. It should contain a `[url=%%fallback_link%%]` placeholder that will be replaced with a link to the message.
+
+
+            **Example:** `[url=%%fallback_link%%]`'
+          example: '[url=%%fallback_link%%]'
+        mediaItems:
+          type: array
+          description: 'List of MMS media URLs for temporal storing or media items IDs
+
+
+            **Example:** `["https://txt.so/img.jpg", "507f1f77bcf86cd799439011"]`'
+          example:
+          - https://txt.so/img.jpg
+          - 507f1f77bcf86cd799439011
+          items:
+            type: string
+            description: 'List of MMS media URLs for temporal storing or media items IDs
+
+
+              **Example:** `["https://txt.so/img.jpg", "507f1f77bcf86cd799439011"]`'
+            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439011"]'
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

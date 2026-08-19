@@ -1,0 +1,73 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://api-doc.simpletexting.com/ — the "Webhooks" and "Webhook Reports" tags of
+  SimpleTexting's published OpenAPI (harvested verbatim to
+  openapi/_original/simpletexting-openapi.yml on 2026-08-13) and
+  https://simpletexting.com/api/docs/ for the legacy v1 forwarding webhooks.
+description: >-
+  SimpleTexting's event surface. It publishes NO AsyncAPI document; the events are
+  described in OpenAPI, where the callback payloads appear as three POST operations
+  under the "Webhook Reports" tag whose servers[] is the CUSTOMER's domain
+  (https://yourdomain.com/) — i.e. they document what SimpleTexting sends to you,
+  not an endpoint you call. This artifact is the webhook catalog derived from those
+  definitions, and it is why this repo carries `type: Webhooks` and not `type: AsyncAPI`.
+asyncapi_published: false
+transport: HTTPS POST callback with a JSON body
+subscription_api:
+  base: https://api-app2.simpletexting.com/v2
+  operations:
+    - {operationId: getWebhooks, method: GET, path: /api/webhooks, description: List webhook subscriptions.}
+    - {operationId: createWebhook, method: POST, path: /api/webhooks, description: Create a webhook subscription.}
+    - {operationId: updateWebhook, method: PUT, path: '/api/webhooks/{webhookId}', description: Update a subscription.}
+    - {operationId: deleteWebhook, method: DELETE, path: '/api/webhooks/{webhookId}', description: Delete a subscription.}
+  subscription_fields:
+    url: Destination URL that will receive the POST.
+    triggers: Array of one or more event triggers (see events below). Required.
+    requestPerSecLimit: 'Maximum callbacks per second SimpleTexting will send to this URL. Integer, maximum 25.'
+    accountPhone: 'Optional filter — deliver only events for this sending number.'
+    contactPhone: 'Optional filter — deliver only events for this contact number.'
+  ui: 'Also configurable in the web app under the Webhooks tab of API settings (app2.simpletexting.com).'
+events:
+  - name: INCOMING_MESSAGE
+    description: A contact sent a message to one of your numbers.
+    delivered_to: 'your endpoint (documented as POST /report/incoming, operationId incomingMessageReport)'
+    payload_schema: SingleReportDtoWebhookMessageDto -> WebhookMessageDto
+    payload_fields: [messageId, subject, mediaItems, text, accountPhone, contactPhone, timestamp, category, referenceType]
+  - name: OUTGOING_MESSAGE
+    description: An outgoing message was handled by the platform.
+    delivered_to: 'your endpoint (documented as POST /report/incoming, operationId incomingMessageReport)'
+    payload_schema: SingleReportDtoWebhookMessageDto -> WebhookMessageDto
+  - name: DELIVERY_REPORT
+    description: The carrier confirmed delivery of an outgoing message.
+    delivered_to: 'your endpoint (documented as POST /report/delivery, operationId deliveryMessageReport)'
+    payload_schema: SingleReportDtoWebhookDeliveryReportDto -> WebhookDeliveryReportDto
+    payload_fields: [messageId, category, referenceType, accountPhone, contactPhone, carrier]
+  - name: NON_DELIVERED_REPORT
+    description: The carrier reported a failed delivery.
+    delivered_to: 'your endpoint (documented as POST /report/delivery, operationId deliveryMessageReport)'
+    payload_schema: SingleReportDtoWebhookDeliveryReportDto -> WebhookDeliveryReportDto
+  - name: UNSUBSCRIBE_REPORT
+    description: A contact texted STOP or was blocked, and is now unsubscribed.
+    delivered_to: 'your endpoint (documented as POST /report/unsubscribe, operationId unsubscribeMessageReport)'
+    payload_schema: SingleReportDtoWebhookUnsubscribeReportDto -> WebhookUnsubscribeReportDto
+    payload_fields: [contactId, phone]
+message_categories:
+  SMS: Regular text, 160 characters or below (1 credit).
+  EXTENDED_SMS: Above 160 and below 306 characters (2 credits).
+  MMS: Multimedia, or above 306 characters (3 credits).
+delivery_semantics:
+  signing: >-
+    NONE PUBLISHED. SimpleTexting documents no signature header, shared secret or
+    verification procedure, so a receiver cannot cryptographically establish that a
+    callback came from SimpleTexting.
+  retries: Not documented.
+  ordering: Not documented.
+  throughput: Caller-capped by requestPerSecLimit (max 25 requests/second per subscription).
+  expected_response: HTTP 200 (the report operations declare a 200 "OK" response).
+legacy_v1:
+  docs: https://simpletexting.com/api/docs/
+  note: >-
+    The v1 surface additionally offers SMS forwarding as an HTTP GET to your URL and MMS
+    forwarding as a POST, alongside delivery and unsubscribe reports. Configured in the
+    same Webhooks settings tab.

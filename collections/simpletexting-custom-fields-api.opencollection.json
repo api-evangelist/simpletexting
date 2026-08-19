@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Custom Fields API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Custom Fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Custom Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/custom-fields",
+            "params": [
+              {
+                "name": "page",
+                "value": "40",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the custom fields of the given account). Please note that page numbering starts at zero (`0`)\n\n\n**Example:** `40`"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned custom fields to show per page\n\n**Example:** `50`"
+              }
+            ]
+          },
+          "docs": "This endpoint allows you to retrieve all custom fields.\n\n**Example:** Here we return all Custom Fields from an account:\n\n`https://api-app2.simpletexting.com/v2/api/custom-fields?page=100&size=500`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

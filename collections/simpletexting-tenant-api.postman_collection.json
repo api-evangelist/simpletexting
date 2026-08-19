@@ -1,0 +1,129 @@
+{
+  "item": [
+    {
+      "id": "9f79d361-308d-41e0-9923-679d599f5999",
+      "name": "Tenant",
+      "description": {
+        "content": "General information about account",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "daab9c4d-cba1-44db-8bea-499f8f27edb8",
+          "name": "Get general information",
+          "request": {
+            "name": "Get general information",
+            "description": {
+              "content": "Retrieves a general information about account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "tenant"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d8bc1c1f-e6be-4c07-9be7-e7f7c16978ea",
+              "name": "Success. Returns a list of messages.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "tenant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"email\": \"owner@example.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "621033c5-f416-4c67-ba7e-303afa68b55c",
+    "name": "SimpleTexting API Documentation Tenant API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

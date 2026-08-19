@@ -1,0 +1,77 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  Registry metadata endpoints queried unauthenticated on 2026-08-13 —
+  registry.npmjs.org (name lookup + /-/v1/search?text=simpletexting),
+  pypi.org/pypi/<pkg>/json, rubygems.org/api/v1/gems/<pkg>.json — plus the
+  SimpleTexting API documentation (https://api-doc.simpletexting.com/,
+  https://simpletexting.com/api/docs/) and a GitHub organization probe.
+description: >-
+  SimpleTexting publishes NO first-party client library in any package registry.
+  The documentation describes only raw HTTP against
+  https://api-app2.simpletexting.com/v2 with an `Authorization: Bearer <token>`
+  header; there is no SDK page, no code-generator output, and no
+  github.com/simpletexting organization (api.github.com/orgs/simpletexting -> 404).
+  Everything below is THIRD PARTY and is recorded as such — none of it is
+  maintained by SimpleTexting. Because no official SDK exists, this repo emits no
+  `type: SDKs` pointer.
+official_sdk_count: 0
+packages:
+  - language: python
+    registry: pypi
+    name: simpletexting
+    url: https://pypi.org/project/simpletexting/
+    source: https://github.com/tboswick/Simple-Texting
+    install: pip install simpletexting
+    official: false
+    version: 0.0.1
+    published: '2020-04-23'
+    note: >-
+      Community module by Tom Boswick ("A Python Module for Simple Texting's
+      API"). Single release, 0.0.1, published 2020-04-23 — six years stale and
+      predating the v2 REST API documented today. Do not treat as a supported
+      client.
+  - language: javascript
+    registry: npm
+    name: "@pipedream/simpletexting"
+    url: https://www.npmjs.com/package/@pipedream/simpletexting
+    source: https://github.com/PipedreamHQ/pipedream
+    install: npm install @pipedream/simpletexting
+    official: false
+    version: 0.0.4
+    published: '2025-08-22'
+    note: >-
+      Pipedream connector components for SimpleTexting, published by Pipedream —
+      an integration platform, not SimpleTexting. Usable only inside Pipedream
+      workflows.
+  - language: javascript
+    registry: npm
+    name: "@wolfxlabs/simpletexting"
+    url: https://www.npmjs.com/package/@wolfxlabs/simpletexting
+    source: https://github.com/tecklens/tk-wolf
+    official: false
+    version: 1.0.1
+    published: '2024-07-27'
+    note: SimpleTexting provider adapter inside the third-party "wolf" notification framework.
+  - language: javascript
+    registry: npm
+    name: "@teleflow/simpletexting"
+    url: https://www.npmjs.com/package/@teleflow/simpletexting
+    source: https://github.com/khulnasoft/teleflow
+    official: false
+    version: 0.1.1
+    published: '2024-05-02'
+    note: SimpleTexting provider adapter inside the third-party "teleflow" notification framework.
+registries_checked:
+  - registry: npm
+    queried: 'https://registry.npmjs.org/{simpletexting,simple-texting,simpletexting-api,node-simpletexting}'
+    result: 404 on every first-party candidate name; only third-party scoped adapters exist
+  - registry: pypi
+    queried: 'https://pypi.org/pypi/{simpletexting,simple-texting,simpletexting-api}/json'
+    result: only the community `simpletexting` 0.0.1 (2020-04-23)
+  - registry: rubygems
+    queried: 'https://rubygems.org/api/v1/gems/{simpletexting,simple-texting}.json'
+    result: 404
+  - registry: github
+    queried: https://api.github.com/orgs/simpletexting
+    result: 404 — SimpleTexting runs no public GitHub organization

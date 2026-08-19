@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Campaigns API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns",
+            "params": [
+              {
+                "name": "page",
+                "value": "100",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the campaigns sent from the given number). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "2",
+                "type": "query",
+                "description": "The number of the returned campaigns to show per page"
+              },
+              {
+                "name": "accountPhone",
+                "value": "8005551234",
+                "type": "query",
+                "description": "The phone number the campaign was sent from"
+              },
+              {
+                "name": "type",
+                "value": "IMMEDIATELY",
+                "type": "query",
+                "description": "The type of the campaigns you wish to retrieve:\n\n  - **ALL:** Returns all campaign types\n\n  - **IMMEDIATELY:** Returns immediate campaigns\n\n  - **SCHEDULED:** Returns scheduled campaigns\n\n  - **RECURRING:** Returns recurring campaigns\n\n  - **RECURRING_SCHEDULED:** Returns recurring scheduled campaigns"
+              },
+              {
+                "name": "state",
+                "value": "SENDING",
+                "type": "query",
+                "description": "The current state of the campaigns you wish to retrieve:\n\n  - **ERROR:** Returns campaigns that were not sent because of errors\n\n  - **PAUSED:** Returns Paused campaigns on your account\n\n  - **SENDING:** Returns sending campaigns\n\n  - **COMPLETED:** Returns all successfully sent campaigns on your account\n\n  - **MONITORING:** Returns all campaigns that includes \"stop\" words or malicious links"
+              },
+              {
+                "name": "listNameOrId",
+                "value": "My First List",
+                "type": "query",
+                "description": "The list name or list ID"
+              },
+              {
+                "name": "startDateFrom",
+                "value": "2021-04-28T23:20:08.489Z",
+                "type": "query",
+                "description": "List campaigns starting from a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+              },
+              {
+                "name": "startDateTo",
+                "value": "2021-05-28T23:20:08.489Z",
+                "type": "query",
+                "description": "List campaigns up to a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+              }
+            ]
+          },
+          "docs": "Get all campaigns from the SimpleTexting system. You can filter campaigns by type using the `type` query parameter. By default, if `type` is not specified, only immediate campaigns are returned (scheduled and recurring campaigns will not be included).\n\n**Example:** We request all `SENT` campaigns sent from the `8005551234` number to the list `My  First List`:\n\n`https://api-app2.simpletexting.com/v2/api/campaigns?page=100&size=2&accountPhone=8005551234&state=SENT&listNameOrId=My First List&startD"
+        },
+        {
+          "info": {
+            "name": "Send a Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create and send a campaign.\n\n**Example:** Here we created a campaign from our short code `8005551234` and sent it to a segment identified here by its ID, along with a list called `My First List`. We also specified that the `First Name` custom field will only take up 20 characters. Finally, we specified that 2 pieces of media will be attached. One is housed on SimpleTexting and identified by its ID, the other is getting pulled from an external link:\n\n`{ \"title\": \"My first campaign\", \"listsOrSegme"
+        },
+        {
+          "info": {
+            "name": "Get a Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Campaign ID in hexadecimal format"
+              }
+            ]
+          },
+          "docs": "Get a campaign via its unique ID.\n\n**Example:** Below, we return the information associated with the campaign whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Campaigns](#operation/fetchCampaigns) endpoint to retrieve campaign IDs for all of your campaigns:\n\n`https://api-app2.simpletexting.com/v2/api/507f1f77bcf86cd799439011`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

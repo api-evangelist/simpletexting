@@ -1,101 +1,336 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: SimpleTexting Campaigns Media Items API
-  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
-  termsOfService: https://simpletexting.com/terms-of-service/
-  contact:
-    name: SimpleTexting Support
-    url: https://simpletexting.com/api/
-    email: support@simpletexting.com
-  version: '2.0'
+  title: SimpleTexting API Documentation Media Items API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
 servers:
 - url: https://api-app2.simpletexting.com/v2
-  description: SimpleTexting v2 production API
 security:
-- bearerAuth: []
+- api_key: []
 tags:
 - name: Media Items
-  description: Upload and manage MMS media items.
+  description: When sending messages via the SimpleTexting platform, you may need to attach various media items. This API allows you to perform various operations needed to manage your media attachments. The size limitations of these items are discussed [here](#tag/File-Information).
 paths:
-  /api/mediaitems:
-    get:
-      operationId: getMediaItems
-      tags:
-      - Media Items
-      summary: Get Media Items
-      responses:
-        '200':
-          description: A page of media items.
   /api/mediaitems/upload:
     post:
-      operationId: uploadMedia
       tags:
       - Media Items
       summary: Upload Media
-      description: Uploads a media file for use in MMS messages.
+      description: 'Upload a media file from a local directory to SimpleTexting.
+
+
+        **Example:** Here we upload an image from our local directory using an HTTP request. We state that the media should be shared with teammates:
+
+
+        `POST /api/mediaitems/upload?shared=true HTTP/1.1 Host: https://api-app2.simpletexting.com/v2/ accept: */* Authorization: Bearer {{YOUR_TOKEN}} Content-Length: 176 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW ----WebKitFormBound`'
+      operationId: upload
+      parameters:
+      - name: shared
+        in: query
+        description: Define whether a media file is shared with teammates
+        required: false
+        schema:
+          type: boolean
+          default: true
+        example: false
       requestBody:
-        required: true
         content:
           multipart/form-data:
             schema:
+              required:
+              - file
               type: object
               properties:
                 file:
                   type: string
+                  description: The media file you want to upload
                   format: binary
       responses:
         '200':
-          description: The uploaded media item.
+          description: Success. Media is uploaded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StFileDto'
   /api/mediaitems/loadByLink:
     post:
-      operationId: uploadMediaByLink
       tags:
       - Media Items
       summary: Upload Media Using a URL
+      description: 'This endpoint allows you to upload media via a URL so that you can send it in a message to a contact.
+
+
+        **Example:** Below we upload some media via a hosted URL to the SimpleTexting system:
+
+
+        `{ "link": "https://dropbox.com/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg" }`'
+      operationId: uploadByLink
+      parameters:
+      - name: shared
+        in: query
+        description: Define whether a media file is shared with teammates
+        required: false
+        schema:
+          type: boolean
+          default: true
+        example: false
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                url:
-                  type: string
+              $ref: '#/components/schemas/UploadByLink'
+        required: true
       responses:
         '200':
-          description: The uploaded media item.
+          description: Success. Media is uploaded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StFileDto'
+  /api/mediaitems:
+    get:
+      tags:
+      - Media Items
+      summary: Get Media Items
+      description: 'This endpoint allows you to retrieve all Media Items.
+
+
+        **Example:** Here we return all Media Items from an account:
+
+
+        `https://api-app2.simpletexting.com/v2/api/mediaitems?page=100&size=500`'
+      operationId: getMediaItems
+      parameters:
+      - name: page
+        in: query
+        description: Number of pages
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 29
+      - name: size
+        in: query
+        description: Page size
+        required: false
+        schema:
+          maximum: 500
+          type: integer
+          format: int32
+          default: 50
+        example: 50
+      responses:
+        '200':
+          description: Success. Returns a page of media items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageViewStFileDto'
   /api/mediaitems/{mediaItemId}:
     get:
-      operationId: getMediaItem
       tags:
       - Media Items
       summary: Get Media Item
+      operationId: getMediaItem
       parameters:
       - name: mediaItemId
         in: path
+        description: Media item ID in hexadecimal format
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       responses:
         '200':
-          description: The requested media item.
+          description: Successful. Media item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StFileDto'
     delete:
-      operationId: deleteMedia
       tags:
       - Media Items
       summary: Delete Media
+      description: 'Remove media that you have previously uploaded to SimpleTexting.
+
+
+        **Example:** Here we delete a Media Item whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Media Items](#operation/getMediaItems) endpoint to retrieve Media Items IDs for all of your Media Items:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`'
+      operationId: delete
       parameters:
       - name: mediaItemId
         in: path
+        description: The mediaItemId in hexadecimal format
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       responses:
         '204':
-          description: Media item deleted.
+          description: Success. Media was deleted.
 components:
+  schemas:
+    StFileDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'Existing media ID in hexadecimal format
+
+
+            **Example:** `607f0558a7c898629dd47d7a`'
+          example: 607f0558a7c898629dd47d7a
+        createdDate:
+          type: string
+          description: 'When the media was created. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        name:
+          type: string
+          description: 'File name
+
+
+            **Example:** `test.jpg`'
+          example: myfile.jpg
+        gallery:
+          type: string
+          description: 'Gallery
+
+
+            **Example:** `mms`'
+          example: mms
+        size:
+          type: integer
+          description: 'File size
+
+
+            **Example:** `10`'
+          format: int64
+          example: 10
+        status:
+          type: string
+          description: 'Status of the file
+
+
+            **Example:** `PROCESSED`'
+          example: PROCESSED
+        link:
+          type: string
+          description: 'Location of file
+
+
+            **Example:** `https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a`'
+          example: https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a
+        contentType:
+          type: string
+          description: 'File media type
+
+
+            **Example:** `image/png`'
+          example: image/png
+        ext:
+          type: string
+          description: 'File extension
+
+
+            **Example:** `png`'
+          example: png
+        canDelete:
+          type: boolean
+          description: 'Ability to delete file
+
+
+            **Example:** `true`'
+          example: true
+    UploadByLink:
+      required:
+      - link
+      type: object
+      properties:
+        link:
+          type: string
+          description: 'The URL you will upload your media to
+
+
+            **Example:** `https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg`'
+          example: https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg
+      description: UploadByLink Request
+    PageViewStFileDto:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/StFileDto'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

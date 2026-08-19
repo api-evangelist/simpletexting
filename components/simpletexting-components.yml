@@ -1,0 +1,51 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://simpletexting.com/blog/click-to-text/,
+  https://simpletexting.com/blog/text-widget-for-website/,
+  https://simpletexting.com/blog/send-text-messages-from-wordpress/
+description: >-
+  SimpleTexting's client-side embeddable surfaces — small website widgets generated
+  inside the web app and pasted into a page footer. These are distinct from client
+  libraries (there are none — see packages/simpletexting-packages.yml) and from the
+  REST API. There is no versioned loader library, no npm/CDN distribution and no
+  developer documentation for them: the embed snippet is generated per account in
+  the app UI, which is why no version can be recorded here.
+docs:
+  - https://simpletexting.com/blog/click-to-text/
+  - https://simpletexting.com/blog/text-widget-for-website/
+libraries: []
+families:
+  website_widgets:
+    description: >-
+      Account-generated HTML/JS snippets pasted into the footer of a site. Documented
+      for Wix, Weebly, WordPress, Squarespace, Shopify and BigCommerce.
+    components:
+      - name: Click-to-Text button
+        id: click-to-text
+        description: >-
+          A floating/inline button that opens the visitor's native SMS app with the
+          account's number and opt-in keyword pre-filled. Button text, icon and color
+          are customizable in the app; distribution is the "Embed" code copied from
+          the app.
+        docs: https://simpletexting.com/blog/click-to-text/
+        version: null
+        note: Unversioned, account-generated snippet — a consumer cannot pin or inspect a released version.
+      - name: Mobile sign-up widget
+        id: mobile-signup-widget
+        description: >-
+          A pop-up promoting an opt-in keyword and short/long code, used to collect SMS
+          subscribers from a web page.
+        docs: https://simpletexting.com/blog/text-widget-for-website/
+        version: null
+      - name: Web sign-up form
+        id: signup-form
+        description: >-
+          Hosted or embeddable opt-in form that writes subscribers into a contact list;
+          the list it feeds is the same List entity exposed by the Contact Lists API.
+        docs: https://simpletexting.com/blog/text-widget-for-website/
+        version: null
+integration_note: >-
+  Subscribers captured by any of these widgets land in a contact list and are then
+  readable and writable through the Contacts and Contact Lists APIs
+  (getContacts / getLists / addContactToList).

@@ -1,157 +1,554 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: SimpleTexting Campaigns Contacts API
-  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
-  termsOfService: https://simpletexting.com/terms-of-service/
-  contact:
-    name: SimpleTexting Support
-    url: https://simpletexting.com/api/
-    email: support@simpletexting.com
-  version: '2.0'
+  title: SimpleTexting API Documentation Contacts API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
 servers:
 - url: https://api-app2.simpletexting.com/v2
-  description: SimpleTexting v2 production API
 security:
-- bearerAuth: []
+- api_key: []
 tags:
 - name: Contacts
-  description: Create, read, update, and delete individual contacts.
+  description: At a minimum, each contact in SimpleTexting must have a phone number. Contacts can also hold additional information including first name, last name, and email address. You can also create custom fields to store data specific to your website or app’s needs.
 paths:
-  /api/contacts:
-    get:
-      operationId: getAllContacts
-      tags:
-      - Contacts
-      summary: Get all Contacts
-      description: Returns a paginated list of contacts on the account.
-      parameters:
-      - name: page
-        in: query
-        schema:
-          type: integer
-      - name: size
-        in: query
-        schema:
-          type: integer
-      - name: since
-        in: query
-        schema:
-          type: string
-      - name: direction
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: A page of contacts.
-    post:
-      operationId: createContact
-      tags:
-      - Contacts
-      summary: Create a Contact
-      description: Creates a contact. Use upsert to create or update by phone number.
-      parameters:
-      - name: upsert
-        in: query
-        schema:
-          type: boolean
-      - name: listsReplacement
-        in: query
-        schema:
-          type: boolean
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SingleContactUpdate'
-      responses:
-        '200':
-          description: The created or updated contact.
   /api/contacts/{contactIdOrNumber}:
     get:
-      operationId: getContact
       tags:
       - Contacts
       summary: Get a Contact
+      description: 'Get a contact via their unique ID or phone number. Phone number is the preferred parameter for this call.
+
+
+        **Example:** Below, we return the information associated with the Contact whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve contact IDs for all of your contacts:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contacts/507f1f77bcf86cd799439011`'
+      operationId: getContact
       parameters:
       - name: contactIdOrNumber
         in: path
+        description: 'Phone number (preferred) or Contact ID in hexadecimal format
+
+
+          **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
         required: true
         schema:
           type: string
+        example: 3051234567
       responses:
         '200':
-          description: The requested contact.
+          description: Success. Fetched contact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
     put:
-      operationId: updateContact
       tags:
       - Contacts
       summary: Update a Contact
+      description: 'Update a contact’s phone number or any other field.
+
+
+        **Example:** Below we update our contact, 3051234567. We declared their custom field value for `zipcode` is `12345` and that they get added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`. In our URL, we requested that the contact gets added to a new list while remaining on the current one. We also requested not to update the contact''s information if they already exist within the system:
+
+
+        URL:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contacts/3051234567?listsReplacement=false&false`
+
+
+        Request Body:
+
+
+        `{ "contactPhone": "1234567890", "firstName": "John", "lastName": "Doe", "email": "john.doe@simpletexting.net", "birthday": "1985-05-15", "customFields": { "zipcode": "12345" }, "comment": "VIP client", "listIds": [ "507f191e810c19729de860ea", "My First List" ] }`'
+      operationId: updateContact
       parameters:
       - name: contactIdOrNumber
         in: path
+        description: 'Contact ID in hexadecimal format or the contact''s phone number.
+
+
+          **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
         required: true
         schema:
           type: string
+        example: 3051234567
       - name: upsert
         in: query
+        description: 'If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true.
+
+
+          **Example:** `false`'
+        required: false
         schema:
           type: boolean
+          default: true
+        example: false
       - name: listsReplacement
         in: query
+        description: 'If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list.
+
+
+          **Example:** `false`'
+        required: false
         schema:
           type: boolean
+          default: true
+        example: false
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SingleContactUpdate'
+        required: true
       responses:
         '200':
-          description: The updated contact.
+          description: Contact is updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIdDto'
     delete:
-      operationId: deleteContact
       tags:
       - Contacts
       summary: Delete a Contact
+      description: 'Delete a contact via their unique ID or phone.
+
+
+        **Example:** Here we delete a Contact whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve Contact IDs for all of your Contacts:
+
+
+        `https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`'
+      operationId: deleteContact
       parameters:
       - name: contactIdOrNumber
         in: path
+        description: 'Contact ID in hexadecimal format or phone number
+
+
+          **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       responses:
         '204':
-          description: Contact deleted.
+          description: Success. Contact is deleted.
+  /api/contacts:
+    get:
+      tags:
+      - Contacts
+      summary: Get all Contacts
+      description: 'For a given account, return all contacts that have been created in the account. A paginated list of contacts will be returned to you:
+
+
+        **Example:** Here we return all Contacts from an account since April 28th 2021:
+
+
+        `https://api-app2.simpletexting.com/v2/api/contacts?page=100&size=2&since=2021-04-28T23:20:08.489Z&direction=ASC`'
+      operationId: getContacts
+      parameters:
+      - name: page
+        in: query
+        description: 'An ordinal number of the page to return with the results of a request (with the contacts of the given account). Please note that page numbering starts at zero (`0`)
+
+
+          **Example:** `250`'
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 250
+      - name: size
+        in: query
+        description: 'The number of the returned contacts to show per page
+
+
+          **Example:** `150`'
+        required: false
+        schema:
+          maximum: 500
+          type: integer
+          format: int32
+          default: 50
+        example: 150
+      - name: since
+        in: query
+        description: 'List contacts updated since a specified date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+          **Example:** `2021-04-28T23:20:08.489Z`'
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2021-04-28T23:20:08.489Z'
+      - name: direction
+        in: query
+        description: 'Specify the sort order of your results. By default, results are sorted by the ''updated'' field:
+
+
+          - **ASC:** Sort values in *ascending* order
+
+
+          - **DESC:** Sort values in *descending* order
+
+
+          **Example:** `desc`'
+        required: false
+        schema:
+          type: string
+          default: desc
+        example: desc
+      responses:
+        '200':
+          description: Success. Returns a paginated list of contacts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageViewContact'
+    post:
+      tags:
+      - Contacts
+      summary: Create a Contact
+      description: 'Create a new contact and add them to a specific list.
+
+
+        **Example:** Below we created our contact, John Doe. We declared his custom field value for `zipcode` is `12345` and that he gets added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`:
+
+
+        `{ "contactPhone": "1234567890", "firstName": "John", "lastName": "Doe", "email": "john.doe@simpletexting.net", "birthday": "1985-05-15", "customFields": { "zipcode": "12345" }, "comment": "VIP client", "listIds": [ "507f191e810c19729de860ea", "My First List" ] }`'
+      operationId: createContact
+      parameters:
+      - name: upsert
+        in: query
+        description: If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true.
+        required: false
+        schema:
+          type: boolean
+          default: true
+        example: false
+      - name: listsReplacement
+        in: query
+        description: If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list.
+        required: false
+        schema:
+          type: boolean
+          default: true
+        example: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleContactUpdate'
+        required: true
+      responses:
+        '201':
+          description: Success. Contact created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
+    ContactList:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Existing list ID
+          example: 5f6c760379f4e93135aac72a
+        name:
+          type: string
+          description: Existing list name
+          example: list name
+      description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
+      example:
+      - id: 5f6c760379f4e93135aac72b
+        name: list name
+    Contact:
+      required:
+      - contactId
+      - contactPhone
+      - email
+      - firstName
+      - lastName
+      type: object
+      properties:
+        contactId:
+          type: string
+          description: 'Existing contact ID in hexadecimal format
+
+
+            **Example:** `607f0558a7c898629dd47d7a`'
+          example: 607f0558a7c898629dd47d7a
+        contactPhone:
+          type: string
+          description: 'Contact''s phone number
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        firstName:
+          maxLength: 100
+          type: string
+          description: 'Contact''s first name
+
+
+            **Example:** `John`'
+          example: John
+        lastName:
+          maxLength: 100
+          type: string
+          description: 'Contact''s last name
+
+
+            **Example:** `Doe`'
+          example: Doe
+        email:
+          type: string
+          description: 'Contact''s email
+
+
+            **Example:** `john.doe@simpletext.org`'
+          example: john.doe@simpletext.org
+        birthday:
+          type: string
+          description: 'Contact''s birthday in format (yyyy-mm-dd)
+
+
+            **Example:** `1985-05-15`'
+          format: date
+          example: '1985-05-15'
+        lists:
+          type: array
+          description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
+          example:
+          - id: 5f6c760379f4e93135aac72b
+            name: list name
+          items:
+            $ref: '#/components/schemas/ContactList'
+        customFields:
+          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
+        comment:
+          maxLength: 1000
+          type: string
+          description: 'Notes about the contact
+
+
+            **Example:** `VIP client`'
+          example: VIP client
+        subscriptionStatus:
+          type: string
+          description: 'Contact''s subscription status
+
+
+            **Example:** `OPT_IN`'
+          example: OPT_IN
+          enum:
+          - OPT_IN
+          - OPT_OUT
+          - WAIT_SMS_CONFIRMATION
+          - REJECT_CONFIRMATION
+        created:
+          type: string
+          description: 'When the contact was created. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        updated:
+          type: string
+          description: 'When the contact was updated. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-05-28T20:20:08.489Z'
+        updateSource:
+          type: string
+          description: 'How the contact was updated
+
+
+            **Example:** `IMPORTED_FROM_FILE`'
+          example: IMPORTED_FROM_FILE
+          enum:
+          - IMPORTED_FROM_FILE
+          - PUBLIC_API
+          - MAILCHIMP_SYNC
+          - KEYWORD
+          - WEB_FORM
+          - MANUAL
+          - REMINDER
+          - ZAPIER
+          - WORKATO
+          - CONFIRMATION
+          - INCOMING_MESSAGE
+      description: Page content and number of elements is restricted by page size.
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    CustomFieldsOpenApiDescription:
+      title: Key/value pairs
+      type: object
+      properties:
+        Merge tag:
+          type: string
+          description: '**Example:** `"zipcode": "12345"`'
+          example: '{"zipcode":"12345"}'
+      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
+
+
+        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
+
+
+        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+      example:
+        zipcode: '12345'
+    PageViewContact:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Contact'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
     SingleContactUpdate:
       type: object
       properties:
         contactPhone:
           type: string
+          description: 'Contact''s phone number
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
         firstName:
           type: string
+          description: 'Contact''s first name
+
+
+            **Example:** `John`'
+          example: John
         lastName:
           type: string
+          description: 'Contact''s last name
+
+
+            **Example:** `Doe`'
+          example: Doe
         email:
           type: string
+          description: 'Contact''s email
+
+
+            **Example:** `john.doe@simpletexting.net`'
+          example: john.doe@simpletexting.net
         birthday:
           type: string
+          description: 'Contact''s birthday in format: yyyy-mm-dd
+
+
+            **Example:** `1985-05-15`'
+          example: '1985-05-15'
         customFields:
-          type: object
-          additionalProperties:
-            type: string
+          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
         comment:
           type: string
+          description: 'Notes about the contact.
+
+
+            **Example:** `VIP client`'
+          example: VIP client
         listIds:
           type: array
+          description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
           items:
             type: string
+            description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

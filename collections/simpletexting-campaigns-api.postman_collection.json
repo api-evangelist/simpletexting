@@ -1,0 +1,410 @@
+{
+  "item": [
+    {
+      "id": "7af7c13c-03a1-413c-84d2-78213661c811",
+      "name": "Campaigns",
+      "description": {
+        "content": "Send and manage campaigns directly from the SimpleTexting API. The endpoint allows you to Create and Send a campaign, get a specific campaign by its name or ID, or list all of your SimpleTexting campaigns. \n\n**Note:** If the message contains a link from a common third-party link shortener such as bit.ly, it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "eeb78f4f-4cb0-48cf-9694-44f12f1ac2a3",
+          "name": "Get all Campaigns",
+          "request": {
+            "name": "Get all Campaigns",
+            "description": {
+              "content": "Get all campaigns from the SimpleTexting system. You can filter campaigns by type using the `type` query parameter. By default, if `type` is not specified, only immediate campaigns are returned (scheduled and recurring campaigns will not be included).\n\n**Example:** We request all `SENT` campaigns sent from the `8005551234` number to the list `My  First List`:\n\n`https://api-app2.simpletexting.com/v2/api/campaigns?page=100&size=2&accountPhone=8005551234&state=SENT&listNameOrId=My First List&startDateFrom=2021-04-28T23:20:08.489Z&startDateTo=2021-05-28T23:20:08.489Z`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "An ordinal number of the page to return with the results of a request (with the campaigns sent from the given number). Please note that page numbering starts at zero (`0`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "The number of the returned campaigns to show per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "accountPhone",
+                  "value": "<string>",
+                  "description": "The phone number the campaign was sent from"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of the campaigns you wish to retrieve:\n\n  - **ALL:** Returns all campaign types\n\n  - **IMMEDIATELY:** Returns immediate campaigns\n\n  - **SCHEDULED:** Returns scheduled campaigns\n\n  - **RECURRING:** Returns recurring campaigns\n\n  - **RECURRING_SCHEDULED:** Returns recurring scheduled campaigns"
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "The current state of the campaigns you wish to retrieve:\n\n  - **ERROR:** Returns campaigns that were not sent because of errors\n\n  - **PAUSED:** Returns Paused campaigns on your account\n\n  - **SENDING:** Returns sending campaigns\n\n  - **COMPLETED:** Returns all successfully sent campaigns on your account\n\n  - **MONITORING:** Returns all campaigns that includes \"stop\" words or malicious links"
+                },
+                {
+                  "disabled": false,
+                  "key": "listNameOrId",
+                  "value": "<string>",
+                  "description": "The list name or list ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "startDateFrom",
+                  "value": "<dateTime>",
+                  "description": "List campaigns starting from a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+                },
+                {
+                  "disabled": false,
+                  "key": "startDateTo",
+                  "value": "<dateTime>",
+                  "description": "List campaigns up to a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3e41d628-46aa-4244-9c22-596050b9aff2",
+              "name": "Success. Fetched list of campaigns",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "campaigns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "size",
+                      "value": "2"
+                    },
+                    {
+                      "key": "accountPhone",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "IMMEDIATELY"
+                    },
+                    {
+                      "key": "state",
+                      "value": "SENDING"
+                    },
+                    {
+                      "key": "listNameOrId",
+                      "value": "My First List"
+                    },
+                    {
+                      "key": "startDateFrom",
+                      "value": "2021-04-28T23:20:08.489Z"
+                    },
+                    {
+                      "key": "startDateTo",
+                      "value": "2021-05-28T23:20:08.489Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"accountPhone\": \"8005551234\",\n      \"campaignId\": \"607f0558a7c898629dd47d7a\",\n      \"lists\": [\n        {\n          \"name\": \"My First List\"\n        }\n      ],\n      \"messageTemplate\": {\n        \"text\": \"Hello! How are you?\",\n        \"category\": \"MMS\",\n        \"subject\": \"Some message from SimpleTexting\",\n        \"fallbackText\": \"We sent you a message!\",\n        \"mediaItems\": [\n          \"https://txt.so/img.jpg\",\n          \"507f1f77bcf86cd799439333\"\n        ]\n      },\n      \"segments\": [\n        {\n          \"name\": \"My First List\"\n        }\n      ],\n      \"state\": \"COMPLETED\",\n      \"title\": \"My first campaign\",\n      \"customFieldsMaxLength\": {\n        \"key_0\": 1791,\n        \"key_1\": 9439,\n        \"key_2\": 5126\n      },\n      \"type\": \"IMMEDIATELY\",\n      \"created\": \"2021-04-28T23:20:08.489Z\",\n      \"modified\": \"2021-04-28T23:20:08.489Z\",\n      \"started\": \"2021-04-28T23:20:08.489Z\",\n      \"finished\": \"2021-04-28T23:20:08.489Z\",\n      \"origin\": \"API_V2\",\n      \"outcome\": {\n        \"successRate\": 100,\n        \"optOutRate\": 0,\n        \"totalSent\": 1000,\n        \"creditsTotal\": 1000\n      },\n      \"trackingLinks\": [\n        {\n          \"url\": \"www.simpletexting.net\",\n          \"clickCount\": 550\n        },\n        {\n          \"url\": \"www.simpletexting.net\",\n          \"clickCount\": 550\n        }\n      ]\n    },\n    {\n      \"accountPhone\": \"8005551234\",\n      \"campaignId\": \"607f0558a7c898629dd47d7a\",\n      \"lists\": [\n        {\n          \"name\": \"My First List\"\n        }\n      ],\n      \"messageTemplate\": {\n        \"text\": \"Hello! How are you?\",\n        \"category\": \"MMS\",\n        \"subject\": \"Some message from SimpleTexting\",\n        \"fallbackText\": \"We sent you a message!\",\n        \"mediaItems\": [\n          \"https://txt.so/img.jpg\",\n          \"507f1f77bcf86cd799439333\"\n        ]\n      },\n      \"segments\": [\n        {\n          \"name\": \"My First List\"\n        }\n      ],\n      \"state\": \"COMPLETED\",\n      \"title\": \"My first campaign\",\n      \"customFieldsMaxLength\": {\n        \"key_0\": 5580\n      },\n      \"type\": \"IMMEDIATELY\",\n      \"created\": \"2021-04-28T23:20:08.489Z\",\n      \"modified\": \"2021-04-28T23:20:08.489Z\",\n      \"started\": \"2021-04-28T23:20:08.489Z\",\n      \"finished\": \"2021-04-28T23:20:08.489Z\",\n      \"origin\": \"API_V2\",\n      \"outcome\": {\n        \"successRate\": 100,\n        \"optOutRate\": 0,\n        \"totalSent\": 1000,\n        \"creditsTotal\": 1000\n      },\n      \"trackingLinks\": [\n        {\n          \"url\": \"www.simpletexting.net\",\n          \"clickCount\": 550\n        },\n        {\n          \"url\": \"www.simpletexting.net\",\n          \"clickCount\": 550\n        }\n      ]\n    }\n  ],\n  \"totalPages\": 7259,\n  \"totalElements\": 1763\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13ac97f7-e689-475c-8b45-4a4640cc3543",
+          "name": "Send a Campaign",
+          "request": {
+            "name": "Send a Campaign",
+            "description": {
+              "content": "Create and send a campaign.\n\n**Example:** Here we created a campaign from our short code `8005551234` and sent it to a segment identified here by its ID, along with a list called `My First List`. We also specified that the `First Name` custom field will only take up 20 characters. Finally, we specified that 2 pieces of media will be attached. One is housed on SimpleTexting and identified by its ID, the other is getting pulled from an external link:\n\n`{ \"title\": \"My first campaign\", \"listsOrSegments\": [ \"507f191e810c19729de860ea\", \"My First List\" ], \"accountPhone\": \"8005551234\", \"customFieldsMaxLength\": { \"firstName\": 20 }, \"messageTemplate\": { \"title\": \"My first campaign\", \"subject\": \"My first campaign\", \"text\": \"Hi %%firstname%%, welcome to our campaign!\", \"fallbackText\": \"My first campaign\", \"mediaItems\": [ \"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\" ] } }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "campaigns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messageTemplate\": {\n    \"mode\": \"<string>\",\n    \"text\": \"<string>\",\n    \"subject\": \"<string>\",\n    \"unsubscribeText\": \"<string>\",\n    \"fallbackText\": \"<string>\",\n    \"fallbackUnsubscribeText\": \"<string>\",\n    \"mediaItems\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"title\": \"<string>\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"segmentIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"accountPhone\": \"<string>\",\n  \"customFieldsMaxLength\": {\n    \"key_0\": \"<integer>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "677cbfd0-58a2-4091-ba5e-92b5692ca1f3",
+              "name": "Success. Campaign was created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "campaigns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messageTemplate\": {\n    \"mode\": \"MMS_PREFERRED\",\n    \"text\": \"Hi %%firstname%%, welcome to our campaign!\",\n    \"subject\": \"My first campaign\",\n    \"unsubscribeText\": \"If you no longer wish to hear from us, reply STOP\",\n    \"fallbackText\": \"My first campaign\",\n    \"fallbackUnsubscribeText\": \"If you no longer wish to hear from us, reply STOP\",\n    \"mediaItems\": [\n      \"https://txt.so/img.jpg\",\n      \"507f1f77bcf86cd799439011\"\n    ]\n  },\n  \"title\": \"My first campaign\",\n  \"listIds\": [\n    \"507f191e810c19729de860ea\",\n    \"My First List\"\n  ],\n  \"segmentIds\": [\n    \"507f191e810c19729de860ea\",\n    \"My First List\"\n  ],\n  \"accountPhone\": \"8005551234\",\n  \"customFieldsMaxLength\": {\n    \"key_0\": \"<integer>\",\n    \"key_1\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96d1f5fb-7354-41ba-a012-754c17066a57",
+          "name": "Get a Campaign",
+          "request": {
+            "name": "Get a Campaign",
+            "description": {
+              "content": "Get a campaign via its unique ID.\n\n**Example:** Below, we return the information associated with the campaign whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Campaigns](#operation/fetchCampaigns) endpoint to retrieve campaign IDs for all of your campaigns:\n\n`https://api-app2.simpletexting.com/v2/api/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "campaigns",
+                ":campaignId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "campaignId",
+                  "description": "(Required) Campaign ID in hexadecimal format"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b0de326-5e2f-47ed-8f2f-6c72272432d2",
+              "name": "Success. Fetched campaign",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "campaigns",
+                    ":campaignId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "campaignId",
+                      "description": "(Required) Campaign ID in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountPhone\": \"8005551234\",\n  \"campaignId\": \"607f0558a7c898629dd47d7a\",\n  \"lists\": [\n    {\n      \"name\": \"My First List\"\n    }\n  ],\n  \"messageTemplate\": {\n    \"text\": \"Hello! How are you?\",\n    \"category\": \"MMS\",\n    \"subject\": \"Some message from SimpleTexting\",\n    \"fallbackText\": \"We sent you a message!\",\n    \"mediaItems\": [\n      \"https://txt.so/img.jpg\",\n      \"507f1f77bcf86cd799439333\"\n    ]\n  },\n  \"segments\": [\n    {\n      \"name\": \"My First List\"\n    }\n  ],\n  \"state\": \"COMPLETED\",\n  \"title\": \"My first campaign\",\n  \"customFieldsMaxLength\": {\n    \"key_0\": 6015\n  },\n  \"type\": \"IMMEDIATELY\",\n  \"created\": \"2021-04-28T23:20:08.489Z\",\n  \"modified\": \"2021-04-28T23:20:08.489Z\",\n  \"started\": \"2021-04-28T23:20:08.489Z\",\n  \"finished\": \"2021-04-28T23:20:08.489Z\",\n  \"origin\": \"API_V2\",\n  \"outcome\": {\n    \"successRate\": 100,\n    \"optOutRate\": 0,\n    \"totalSent\": 1000,\n    \"creditsTotal\": 1000\n  },\n  \"trackingLinks\": [\n    {\n      \"url\": \"www.simpletexting.net\",\n      \"clickCount\": 550\n    },\n    {\n      \"url\": \"www.simpletexting.net\",\n      \"clickCount\": 550\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bf590c0c-a6a7-4e8e-973e-52631d6c9723",
+    "name": "SimpleTexting API Documentation Campaigns API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

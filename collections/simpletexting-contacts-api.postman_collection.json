@@ -1,0 +1,621 @@
+{
+  "item": [
+    {
+      "id": "1ab2074a-f7ee-4d69-82c3-3ed6eaf70d76",
+      "name": "Contacts",
+      "description": {
+        "content": "At a minimum, each contact in SimpleTexting must have a phone number. Contacts can also hold additional information including first name, last name, and email address. You can also create custom fields to store data specific to your website or app’s needs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "914c7aa7-9f2e-444b-887c-f712a60b7732",
+          "name": "Get a Contact",
+          "request": {
+            "name": "Get a Contact",
+            "description": {
+              "content": "Get a contact via their unique ID or phone number. Phone number is the preferred parameter for this call.\n\n**Example:** Below, we return the information associated with the Contact whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve contact IDs for all of your contacts:\n\n`https://api-app2.simpletexting.com/v2/api/contacts/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts",
+                ":contactIdOrNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contactIdOrNumber",
+                  "description": "(Required) Phone number (preferred) or Contact ID in hexadecimal format\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "67e735b0-6c52-429f-9336-6d464cceeeab",
+              "name": "Success. Fetched contact.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts",
+                    ":contactIdOrNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactIdOrNumber",
+                      "description": "(Required) Phone number (preferred) or Contact ID in hexadecimal format\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"contactId\": \"607f0558a7c898629dd47d7a\",\n  \"contactPhone\": \"1234567890\",\n  \"email\": \"john.doe@simpletext.org\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"birthday\": \"1985-05-15\",\n  \"lists\": [\n    {\n      \"name\": \"list name\"\n    }\n  ],\n  \"customFields\": {\n    \"zipcode\": \"12345\"\n  },\n  \"comment\": \"VIP client\",\n  \"subscriptionStatus\": \"OPT_IN\",\n  \"created\": \"2021-04-28T23:20:08.489Z\",\n  \"updated\": \"2021-05-28T20:20:08.489Z\",\n  \"updateSource\": \"IMPORTED_FROM_FILE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18f09376-122e-4093-961c-8a695a8ba74b",
+          "name": "Update a Contact",
+          "request": {
+            "name": "Update a Contact",
+            "description": {
+              "content": "Update a contact’s phone number or any other field.\n\n**Example:** Below we update our contact, 3051234567. We declared their custom field value for `zipcode` is `12345` and that they get added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`. In our URL, we requested that the contact gets added to a new list while remaining on the current one. We also requested not to update the contact's information if they already exist within the system:\n\nURL:\n\n`https://api-app2.simpletexting.com/v2/api/contacts/3051234567?listsReplacement=false&false`\n\nRequest Body:\n\n`{ \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"comment\": \"VIP client\", \"listIds\": [ \"507f191e810c19729de860ea\", \"My First List\" ] }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts",
+                ":contactIdOrNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "upsert",
+                  "value": "true",
+                  "description": "If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true.\n\n**Example:** `false`"
+                },
+                {
+                  "disabled": false,
+                  "key": "listsReplacement",
+                  "value": "true",
+                  "description": "If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list.\n\n**Example:** `false`"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contactIdOrNumber",
+                  "description": "(Required) Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhone\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"birthday\": \"<string>\",\n  \"customFields\": {\n    \"Merge tag\": \"<string>\"\n  },\n  \"comment\": \"<string>\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0acc7eba-d642-45bb-9c81-11de6e455fc4",
+              "name": "Contact is updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts",
+                    ":contactIdOrNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "upsert",
+                      "value": "false"
+                    },
+                    {
+                      "key": "listsReplacement",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactIdOrNumber",
+                      "description": "(Required) Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactPhone\": \"1234567890\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@simpletexting.net\",\n  \"birthday\": \"1985-05-15\",\n  \"customFields\": {\n    \"zipcode\": \"12345\"\n  },\n  \"comment\": \"VIP client\",\n  \"listIds\": [\n    \"507f191e810c19729de860ea\",\n    \"My First List\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf0e0cfe-42f8-4205-85d5-695ac33aa5e9",
+          "name": "Delete a Contact",
+          "request": {
+            "name": "Delete a Contact",
+            "description": {
+              "content": "Delete a contact via their unique ID or phone.\n\n**Example:** Here we delete a Contact whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve Contact IDs for all of your Contacts:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts",
+                ":contactIdOrNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contactIdOrNumber",
+                  "description": "(Required) Contact ID in hexadecimal format or phone number\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "52a1e4a3-a323-4812-b2ae-df9a9b6cbd63",
+              "name": "Success. Contact is deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts",
+                    ":contactIdOrNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactIdOrNumber",
+                      "description": "(Required) Contact ID in hexadecimal format or phone number\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d064fe1d-3317-4063-b6b2-c5b1ac0a95be",
+          "name": "Get all Contacts",
+          "request": {
+            "name": "Get all Contacts",
+            "description": {
+              "content": "For a given account, return all contacts that have been created in the account. A paginated list of contacts will be returned to you:\n\n**Example:** Here we return all Contacts from an account since April 28th 2021:\n\n`https://api-app2.simpletexting.com/v2/api/contacts?page=100&size=2&since=2021-04-28T23:20:08.489Z&direction=ASC`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "An ordinal number of the page to return with the results of a request (with the contacts of the given account). Please note that page numbering starts at zero (`0`)\n\n**Example:** `250`"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "The number of the returned contacts to show per page\n\n**Example:** `150`"
+                },
+                {
+                  "disabled": false,
+                  "key": "since",
+                  "value": "<dateTime>",
+                  "description": "List contacts updated since a specified date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.\n\n**Example:** `2021-04-28T23:20:08.489Z`"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "desc",
+                  "description": "Specify the sort order of your results. By default, results are sorted by the 'updated' field:\n\n- **ASC:** Sort values in *ascending* order\n\n- **DESC:** Sort values in *descending* order\n\n**Example:** `desc`"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4a2d252-214b-4d2d-a63d-b87e35563896",
+              "name": "Success. Returns a paginated list of contacts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "250"
+                    },
+                    {
+                      "key": "size",
+                      "value": "150"
+                    },
+                    {
+                      "key": "since",
+                      "value": "2021-04-28T23:20:08.489Z"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"contactId\": \"607f0558a7c898629dd47d7a\",\n      \"contactPhone\": \"1234567890\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"birthday\": \"1985-05-15\",\n      \"lists\": [\n        {\n          \"name\": \"list name\"\n        }\n      ],\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"subscriptionStatus\": \"OPT_IN\",\n      \"created\": \"2021-04-28T23:20:08.489Z\",\n      \"updated\": \"2021-05-28T20:20:08.489Z\",\n      \"updateSource\": \"IMPORTED_FROM_FILE\"\n    },\n    {\n      \"contactId\": \"607f0558a7c898629dd47d7a\",\n      \"contactPhone\": \"1234567890\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"birthday\": \"1985-05-15\",\n      \"lists\": [\n        {\n          \"name\": \"list name\"\n        }\n      ],\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"subscriptionStatus\": \"OPT_IN\",\n      \"created\": \"2021-04-28T23:20:08.489Z\",\n      \"updated\": \"2021-05-28T20:20:08.489Z\",\n      \"updateSource\": \"IMPORTED_FROM_FILE\"\n    }\n  ],\n  \"totalPages\": 3570,\n  \"totalElements\": 8256\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fdc6fbec-5546-4651-ae72-009a39059516",
+          "name": "Create a Contact",
+          "request": {
+            "name": "Create a Contact",
+            "description": {
+              "content": "Create a new contact and add them to a specific list.\n\n**Example:** Below we created our contact, John Doe. We declared his custom field value for `zipcode` is `12345` and that he gets added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`:\n\n`{ \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"comment\": \"VIP client\", \"listIds\": [ \"507f191e810c19729de860ea\", \"My First List\" ] }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "upsert",
+                  "value": "true",
+                  "description": "If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true."
+                },
+                {
+                  "disabled": false,
+                  "key": "listsReplacement",
+                  "value": "true",
+                  "description": "If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhone\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"email\": \"<string>\",\n  \"birthday\": \"<string>\",\n  \"customFields\": {\n    \"Merge tag\": \"<string>\"\n  },\n  \"comment\": \"<string>\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e9f04668-1cae-4b42-a8e2-8ed3063529ce",
+              "name": "Success. Contact created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "upsert",
+                      "value": "false"
+                    },
+                    {
+                      "key": "listsReplacement",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactPhone\": \"1234567890\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@simpletexting.net\",\n  \"birthday\": \"1985-05-15\",\n  \"customFields\": {\n    \"zipcode\": \"12345\"\n  },\n  \"comment\": \"VIP client\",\n  \"listIds\": [\n    \"507f191e810c19729de860ea\",\n    \"My First List\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7a08f7c7-0dfe-448b-91de-f37e2fd967e6",
+    "name": "SimpleTexting API Documentation Contacts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

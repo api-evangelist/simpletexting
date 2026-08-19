@@ -1,0 +1,570 @@
+{
+  "item": [
+    {
+      "id": "2a516574-d22b-4521-9443-f4042f106e2a",
+      "name": "Media Items",
+      "description": {
+        "content": "When sending messages via the SimpleTexting platform, you may need to attach various media items. This API allows you to perform various operations needed to manage your media attachments. The size limitations of these items are discussed [here](#tag/File-Information).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fdb2a90f-6518-4585-83a1-82cd3f7cd4d0",
+          "name": "Upload Media",
+          "request": {
+            "name": "Upload Media",
+            "description": {
+              "content": "Upload a media file from a local directory to SimpleTexting.\n\n**Example:** Here we upload an image from our local directory using an HTTP request. We state that the media should be shared with teammates:\n\n`POST /api/mediaitems/upload?shared=true HTTP/1.1 Host: https://api-app2.simpletexting.com/v2/ accept: */* Authorization: Bearer {{YOUR_TOKEN}} Content-Length: 176 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW ----WebKitFormBound`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "shared",
+                  "value": "true",
+                  "description": "Define whether a media file is shared with teammates"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) The media file you want to upload"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "af070d09-d135-460d-99e9-066dd1b230cf",
+              "name": "Success. Media is uploaded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mediaitems",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "shared",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The media file you want to upload",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"607f0558a7c898629dd47d7a\",\n  \"createdDate\": \"2021-04-28T23:20:08.489Z\",\n  \"name\": \"myfile.jpg\",\n  \"gallery\": \"mms\",\n  \"size\": 10,\n  \"status\": \"PROCESSED\",\n  \"link\": \"https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a\",\n  \"contentType\": \"image/png\",\n  \"ext\": \"png\",\n  \"canDelete\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "68e1ac86-4292-4088-a2b4-bfec276a80d2",
+          "name": "Upload Media Using a URL",
+          "request": {
+            "name": "Upload Media Using a URL",
+            "description": {
+              "content": "This endpoint allows you to upload media via a URL so that you can send it in a message to a contact.\n\n**Example:** Below we upload some media via a hosted URL to the SimpleTexting system:\n\n`{ \"link\": \"https://dropbox.com/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg\" }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                "loadByLink"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "shared",
+                  "value": "true",
+                  "description": "Define whether a media file is shared with teammates"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"link\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "af9989e6-e858-49df-9833-f5df06474506",
+              "name": "Success. Media is uploaded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mediaitems",
+                    "loadByLink"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "shared",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"link\": \"https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"607f0558a7c898629dd47d7a\",\n  \"createdDate\": \"2021-04-28T23:20:08.489Z\",\n  \"name\": \"myfile.jpg\",\n  \"gallery\": \"mms\",\n  \"size\": 10,\n  \"status\": \"PROCESSED\",\n  \"link\": \"https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a\",\n  \"contentType\": \"image/png\",\n  \"ext\": \"png\",\n  \"canDelete\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "670d414c-90b4-4674-beaf-b590b988de51",
+          "name": "Get Media Items",
+          "request": {
+            "name": "Get Media Items",
+            "description": {
+              "content": "This endpoint allows you to retrieve all Media Items.\n\n**Example:** Here we return all Media Items from an account:\n\n`https://api-app2.simpletexting.com/v2/api/mediaitems?page=100&size=500`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mediaitems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Number of pages"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "Page size"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8ea340f6-ab08-4ed5-b35a-197975e1ac7b",
+              "name": "Success. Returns a page of media items.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mediaitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "29"
+                    },
+                    {
+                      "key": "size",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"id\": \"607f0558a7c898629dd47d7a\",\n      \"createdDate\": \"2021-04-28T23:20:08.489Z\",\n      \"name\": \"myfile.jpg\",\n      \"gallery\": \"mms\",\n      \"size\": 10,\n      \"status\": \"PROCESSED\",\n      \"link\": \"https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a\",\n      \"contentType\": \"image/png\",\n      \"ext\": \"png\",\n      \"canDelete\": true\n    },\n    {\n      \"id\": \"607f0558a7c898629dd47d7a\",\n      \"createdDate\": \"2021-04-28T23:20:08.489Z\",\n      \"name\": \"myfile.jpg\",\n      \"gallery\": \"mms\",\n      \"size\": 10,\n      \"status\": \"PROCESSED\",\n      \"link\": \"https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a\",\n      \"contentType\": \"image/png\",\n      \"ext\": \"png\",\n      \"canDelete\": true\n    }\n  ],\n  \"totalPages\": 8459,\n  \"totalElements\": 9641\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fba40ca9-a7ff-4bc8-8818-402f0bcaaf10",
+          "name": "Get Media Item",
+          "request": {
+            "name": "Get Media Item",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                ":mediaItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mediaItemId",
+                  "description": "(Required) Media item ID in hexadecimal format"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a010c77e-a0c0-4823-9e8d-2d1942721ed6",
+              "name": "Successful. Media item",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mediaitems",
+                    ":mediaItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaItemId",
+                      "description": "(Required) Media item ID in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"607f0558a7c898629dd47d7a\",\n  \"createdDate\": \"2021-04-28T23:20:08.489Z\",\n  \"name\": \"myfile.jpg\",\n  \"gallery\": \"mms\",\n  \"size\": 10,\n  \"status\": \"PROCESSED\",\n  \"link\": \"https://app2.simpletexting.com/content/public-files/607f0558a7c898629dd47d7a\",\n  \"contentType\": \"image/png\",\n  \"ext\": \"png\",\n  \"canDelete\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8fc5c123-76dd-43b2-9bcb-ab085b3358a1",
+          "name": "Delete Media",
+          "request": {
+            "name": "Delete Media",
+            "description": {
+              "content": "Remove media that you have previously uploaded to SimpleTexting.\n\n**Example:** Here we delete a Media Item whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Media Items](#operation/getMediaItems) endpoint to retrieve Media Items IDs for all of your Media Items:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "mediaitems",
+                ":mediaItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mediaItemId",
+                  "description": "(Required) The mediaItemId in hexadecimal format"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "736912da-05d9-4c3e-aa2c-3440f830c137",
+              "name": "Success. Media was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "mediaitems",
+                    ":mediaItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaItemId",
+                      "description": "(Required) The mediaItemId in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3af1c2dc-47c5-4cae-b835-3b9556ee4d1a",
+    "name": "SimpleTexting API Documentation Media Items API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

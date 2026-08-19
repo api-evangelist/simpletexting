@@ -1,0 +1,103 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://api-doc.simpletexting.com/ (the v2 reference and the OpenAPI it embeds,
+  harvested to openapi/_original/simpletexting-openapi.yml on 2026-08-13),
+  https://simpletexting.com/api/docs/ (the legacy v1 reference), plus live probes
+  of https://api-app2.simpletexting.com/v2 on 2026-08-13.
+description: >-
+  Cross-cutting request/response semantics that apply to every SimpleTexting v2
+  operation rather than to any single endpoint: auth style, idempotency (absent),
+  pagination, request tracing (absent), versioning, error envelope and rate-limit
+  signaling.
+base_url: https://api-app2.simpletexting.com/v2
+api_style: REST over HTTPS, JSON request and response bodies, standard HTTP verbs
+authentication:
+  scheme: Bearer token in the Authorization header
+  declared_as: 'OpenAPI securityScheme `api_key` — type apiKey, in header, name Authorization'
+  token_source: Generated in the web app (app2.simpletexting.com) under the API / integrations settings
+  approval_gate: >-
+    "For additional security, our API is by approval only. If you'd like access,
+    sign up for a trial account and email support@simpletexting.net with details
+    about your use case." — https://api-doc.simpletexting.com/
+  docs: https://api-doc.simpletexting.com/
+  detail: authentication/simpletexting-authentication.yml
+content_negotiation:
+  request: 'POST bodies must set `content-type: application/json` (multipart/form-data for media upload).'
+  response: 'JSON always; the Accept header may be omitted or set to application/json.'
+idempotency:
+  supported: false
+  mechanism: null
+  evidence: >-
+    No Idempotency-Key (or equivalent) parameter or header appears anywhere in the
+    published OpenAPI, and the reference documents no retry-safety guarantee. POST
+    /api/messages and POST /api/campaigns are therefore NOT safe to retry blind — a
+    retried send may deliver (and bill) a second message.
+  guidance: >-
+    Deduplicate client-side. Correlate on the returned message id, and use
+    evaluateMessage as a dry run before a send that must not double-fire.
+pagination:
+  style: page-number (offset-style, zero-based)
+  request_params:
+    page: 'Zero-based ordinal page number. minimum 0, default 0.'
+    size: 'Items per page. maximum 500, default 50.'
+    since: 'ISO 8601 timestamp filter on created/updated, on the list endpoints that support it.'
+    direction: 'ASC | DESC sort order (contacts).'
+  response_fields:
+    content: Array of results for the page.
+    totalPages: Total number of pages.
+    totalElements: Total number of matching elements.
+  applies_to: >-
+    getMessages, getContacts, getLists, getCampaigns, getSegments, getCustomFields,
+    getMediaItems, getWebhooks, getTenantPhones (the PageView* schemas).
+  note: >-
+    There is no cursor and no link header; deep pagination over a mutating contact
+    set can skip or repeat rows.
+field_expansion:
+  supported: false
+  note: No expand/fields/sparse-fieldset parameter exists.
+metadata:
+  supported: partial
+  note: >-
+    Contacts carry account-defined `customFields` (merge tags, listed by
+    getCustomFields) and a free-text `comment`. There is no generic key/value
+    metadata bag on messages or campaigns.
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id is returned in headers or bodies. On failure the error envelope
+    echoes `path` and `timestamp` only, so support correlation is manual.
+versioning:
+  scheme: URI path
+  current: v2 (https://api-app2.simpletexting.com/v2, info.version 2.0.0)
+  previous: 'v1 (https://app2.simpletexting.com/v1) — a separate, form-encoded surface still documented at https://simpletexting.com/api/docs/'
+  header: null
+  detail: lifecycle/simpletexting-lifecycle.yml
+error_envelope:
+  media_type: application/problem+json;charset=utf-8
+  rfc9457: false
+  shape: '{status, errorCode, code, message, errorDetails[], path, timestamp}'
+  detail: errors/simpletexting-problem-types.yml
+rate_limit_signaling:
+  response_headers: none observed
+  status_on_exhaustion: not documented
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header was present on the probed
+    responses, and the reference publishes no numeric API quota. The only
+    provider-published throughput control is `requestPerSecLimit` (max 25) on a
+    webhook subscription, which caps how fast SimpleTexting calls YOU.
+  detail: rate-limits/simpletexting-rate-limits.yml
+events:
+  mechanism: HTTP webhooks configured via the Webhooks API or the web app
+  triggers: [INCOMING_MESSAGE, OUTGOING_MESSAGE, DELIVERY_REPORT, NON_DELIVERED_REPORT, UNSUBSCRIBE_REPORT]
+  signing: >-
+    None published. SimpleTexting documents no signature header and no shared
+    secret for webhook callbacks; receivers cannot verify origin beyond
+    network-level controls.
+  detail: asyncapi/simpletexting-webhooks.yml
+identifiers:
+  format: 24-character hexadecimal strings (MongoDB ObjectId shape), e.g. 507f191e810c19729de860ea
+  note: Contacts and contact lists may also be addressed by phone number or list name in the path.
+timestamps:
+  format: ISO 8601 (e.g. 2021-04-28T23:20:08.489Z) in resource bodies and query filters
+  exception: The error envelope's `timestamp` is epoch seconds with a fractional part.

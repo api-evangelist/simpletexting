@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Webhooks API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/:webhookId",
+            "params": [
+              {
+                "name": "webhookId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Webhook ID in hexadecimal format"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing webhook using its unique ID."
+        },
+        {
+          "info": {
+            "name": "Delete a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks/:webhookId",
+            "params": [
+              {
+                "name": "webhookId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Webhook ID in hexadecimal format"
+              }
+            ]
+          },
+          "docs": "Delete an existing Webhook by its unique ID.\n\n**Example:** Here we delete a Webhook whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Webhooks](#operation/getWebhooks) endpoint to retrieve message IDs for all of your Webhooks:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Get all Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks",
+            "params": [
+              {
+                "name": "page",
+                "value": "5",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the webhooks of the given account). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned webhooks to show per page"
+              }
+            ]
+          },
+          "docs": "Retrieve all the webhooks that you've created.\n\n**Example:** Here we return all Webhooks from an account:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks`"
+        },
+        {
+          "info": {
+            "name": "Create a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new webhook from scratch."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

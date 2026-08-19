@@ -1,0 +1,116 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: openapi/_original/simpletexting-openapi.yml
+description: >-
+  SimpleTexting operates NO Model Context Protocol server. This file is a
+  CANDIDATE tool shape derived from SimpleTexting's own published OpenAPI — it is
+  not a server SimpleTexting runs, and it carries NO `type: MCPServer` pointer in
+  apis.yml, because wiring one would credit SimpleTexting with an agent surface it
+  does not operate. The only MCP access to SimpleTexting today is Zapier's
+  third-party generic connector (https://zapier.com/mcp/simpletexting), which is
+  Zapier's server calling SimpleTexting's REST API, not SimpleTexting's own.
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+published_server: null
+searched:
+  probes:
+    - {url: 'https://api-app2.simpletexting.com/mcp', method: POST tools/list, status: 405}
+    - {url: 'https://api-app2.simpletexting.com/v2/mcp', method: POST tools/list, status: 400,
+       note: 'Generic API error envelope (INTERNAL_ERROR / UNKNOWN_ERR) — no MCP handler.'}
+    - {url: 'https://mcp.simpletexting.com/', method: POST tools/list, status: 0, note: 'Host does not resolve.'}
+    - {url: 'https://simpletexting.com/mcp', method: POST tools/list, status: 404}
+    - {url: 'https://api-app2.simpletexting.com/.well-known/oauth-authorization-server', status: 404}
+    - {url: 'https://api-app2.simpletexting.com/.well-known/oauth-protected-resource', status: 404}
+  registries_checked:
+    - {registry: npm, query: 'registry.npmjs.org/-/v1/search?text=simpletexting',
+       result: 'no SimpleTexting-published MCP package; only third-party connector adapters'}
+    - {registry: pypi, query: 'pypi.org/pypi/simpletexting/json',
+       result: 'community REST wrapper 0.0.1 (2020), not MCP'}
+  third_party:
+    - {name: Zapier MCP — SimpleTexting, url: 'https://zapier.com/mcp/simpletexting',
+       operated_by: Zapier, note: 'Send SMS/MMS actions exposed through Zapier''s own MCP endpoint.'}
+  result: no first-party SimpleTexting MCP server exists
+server:
+  name: simpletexting
+  transport: null
+  url: null
+candidate_tools:
+  - {name: send_message, rest: createMessage, method: POST, path: /api/messages,
+     description: Send a single SMS or MMS to one contact phone number.}
+  - {name: evaluate_message, rest: evaluateMessage, method: POST, path: /api/messages/evaluate,
+     description: Pre-flight a message body — detected category, length, credits consumed, warnings.}
+  - {name: list_messages, rest: getMessages, method: GET, path: /api/messages,
+     description: Page through inbound and outbound messages, filtered by account/contact phone and date.}
+  - {name: get_message, rest: getMessage, method: GET, path: '/api/messages/{messageId}',
+     description: Retrieve one message by id.}
+  - {name: create_campaign, rest: createCampaign, method: POST, path: /api/campaigns,
+     description: Send a bulk campaign to contact lists and/or segments.}
+  - {name: list_campaigns, rest: getCampaigns, method: GET, path: /api/campaigns,
+     description: Page through campaigns on the account.}
+  - {name: get_campaign, rest: getCampaign, method: GET, path: '/api/campaigns/{campaignId}',
+     description: Retrieve one campaign and its outcome counters.}
+  - {name: list_contacts, rest: getContacts, method: GET, path: /api/contacts,
+     description: Page through contacts, optionally since a timestamp.}
+  - {name: create_contact, rest: createContact, method: POST, path: /api/contacts,
+     description: Create a contact with phone, names, email, lists and custom fields.}
+  - {name: get_contact, rest: getContact, method: GET, path: '/api/contacts/{contactIdOrNumber}',
+     description: Retrieve a contact by id or phone number.}
+  - {name: update_contact, rest: updateContact, method: PUT, path: '/api/contacts/{contactIdOrNumber}',
+     description: Update a contact's fields and list membership.}
+  - {name: delete_contact, rest: deleteContact, method: DELETE, path: '/api/contacts/{contactIdOrNumber}',
+     description: Delete a contact.}
+  - {name: batch_update_contacts, rest: processBatchUpdate, method: POST, path: /api/contacts-batch/batch-update,
+     description: Submit an asynchronous batch contact update task.}
+  - {name: get_batch_update_result, rest: getBatchUpdateResults, method: GET,
+     path: '/api/contacts-batch/batch-update/{taskId}', description: Poll the result of a batch update task.}
+  - {name: batch_delete_contacts, rest: processBatchDelete, method: POST, path: /api/contacts-batch/batch-delete,
+     description: Delete many contacts by phone number in one call.}
+  - {name: list_contact_lists, rest: getLists, method: GET, path: /api/contact-lists,
+     description: Page through contact lists.}
+  - {name: create_contact_list, rest: createList, method: POST, path: /api/contact-lists,
+     description: Create a contact list.}
+  - {name: get_contact_list, rest: getList, method: GET, path: '/api/contact-lists/{listIdOrName}',
+     description: Retrieve a contact list by id or name.}
+  - {name: rename_contact_list, rest: updateList, method: PUT, path: '/api/contact-lists/{listId}',
+     description: Rename a contact list.}
+  - {name: delete_contact_list, rest: deleteList, method: DELETE, path: '/api/contact-lists/{listIdOrName}',
+     description: Delete a contact list.}
+  - {name: add_contact_to_list, rest: addContactToList, method: POST, path: '/api/contact-lists/{listIdOrName}/contacts',
+     description: Add a contact to a list.}
+  - {name: remove_contact_from_list, rest: removeContactFromGroup, method: DELETE,
+     path: '/api/contact-lists/{listIdOrName}/contacts/{contactPhoneOrId}', description: Remove a contact from a list.}
+  - {name: list_segments, rest: getSegments, method: GET, path: /api/contact-segments,
+     description: Page through dynamic contact segments.}
+  - {name: list_custom_fields, rest: getCustomFields, method: GET, path: /api/custom-fields,
+     description: List account custom fields and their merge tags.}
+  - {name: list_media_items, rest: getMediaItems, method: GET, path: /api/mediaitems,
+     description: Page through uploaded MMS media items.}
+  - {name: upload_media, rest: upload, method: POST, path: /api/mediaitems/upload,
+     description: Upload an MMS media file (multipart).}
+  - {name: upload_media_by_link, rest: uploadByLink, method: POST, path: /api/mediaitems/loadByLink,
+     description: Ingest an MMS media file from a URL.}
+  - {name: get_media_item, rest: getMediaItem, method: GET, path: '/api/mediaitems/{mediaItemId}',
+     description: Retrieve a media item's metadata and link.}
+  - {name: delete_media_item, rest: delete, method: DELETE, path: '/api/mediaitems/{mediaItemId}',
+     description: Delete a media item.}
+  - {name: list_webhooks, rest: getWebhooks, method: GET, path: /api/webhooks,
+     description: List configured webhook subscriptions.}
+  - {name: create_webhook, rest: createWebhook, method: POST, path: /api/webhooks,
+     description: Subscribe a URL to platform event triggers.}
+  - {name: update_webhook, rest: updateWebhook, method: PUT, path: '/api/webhooks/{webhookId}',
+     description: Update a webhook subscription.}
+  - {name: delete_webhook, rest: deleteWebhook, method: DELETE, path: '/api/webhooks/{webhookId}',
+     description: Delete a webhook subscription.}
+  - {name: get_tenant_info, rest: getTenantInfo, method: GET, path: /api/tenant,
+     description: Retrieve account information.}
+  - {name: list_tenant_phones, rest: getTenantPhones, method: GET, path: /api/phones,
+     description: List sending phone numbers provisioned on the account.}
+notes: >-
+  Every candidate tool above inherits its real input schema from the named
+  OpenAPI operationId in openapi/*.yml. Auth would be the account bearer token
+  (authentication/simpletexting-authentication.yml). Note that SimpleTexting's
+  own documentation states the API is "by approval only", so an agent surface
+  would additionally be gated on account approval.

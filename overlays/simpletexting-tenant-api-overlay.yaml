@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for SimpleTexting API Documentation Tenant API
+  version: 1.0.0
+extends: openapi/simpletexting-tenant-api-openapi.yml
+generated: '2026-08-13'
+method: generated
+source: >-
+  Our annotations over the SimpleTexting OpenAPI harvested verbatim on 2026-08-13 from the
+  ReDoc bundle at https://api-doc.simpletexting.com/ (openapi/_original/simpletexting-openapi.yml).
+  The harvested specification is never mutated; this overlay carries only API Evangelist additions.
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      catalog: https://apis.io/provider/simpletexting
+      provider: SimpleTexting
+      maintainer: Kin Lane <kin@apievangelist.com>
+      spec-source: https://api-doc.simpletexting.com/
+      spec-harvested: '2026-08-13'
+      artifacts:
+      - apis.yml
+      - authentication/simpletexting-authentication.yml
+      - conventions/simpletexting-conventions.yml
+      - errors/simpletexting-problem-types.yml
+      - conformance/simpletexting-conformance.yml
+      - lifecycle/simpletexting-lifecycle.yml
+      - data-model/simpletexting-data-model.yml
+      - asyncapi/simpletexting-webhooks.yml
+      - plans/simpletexting-plans-pricing.yml
+      - rate-limits/simpletexting-rate-limits.yml
+      - packages/simpletexting-packages.yml
+      - skills/_index.yml

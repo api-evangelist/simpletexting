@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Contact Segments API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contact Segments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Segments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-segments",
+            "params": [
+              {
+                "name": "page",
+                "value": "0",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the segments of the given account). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned segments to show per page"
+              }
+            ]
+          },
+          "docs": "Retrieves all segments from your SimpleTexting account.\n\n**Example:** Here we return all segments from an account:\n\n`https://api-app2.simpletexting.com/v2/api/contact-segments?page=100&size=2`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,175 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Contact Lists API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contact Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a List Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listId",
+            "params": [
+              {
+                "name": "listId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My Newer list"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the name of an existing list.\n\n**Example:** Here we updated a list name with a new name `My Newer List`:\n\n`{ \"name\": \"My Newer List\" }`"
+        },
+        {
+          "info": {
+            "name": "Get all Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists",
+            "params": [
+              {
+                "name": "page",
+                "value": "15",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the lists of the given account). Please note that page numbering starts at zero (`0`)\n\n**Example:** `15`"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned lists to show per page\n\n**Example:** `50`"
+              }
+            ]
+          },
+          "docs": "Retrieves all lists from your SimpleTexting account.\n\n**Example:** Here we return all lists from an account:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists?page=100&size=2`"
+        },
+        {
+          "info": {
+            "name": "Create a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is used to create a new contact list in a given SimpleTexting account.\n\n**Example:** Here we create a list whose name is `My New List`:\n\n`{ \"name\": \"My New List\" }`"
+        },
+        {
+          "info": {
+            "name": "Add Contact To List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName/contacts",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f191e810c19729de860ea / My First List",
+                "type": "path",
+                "description": "List ID or name to add the contact.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add contact to specified list."
+        },
+        {
+          "info": {
+            "name": "Get a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+              }
+            ]
+          },
+          "docs": "Return a contact list by its unique list ID or name.\n\n**Example:** Below, we return the information associated with the List whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Lists](#operation/getLists) endpoint to retrieve List IDs for all of your Lists:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Delete a List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+              }
+            ]
+          },
+          "docs": "Delete an existing list using the list ID or name.\n\n**Example:** Here we delete a List whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Lists] (#operation/getLists) endpoint to retrieve List IDs for all of your Lists:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Remove Contact From List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contact-lists/:listIdOrName/contacts/:contactPhoneOrId",
+            "params": [
+              {
+                "name": "listIdOrName",
+                "value": "507f191e810c19729de860ea / My First List",
+                "type": "path",
+                "description": "List ID or name to remove the contact from.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+              },
+              {
+                "name": "contactPhoneOrId",
+                "value": "3051234567",
+                "type": "path",
+                "description": "Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              }
+            ]
+          },
+          "docs": "Remove contact from specified list."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Media Items API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Media Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/upload",
+            "params": [
+              {
+                "name": "shared",
+                "value": "false",
+                "type": "query",
+                "description": "Define whether a media file is shared with teammates"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a media file from a local directory to SimpleTexting.\n\n**Example:** Here we upload an image from our local directory using an HTTP request. We state that the media should be shared with teammates:\n\n`POST /api/mediaitems/upload?shared=true HTTP/1.1 Host: https://api-app2.simpletexting.com/v2/ accept: */* Authorization: Bearer {{YOUR_TOKEN}} Content-Length: 176 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW ----WebKitFormBound`"
+        },
+        {
+          "info": {
+            "name": "Upload Media Using a URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/loadByLink",
+            "params": [
+              {
+                "name": "shared",
+                "value": "false",
+                "type": "query",
+                "description": "Define whether a media file is shared with teammates"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows you to upload media via a URL so that you can send it in a message to a contact.\n\n**Example:** Below we upload some media via a hosted URL to the SimpleTexting system:\n\n`{ \"link\": \"https://dropbox.com/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg\" }`"
+        },
+        {
+          "info": {
+            "name": "Get Media Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems",
+            "params": [
+              {
+                "name": "page",
+                "value": "29",
+                "type": "query",
+                "description": "Number of pages"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "Page size"
+              }
+            ]
+          },
+          "docs": "This endpoint allows you to retrieve all Media Items.\n\n**Example:** Here we return all Media Items from an account:\n\n`https://api-app2.simpletexting.com/v2/api/mediaitems?page=100&size=500`"
+        },
+        {
+          "info": {
+            "name": "Get Media Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/:mediaItemId",
+            "params": [
+              {
+                "name": "mediaItemId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Media item ID in hexadecimal format"
+              }
+            ]
+          },
+          "docs": "Get Media Item"
+        },
+        {
+          "info": {
+            "name": "Delete Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/mediaitems/:mediaItemId",
+            "params": [
+              {
+                "name": "mediaItemId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "The mediaItemId in hexadecimal format"
+              }
+            ]
+          },
+          "docs": "Remove media that you have previously uploaded to SimpleTexting.\n\n**Example:** Here we delete a Media Item whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Media Items](#operation/getMediaItems) endpoint to retrieve Media Items IDs for all of your Media Items:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

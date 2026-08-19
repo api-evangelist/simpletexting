@@ -1,0 +1,373 @@
+openapi: 3.2.0
+info:
+  title: SimpleTexting API Documentation Webhook Reports API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
+servers:
+- url: https://api-app2.simpletexting.com/v2
+security:
+- api_key: []
+tags:
+- name: Webhook Reports
+  description: Use webhooks to communicate between the SimpleTexting platform and your server. Webhooks can be used to forward messages as well as provide info about unsubscribes and message delivery. SimpleTexting can trigger webhooks for new incoming messages, delivery reports and unsubscribes.
+paths:
+  /report/unsubscribe:
+    post:
+      security: []
+      tags:
+      - Webhook Reports
+      summary: Unsubscribe Report
+      description: 'Triggers when a client sends STOP to your number.
+
+
+        **Example:** We create the Unsubscribe report for `8005551234` for the status of the outgoing messages to `8001234567`:
+
+
+        `{"url": "http://www.yourdomain.com/unsubscribe.php","triggers": ["UNSUBSCRIBE_REPORT"],"requestPerSecLimit": 25,"accountPhone": "8005551234","contactPhone": "8001234567"}`
+
+
+        Your custom domain `http://www.yourdomain.com/unsubscribe.php` has been set as an unsubscribe report URL for this example. The SimpleTexting server will invoke the given call when the subscriber with the number 8001234567 unsubscribes.'
+      operationId: unsubscribeMessageReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleReportDtoWebhookUnsubscribeReportDto'
+      responses:
+        '200':
+          description: OK
+      servers:
+      - url: https://yourdomain.com/
+        variables: {}
+  /report/incoming:
+    post:
+      security: []
+      tags:
+      - Webhook Reports
+      summary: Incoming/Outgoing Message Report
+      description: 'Triggers when an outgoing message or incoming message is handled.
+
+
+        **Example:** We create the incoming webhook for `8005551234` from contact phone `8001234567`:
+
+
+        `{"url": "http://www.yourdomain.com/receivesms.php","triggers": ["INCOMING_MESSAGE"],"requestPerSecLimit": 25,"accountPhone": "8005551234","contactPhone": "8001234567"}`'
+      operationId: incomingMessageReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleReportDtoWebhookMessageDto'
+      responses:
+        '200':
+          description: OK
+      servers:
+      - url: https://yourdomain.com/
+        variables: {}
+  /report/delivery:
+    post:
+      security: []
+      tags:
+      - Webhook Reports
+      summary: Delivery/Non Delivered Message Report
+      description: 'Triggers when an outgoing message is reported as delivered or undelivered by the carrier.
+
+
+        **Example:** We create the Delivery report for `8005551234` for the status of the outgoing messages to `8001234567`:
+
+
+        `{"url": "http://www.yourdomain.com/delivery.php","triggers": ["DELIVERY_REPORT"],"requestPerSecLimit": 25,"accountPhone": "8005551234","contactPhone": "8001234567"}`
+
+
+        Your custom domain `http://www.yourdomain.com/delivery.php` has been set as a delivery report webhook for this example. The SimpleTexting server will invoke the given call when a message with the messageId `507f191e810c19729de860ea` is delivered.'
+      operationId: deliveryMessageReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleReportDtoWebhookDeliveryReportDto'
+      responses:
+        '200':
+          description: OK
+      servers:
+      - url: https://yourdomain.com/
+        variables: {}
+components:
+  schemas:
+    SingleReportDtoWebhookUnsubscribeReportDto:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: 'Unique report ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        webhookId:
+          type: string
+          description: 'Webhook ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        type:
+          type: string
+          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example: UNSUBSCRIBE_REPORT
+          enum:
+          - INCOMING_MESSAGE
+          - OUTGOING_MESSAGE
+          - DELIVERY_REPORT
+          - NON_DELIVERED_REPORT
+          - UNSUBSCRIBE_REPORT
+        values:
+          $ref: '#/components/schemas/WebhookUnsubscribeReportDto'
+    SingleReportDtoWebhookDeliveryReportDto:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: 'Unique report ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        webhookId:
+          type: string
+          description: 'Webhook ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        type:
+          type: string
+          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example: UNSUBSCRIBE_REPORT
+          enum:
+          - INCOMING_MESSAGE
+          - OUTGOING_MESSAGE
+          - DELIVERY_REPORT
+          - NON_DELIVERED_REPORT
+          - UNSUBSCRIBE_REPORT
+        values:
+          $ref: '#/components/schemas/WebhookDeliveryReportDto'
+    WebhookDeliveryReportDto:
+      type: object
+      properties:
+        messageId:
+          type: string
+          description: 'Message ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        category:
+          type: string
+          description: "Message category:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: SMS
+        referenceType:
+          type: string
+          description: 'Reference type (available only for MT messages)
+
+
+            **Example:** `API`'
+          example: API
+        accountPhone:
+          type: string
+          description: 'Account phone (primary or secondary)
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        contactPhone:
+          type: string
+          description: 'Contact phone
+
+
+            **Example:** `8001234567`'
+          example: '8001234567'
+        carrier:
+          type: string
+          description: 'Name of carrier
+
+
+            **Example:** `Verizon`'
+          example: Verizon
+      description: Report content
+    SingleReportDtoWebhookMessageDto:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: 'Unique report ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        webhookId:
+          type: string
+          description: 'Webhook ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        type:
+          type: string
+          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example: UNSUBSCRIBE_REPORT
+          enum:
+          - INCOMING_MESSAGE
+          - OUTGOING_MESSAGE
+          - DELIVERY_REPORT
+          - NON_DELIVERED_REPORT
+          - UNSUBSCRIBE_REPORT
+        values:
+          $ref: '#/components/schemas/WebhookMessageDto'
+    WebhookUnsubscribeReportDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+          description: 'Contact id in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        phone:
+          type: string
+          description: 'Contact phone
+
+
+            **Example:** `8001234567`'
+          example: '8001234567'
+      description: Report content
+    WebhookMessageDto:
+      type: object
+      properties:
+        messageId:
+          type: string
+          description: 'Message ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        subject:
+          type: string
+          description: 'Subject (available for MMS)
+
+
+            **Example:** `Some message from SimpleTexting`'
+          example: Some message from SimpleTexting
+        mediaItems:
+          type: array
+          description: 'List of MMS media descriptors: ID in hexadecimal format for st-stored file
+
+
+            **Example:** `["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]`'
+          example:
+          - 507f1f77bcf86cd799439011
+          - 507f1f77bcf86cd799439333
+          items:
+            type: string
+            description: 'List of MMS media descriptors: ID in hexadecimal format for st-stored file
+
+
+              **Example:** `["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]`'
+            example: '["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]'
+        text:
+          type: string
+          description: 'Text
+
+
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        accountPhone:
+          type: string
+          description: 'Account phone (primary or secondary)
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        contactPhone:
+          type: string
+          description: 'Contact phone
+
+
+            **Example:** `8001234567`'
+          example: '8001234567'
+        timestamp:
+          type: string
+          description: 'Time of sending. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2020-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2020-04-28T23:20:08.489Z'
+        category:
+          type: string
+          description: "Message category:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: SMS
+        referenceType:
+          type: string
+          description: 'Reference type (available only for MT messages)
+
+
+            **Example:** `API`'
+          example: API
+      description: Report content
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

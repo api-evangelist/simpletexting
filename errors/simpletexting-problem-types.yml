@@ -1,0 +1,84 @@
+generated: '2026-08-13'
+method: derived
+format: simpletexting-error-envelope
+source: >-
+  Derived from the 4xx responses declared in openapi/_original/simpletexting-openapi.yml
+  (harvested 2026-08-13 from https://api-doc.simpletexting.com/) and PROBED against the
+  live v2 API on 2026-08-13 (GET https://api-app2.simpletexting.com/v2/api/messages
+  with no credentials -> HTTP 401). The legacy v1 status codes come from
+  https://simpletexting.com/api/docs/.
+description: >-
+  SimpleTexting's v2 API returns errors with the media type
+  `application/problem+json` but does NOT use the RFC 9457 member names. There is
+  no `type`, `title` or `detail`; the envelope is SimpleTexting's own
+  status/errorCode/code/message/errorDetails/path/timestamp object. Treat the
+  content type as a near-miss, not as conformance — see
+  conformance/simpletexting-conformance.yml.
+envelope:
+  media_type: application/problem+json;charset=utf-8
+  rfc9457: false
+  shape: >-
+    {"status": string, "errorCode": string, "code": string, "message": string,
+     "errorDetails": array, "path": string, "timestamp": number}
+  fields:
+    status: Upper-snake HTTP status name, e.g. UNAUTHORIZED.
+    errorCode: Machine-readable SimpleTexting error slug, e.g. ERR_AUTH_TOKEN_MISSING.
+    code: Duplicate of errorCode on the observed responses.
+    message: Human-readable message, e.g. "Auth token is missing".
+    errorDetails: Array of per-field detail objects; empty on the observed responses.
+    path: The request path, e.g. /v2/api/messages.
+    timestamp: Epoch seconds with fractional nanoseconds.
+observed:
+  - probed: '2026-08-13'
+    request: GET https://api-app2.simpletexting.com/v2/api/messages (no Authorization header)
+    http_status: 401
+    content_type: application/problem+json;charset=utf-8
+    body: >-
+      {"status":"UNAUTHORIZED","errorCode":"ERR_AUTH_TOKEN_MISSING",
+       "code":"ERR_AUTH_TOKEN_MISSING","message":"Auth token is missing",
+       "errorDetails":[],"path":"/v2/api/messages","timestamp":<epoch>}
+  - probed: '2026-08-13'
+    request: GET https://api-app2.simpletexting.com/v2/openapi.json
+    http_status: 400
+    content_type: application/json
+    body: >-
+      {"code":"INTERNAL_ERROR","errorCode":"UNKNOWN_ERR","timestamp":"<ISO-8601>",
+       "message":"Illegal argument ..."}
+    note: >-
+      A second, differently-shaped envelope (no status/path, ISO-8601 timestamp)
+      is returned by the gateway for malformed routes. The API therefore emits
+      two error shapes; clients must tolerate both.
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: Request body or parameters failed validation.
+    evidence: 'openapi: createWebhook (POST /api/webhooks) declares a 400 response.'
+    remediation: Inspect `errorCode` and `errorDetails[]`; correct the offending field and retry.
+  - status: 401
+    title: Unauthorized
+    meaning: Missing or invalid bearer token.
+    error_code: ERR_AUTH_TOKEN_MISSING
+    evidence: probed live 2026-08-13 (see observed[] above)
+    remediation: >-
+      Send `Authorization: Bearer <token>`. Tokens are issued in the web app under
+      Settings -> API. SimpleTexting also gates API access itself — the account must
+      be approved by support before a token will work.
+  - status: 404
+    title: Not Found
+    meaning: The addressed resource does not exist.
+    evidence: 'openapi: updateWebhook (PUT /api/webhooks/{webhookId}) declares a 404 response.'
+    remediation: Verify the id (SimpleTexting ids are 24-character hexadecimal strings).
+undeclared_in_spec:
+  note: >-
+    The published OpenAPI declares only 400 (createWebhook) and 404 (updateWebhook)
+    across 38 operations; every other operation documents success responses only.
+    401 is real and observable but appears in no operation's responses object, and
+    no 429 or 5xx response is described anywhere. This is the single largest gap in
+    SimpleTexting's contract: an agent cannot learn the failure surface from the spec.
+legacy_v1:
+  docs: https://simpletexting.com/api/docs/
+  note: >-
+    The legacy v1 API (https://app2.simpletexting.com/v1) does not use HTTP status
+    codes for application errors — it returns `1` for success and `0` with a named
+    error (invalidToken, missingRequirement, billingIssue, unknownError) in the body.
+    It is a separate, form-encoded surface and is not described by this artifact's envelope.

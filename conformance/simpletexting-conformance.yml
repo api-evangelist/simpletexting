@@ -1,0 +1,104 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  Derived from openapi/_original/simpletexting-openapi.yml (securitySchemes,
+  declared responses, pagination parameters) and live probes of
+  https://api-app2.simpletexting.com/v2 on 2026-08-13, enriched from
+  https://api-doc.simpletexting.com/, https://simpletexting.com/sms-compliance/
+  and https://simpletexting.com/blog/business-text-messaging-guide/.
+description: >-
+  Which cross-cutting industry standards SimpleTexting's v2 API does and does not
+  conform to. Each entry records the evidence that decided it. Absence is recorded
+  as honestly as presence.
+standards:
+  - id: openapi
+    conforms: true
+    evidence: >-
+      SimpleTexting publishes a complete OpenAPI 3.0.1 document (38 operations, 49
+      schemas) embedded in the ReDoc bundle at https://api-doc.simpletexting.com/;
+      harvested verbatim to openapi/_original/simpletexting-openapi.yml on 2026-08-13.
+      It is not served at any conventional /openapi.json path.
+  - id: bearer-token-auth
+    conforms: true
+    evidence: >-
+      Single securityScheme `api_key` (apiKey, in: header, name: Authorization),
+      applied globally; live 401 confirms `Authorization: Bearer <token>` enforcement.
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      No oauth2 securityScheme in the OpenAPI; no /.well-known/oauth-authorization-server
+      or /.well-known/oauth-protected-resource on any host (404). Access is a
+      long-lived account token only, with no delegated authorization and no scopes.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on every SimpleTexting host.
+  - id: oauth-scopes
+    conforms: false
+    evidence: >-
+      No scopes, permissions or restricted-key model is published; one token carries
+      full account authority over messaging, contacts and webhooks.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      The 401 response is served as `application/problem+json` but carries
+      SimpleTexting's own members (status/errorCode/code/message/errorDetails/path/timestamp)
+      with none of RFC 9457's type/title/detail/instance. Correct media type, wrong document.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      Consistent zero-based page/size parameters (size max 500, default 50) returning
+      PageView* envelopes with content/totalPages/totalElements across all list operations.
+  - id: idempotency
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or equivalent anywhere in the spec or docs; message and
+      campaign sends are not documented as retry-safe.
+  - id: webhooks
+    conforms: true
+    evidence: >-
+      Five documented event triggers (INCOMING_MESSAGE, OUTGOING_MESSAGE, DELIVERY_REPORT,
+      NON_DELIVERED_REPORT, UNSUBSCRIBE_REPORT), a CRUD API for subscriptions, and the
+      callback payloads described as operations under the "Webhook Reports" tag.
+  - id: webhook-signing
+    conforms: false
+    evidence: >-
+      No signature header, shared secret or verification procedure is published for
+      webhook callbacks.
+  - id: asyncapi
+    conforms: false
+    evidence: No AsyncAPI document is published; the event surface is described only in OpenAPI/prose.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: >-
+      No Sunset or Deprecation header is documented or observed, and no deprecation
+      policy page exists; the v1 -> v2 transition is communicated only in prose.
+  - id: https-tls
+    conforms: true
+    evidence: >-
+      TLS 1.3 on simpletexting.com, api-app2.simpletexting.com and api-doc.simpletexting.com,
+      with HSTS max-age 31536000 on the API hosts (security/simpletexting-domain-security.yml).
+  - id: dnssec
+    conforms: false
+    evidence: simpletexting.com is not DNSSEC-signed and publishes no CAA record.
+  - id: soc2
+    conforms: true
+    evidence: >-
+      SimpleTexting states, of its own platform, "secure data storage with SOC 2 Type II
+      certification, SSO/MFA, role-based access controls" —
+      https://simpletexting.com/blog/business-text-messaging-guide/. The claim is
+      published by SimpleTexting on its own site; no audit report, trust center or
+      certificate is publicly available for verification
+      (probe-security-programs found no trust center; trust.simpletexting.com does not resolve).
+  - id: iso-27001
+    conforms: false
+    evidence: No ISO 27001 claim published on any SimpleTexting property.
+  - id: tcpa-ctia-10dlc
+    conforms: true
+    evidence: >-
+      SimpleTexting publishes a compliance program for US messaging law and carrier
+      rules — TCPA consent, CTIA messaging principles, and A2P 10DLC / toll-free
+      registration — at https://simpletexting.com/sms-compliance/. This is regulatory
+      posture for the messaging channel, not an API-security certification.
+  - id: security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on every host; no published vulnerability-disclosure policy.

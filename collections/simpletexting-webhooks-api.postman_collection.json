@@ -1,0 +1,572 @@
+{
+  "item": [
+    {
+      "id": "54ed03df-da20-478c-8fb1-5285a90f03dc",
+      "name": "Webhooks",
+      "description": {
+        "content": "Use webhooks to communicate between the SimpleTexting platform and your server. Webhooks can be used to forward messages as well as provide info about unsubscribes and message delivery.\n\nSimpleTexting can trigger webhooks for new incoming messages, delivery reports, unsubscribes, and more. Now you can build scripts that interpret and respond to events that occur in your SimpleTexting account! To set the URLs for your webhooks, visit the Webhooks tab on the API section of [settings](https://app2.simpletexting.com/integrations/webhooks).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39279cf5-b109-489c-bd53-3d370cc1dd28",
+          "name": "Update a Webhook",
+          "request": {
+            "name": "Update a Webhook",
+            "description": {
+              "content": "Update an existing webhook using its unique ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "webhooks",
+                ":webhookId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "webhookId",
+                  "description": "(Required) Webhook ID in hexadecimal format"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"triggers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"requestPerSecLimit\": \"<integer>\",\n  \"accountPhone\": \"<string>\",\n  \"contactPhone\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "00949243-793e-497c-96db-ffb2ec34e1b8",
+              "name": "Success. Webhook was updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "webhooks",
+                    ":webhookId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "webhookId",
+                      "description": "(Required) Webhook ID in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"triggers\": [\n    \"INCOMING_MESSAGE\"\n  ],\n  \"url\": \"https://example.com\",\n  \"requestPerSecLimit\": 15,\n  \"accountPhone\": \"8881234567\",\n  \"contactPhone\": \"3051234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab1bd005-3ca2-4e74-a58a-2a9e4478c818",
+              "name": "Error. Webhook not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "webhooks",
+                    ":webhookId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "webhookId",
+                      "description": "(Required) Webhook ID in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"triggers\": [\n    \"INCOMING_MESSAGE\"\n  ],\n  \"url\": \"https://example.com\",\n  \"requestPerSecLimit\": 15,\n  \"accountPhone\": \"8881234567\",\n  \"contactPhone\": \"3051234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "90280ef8-9c06-4f90-b1ab-c6f0e21cb2bf",
+          "name": "Delete a Webhook",
+          "request": {
+            "name": "Delete a Webhook",
+            "description": {
+              "content": "Delete an existing Webhook by its unique ID.\n\n**Example:** Here we delete a Webhook whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Webhooks](#operation/getWebhooks) endpoint to retrieve message IDs for all of your Webhooks:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "webhooks",
+                ":webhookId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "webhookId",
+                  "description": "(Required) Webhook ID in hexadecimal format"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6415bced-09ec-4ff7-a1ad-d1d2888e683f",
+              "name": "Success. Webhook was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "webhooks",
+                    ":webhookId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "webhookId",
+                      "description": "(Required) Webhook ID in hexadecimal format"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1bbe9804-39dc-4b6c-bde8-3de882d89837",
+          "name": "Get all Webhooks",
+          "request": {
+            "name": "Get all Webhooks",
+            "description": {
+              "content": "Retrieve all the webhooks that you've created.\n\n**Example:** Here we return all Webhooks from an account:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "webhooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "An ordinal number of the page to return with the results of a request (with the webhooks of the given account). Please note that page numbering starts at zero (`0`)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "The number of the returned webhooks to show per page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ae97e6a6-5f3b-4aaf-a9e8-6d8b21e25a3f",
+              "name": "Success. Returns page of webhooks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "webhooks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "size",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"triggers\": [\n        \"INCOMING_MESSAGE\",\n        \"INCOMING_MESSAGE\"\n      ],\n      \"url\": \"https://example.com\",\n      \"webhookId\": \"507f191e810c19729de860ea\",\n      \"requestPerSecLimit\": 20,\n      \"accountPhone\": \"8881234567\",\n      \"contactPhone\": \"3051234567\"\n    },\n    {\n      \"triggers\": [\n        \"INCOMING_MESSAGE\",\n        \"INCOMING_MESSAGE\"\n      ],\n      \"url\": \"https://example.com\",\n      \"webhookId\": \"507f191e810c19729de860ea\",\n      \"requestPerSecLimit\": 20,\n      \"accountPhone\": \"8881234567\",\n      \"contactPhone\": \"3051234567\"\n    }\n  ],\n  \"totalPages\": 5163,\n  \"totalElements\": 9655\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "518521f7-5ada-43d3-97a0-2cd6710975e4",
+          "name": "Create a Webhook",
+          "request": {
+            "name": "Create a Webhook",
+            "description": {
+              "content": "Create a new webhook from scratch.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "webhooks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"triggers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"url\": \"<string>\",\n  \"requestPerSecLimit\": \"<integer>\",\n  \"accountPhone\": \"<string>\",\n  \"contactPhone\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c588ed73-bae1-4821-9755-e88531cd9bf1",
+              "name": "Success. Webhook was created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "webhooks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"triggers\": [\n    \"INCOMING_MESSAGE\"\n  ],\n  \"url\": \"https://example.com\",\n  \"requestPerSecLimit\": 15,\n  \"accountPhone\": \"8881234567\",\n  \"contactPhone\": \"3051234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd59c62f-38d9-40db-a5f6-85c71508a165",
+              "name": "Error. Invalid phone format.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "webhooks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"triggers\": [\n    \"INCOMING_MESSAGE\"\n  ],\n  \"url\": \"https://example.com\",\n  \"requestPerSecLimit\": 15,\n  \"accountPhone\": \"8881234567\",\n  \"contactPhone\": \"3051234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "250df891-1837-42c2-8b82-91251102e0f5",
+    "name": "SimpleTexting API Documentation Webhooks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

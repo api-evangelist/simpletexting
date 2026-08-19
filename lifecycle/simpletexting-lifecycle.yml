@@ -1,0 +1,73 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://api-doc.simpletexting.com/ (v2 reference), https://simpletexting.com/api/docs/
+  (v1 reference), https://status.simpletexting.com/ and its Statuspage API
+  (https://status.simpletexting.com/api/v2/summary.json), probed 2026-08-13.
+description: >-
+  How SimpleTexting versions, deprecates and reports the health of its API. The
+  short version: two live API generations, no published deprecation policy, no
+  changelog, and a real Atlassian Statuspage that monitors the API as a named
+  component.
+versioning:
+  scheme: URI path
+  current: v2
+  current_base: https://api-app2.simpletexting.com/v2
+  spec_version: 2.0.0 (info.version in the published OpenAPI)
+  header: null
+  docs: https://api-doc.simpletexting.com/
+  notes: >-
+    Version lives in the path only. There is no version request header, no dated
+    version pinning, and no per-account version default. Breaking changes inside v2
+    would be invisible to a client.
+previous_versions:
+  - version: v1
+    base: https://app2.simpletexting.com/v1
+    docs: https://simpletexting.com/api/docs/
+    status: still documented and still served
+    notes: >-
+      A separate, form-encoded surface (content-type application/x-www-form-urlencoded)
+      that signals application errors in the body (`1` success / `0` plus a named error)
+      rather than with HTTP status codes. Its query-parameter `token` auth is closed to
+      new accounts — "Api token auth is only available for users that started using the
+      v1 api before 09.01.2021" — which is the only dated deprecation statement
+      SimpleTexting publishes anywhere.
+deprecation:
+  policy_url: null
+  changelog: null
+  sunset_header: false
+  deprecation_header: false
+  notes: >-
+    SimpleTexting publishes no deprecation policy page, no API changelog and no
+    release notes (probed 2026-08-13: /changelog/, /product-updates/, /whats-new/ all
+    404; the page sitemap lists no such page). No operation or parameter in the
+    published OpenAPI carries `deprecated: true`. The v1 -> v2 transition is
+    communicated only by the existence of two documentation sites.
+deprecated_operations: []
+status_page: https://status.simpletexting.com/
+status_page_detail:
+  provider: Atlassian Statuspage
+  probed: '2026-08-13'
+  api: https://status.simpletexting.com/api/v2/summary.json
+  feeds:
+    atom: https://status.simpletexting.com/history.atom
+    rss: https://status.simpletexting.com/history.rss
+  components: [Login, API, 'SMS (Incoming)', 'SMS (Outgoing)', 'MMS (Incoming)', 'MMS (Outgoing)']
+  note: >-
+    API is monitored as its own named component, and the page exposes a
+    machine-readable JSON API plus Atom/RSS history — an agent or monitor can
+    consume incident state directly.
+sla:
+  url: null
+  public_uptime_target: null
+  notes: >-
+    No numeric uptime commitment is published. https://simpletexting.com/terms/ is the
+    governing agreement; 90-day component uptime shown on the status page ranged
+    roughly 99.59%-100% at probe time, which is observation, not a commitment.
+support:
+  help_center: https://help.simpletexting.com/en/
+  email: support@simpletexting.net
+  api_access: >-
+    API access is approval-gated — "our API is by approval only ... sign up for a trial
+    account and email support@simpletexting.net with details about your use case."
+rate_limits: rate-limits/simpletexting-rate-limits.yml

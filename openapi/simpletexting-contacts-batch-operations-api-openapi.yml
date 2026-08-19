@@ -1,59 +1,393 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: SimpleTexting Campaigns Contacts - Batch Operations API
-  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
-  termsOfService: https://simpletexting.com/terms-of-service/
-  contact:
-    name: SimpleTexting Support
-    url: https://simpletexting.com/api/
-    email: support@simpletexting.com
-  version: '2.0'
+  title: SimpleTexting API Documentation Contacts - Batch Operations API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
 servers:
 - url: https://api-app2.simpletexting.com/v2
-  description: SimpleTexting v2 production API
 security:
-- bearerAuth: []
+- api_key: []
 tags:
 - name: Contacts - Batch Operations
-  description: Batch update and delete groups of contacts.
+  description: An endpoint to assist in batch operations on your contacts. Using these operations, you can update specific contact information, or delete contacts, all using the contacts phone as an ID.
 paths:
   /api/contacts-batch/batch-update:
     post:
-      operationId: batchUpdateContacts
       tags:
       - Contacts - Batch Operations
       summary: Update a Group of Contacts
-      description: Submits an asynchronous batch update task for a group of contacts.
-      responses:
-        '200':
-          description: Batch task accepted.
-  /api/contacts-batch/batch-update/{taskId}:
-    get:
-      operationId: getBatchUpdateResult
-      tags:
-      - Contacts - Batch Operations
-      summary: Get the Result of a Batch Update Task
-      parameters:
-      - name: taskId
-        in: path
+      description: "Update multiple fields at once for a batch of contacts. You can update their first name, last name, emails, lists, and more.\n\n**Example:** Here we are updating two contacts, seen in the array. The list replacement is set to true, so they will be removed from their existing list and added to a new one:\n\n`{ \"updates\": [ { \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"comment\": \"VIP client\", \"listIds\": [ \"507f191e810c19729de860ea\", \"My First List\" ] },{ \"contactPhone\": \"0987654321\", \"firstName\": \"Jane\", \"lastName\": \"Doe\", \"email\": \"jane.doe@simpletexting.net\", \"birthday\": \"1984-05-25\", \"customFields\": { \"zipcode\": \"54321\" }, \"comment\": \"VIP client\", \"listIds\": [ \"507f191e810c19729de860ea\", \"My First List\" ] } ], \"listsReplacement\": true }`\n\nStep 1: Start the task for the batch update with the above parameters. As a result, you receive the task ID.\n\nExample:\n\n`{ \"id\": \"6176fb3e141c0060668b2c03\" }`\n\nStep 2: Request the task result by adding task ID from Step 1 to the [Get update result](#operation/getBatchUpdateResults) request.\n\nExample:\n\n`{\n  \"status\": \"DONE\",\n  \"results\":\n[{ \"done\": true,\n  \"contactPhone\": \"1234567890\",\n  \"contactId\": \"6176f999141c0060668b258e\" },\n{ \"done\": true,\n\"contactPhone\": \"0987654321\",\n\"contactId\": \"1236f555141c0060668b123e\"}],\n\"requestedCount\": 2,\n\"processedCount\": 2\n}`"
+      operationId: processBatchUpdate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsBatchUpdate'
         required: true
-        schema:
-          type: string
       responses:
-        '200':
-          description: Batch task result.
+        '201':
+          description: Success. Contacts were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIdDto'
   /api/contacts-batch/batch-delete:
     post:
-      operationId: batchDeleteContacts
       tags:
       - Contacts - Batch Operations
       summary: Delete a Group of Contacts
+      description: 'Delete a group of contacts from SimpleTexting using their phone numbers.
+
+
+        **Example:** Below, we delete a batch of contacts identified here by their phone number in the array:
+
+
+        `{ "contactPhones": [ "1234567890", "0987654321", "1122334455" ] }`'
+      operationId: processBatchDelete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsBatchDelete'
+        required: true
       responses:
-        '200':
-          description: Batch delete accepted.
+        '201':
+          description: Success. Contacts were successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactsBatchDeleteResult'
+  /api/contacts-batch/batch-update/{taskId}:
+    get:
+      tags:
+      - Contacts - Batch Operations
+      summary: Get the Result of a Batch Update Task
+      description: Return the result of a batch update by the task id.
+      operationId: getBatchUpdateResults
+      parameters:
+      - name: taskId
+        in: path
+        description: 'The ID of the task for the batch update
+
+
+          **Example:** `6176fb3e141c0060668b2c03`'
+        required: true
+        schema:
+          type: string
+        example: 6176fb3e141c0060668b2c03
+      responses:
+        '201':
+          description: Success. Contacts were successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactsBatchUpdateResult'
 components:
+  schemas:
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    CustomFieldsOpenApiDescription:
+      title: Key/value pairs
+      type: object
+      properties:
+        Merge tag:
+          type: string
+          description: '**Example:** `"zipcode": "12345"`'
+          example: '{"zipcode":"12345"}'
+      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
+
+
+        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
+
+
+        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+      example:
+        zipcode: '12345'
+    ContactsBatchDeleteResult:
+      type: object
+      properties:
+        results:
+          type: array
+          description: List of the deleted contacts
+          items:
+            $ref: '#/components/schemas/ContactDeleteResult'
+    ContactUpdate:
+      required:
+      - contactPhone
+      type: object
+      properties:
+        contactPhone:
+          type: string
+          description: 'Contact''s phone number
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        firstName:
+          maxLength: 100
+          type: string
+          description: 'Contact''s first name.
+
+
+            **Example:** `John`'
+          example: John
+        lastName:
+          maxLength: 100
+          type: string
+          description: 'Contact''s last name
+
+
+            **Example:** `Doe`'
+          example: Doe
+        email:
+          type: string
+          description: 'Contact''s email
+
+
+            **Example:** `john.doe@simpletext.org`'
+          example: john.doe@simpletext.org
+        birthday:
+          type: string
+          description: 'Contact''s birthday in format (yyyy-mm-dd)
+
+
+            **Example:** `1985-05-15`'
+          example: '1985-05-15'
+        customFields:
+          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
+        comment:
+          maxLength: 1000
+          type: string
+          description: 'Notes about the contact.
+
+
+            **Example:** `VIP client`'
+          example: VIP client
+        listIds:
+          type: array
+          description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+      description: List of updates for contacts
+    ContactsBatchDelete:
+      required:
+      - contactPhones
+      type: object
+      properties:
+        contactPhones:
+          title: 'List of contacts'' phone numbers for deletion
+
+
+            **Example:** `["1234567890","1234567891"]`'
+          maxItems: 500
+          minItems: 0
+          type: array
+          example:
+          - '1234567890'
+          items:
+            title: 'List of contacts'' phone numbers for deletion
+
+
+              **Example:** `["1234567890","1234567891"]`'
+            type: string
+            example: '["1234567890"]'
+      description: ContactsBatchDelete
+    ContactsBatchUpdateResult:
+      type: object
+      properties:
+        status:
+          title: Task status
+          type: string
+          enum:
+          - IN_PROGRESS
+          - DONE
+        results:
+          type: array
+          description: List of update results
+          items:
+            $ref: '#/components/schemas/ContactUpdateResult'
+        requestedCount:
+          title: Total count
+          type: integer
+          description: Contacts count that were requested to be updated/added
+          format: int32
+          example: 400
+        processedCount:
+          title: Processed count
+          type: integer
+          description: Contacts count that were updated/added
+          format: int32
+          example: 400
+    ContactUpdateResult:
+      type: object
+      properties:
+        done:
+          type: boolean
+          description: 'If operation was successful
+
+
+            **Example:** `true`'
+          example: true
+        contactPhone:
+          type: string
+          description: 'Contact phone from update request
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        contactId:
+          type: string
+          description: 'Contact ID if contact exists
+
+
+            **Example:** `507f1f77bcf86cd799439011`'
+          example: 507f1f77bcf86cd799439011
+        errorCode:
+          type: string
+          description: "Operation error code, if operation has failed:\n\n  - **CONTACT_CREATE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_UPDATE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_IMPORT_LIMIT_IS_REACHED:** Your account has reached its import limit. Please reach out to SimpleTexting support to raise this limit\n\n  - **CONTACT_CREATE_FAILED:** Some error occurred while creating your contact. Please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_IMPORT_LIMIT_IS_REACHED:** Your account has reached its import limit. Please reach out to SimpleTexting support to raise this limit\n\n  - **CONTACT_UPDATE_FAILED:** Some error occurred while updating your contact. Please reach out to SimpleTexting support for further investigation\n\n**Example:** `CONTACT_CREATE_FAILED`"
+          example: CONTACT_CREATE_FAILED
+          enum:
+          - CONTACT_CREATE_INTERNAL_ERROR
+          - CONTACT_UPDATE_INTERNAL_ERROR
+          - CONTACT_IMPORT_LIMIT_IS_REACHED
+          - CONTACT_CREATE_FAILED
+          - CONTACT_UPDATE_FAILED
+        errorMessage:
+          type: string
+          description: Additional error message if operation has failed
+          example: Contacts limit is reached
+      description: List of update results
+    ContactsBatchUpdate:
+      required:
+      - updates
+      type: object
+      properties:
+        listsReplacement:
+          type: boolean
+          description: 'If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list.
+
+
+            **Example:** `true`'
+          example: true
+        updates:
+          maxItems: 500
+          minItems: 0
+          type: array
+          description: List of updates for contacts
+          items:
+            $ref: '#/components/schemas/ContactUpdate'
+      description: Add new contacts or update existing, based on unique contact phone. One contact per object in the array
+    ContactDeleteResult:
+      type: object
+      properties:
+        done:
+          type: boolean
+          description: 'If operation was successful
+
+
+            **Example:** `true`'
+          example: true
+        contactPhone:
+          type: string
+          description: 'Contact''s phone number from the delete request
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        contactId:
+          type: string
+          description: 'Contact ID if contact was found
+
+
+            **Example:** `507f1f77bcf86cd799439011`'
+          example: 507f1f77bcf86cd799439011
+        errorCode:
+          type: string
+          description: "Contact's phone number from the delete request\n\n  - **UNKNOWN_CONTACT_PHONE:** A contact with that phone number could not be found on your account\n\n  - **CONTACT_DELETE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n**Example:** `UNKNOWN_CONTACT_PHONE`"
+          example: UNKNOWN_CONTACT_PHONE
+          enum:
+          - UNKNOWN_CONTACT_PHONE
+          - CONTACT_DELETE_INTERNAL_ERROR
+        errorMessage:
+          type: string
+          description: 'Additional error message if the operation has failed
+
+
+            **Example:** `Contact with provided phone number is missing`'
+          example: Contact with provided phone number is missing
+      description: List of the deleted contacts
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

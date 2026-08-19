@@ -1,0 +1,69 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  Live unauthenticated GETs on 2026-08-13 against every host named in apis.yml
+  (baseURL), the OpenAPI servers[] host, the documentation host and the web
+  application host.
+description: >-
+  SimpleTexting serves NO /.well-known/ discovery document on any of its hosts.
+  simpletexting.com, api-app2.simpletexting.com and app2.simpletexting.com return
+  404 on every probed path. api-doc.simpletexting.com returns HTTP 200 for every
+  path, but the body is the ReDoc single-page-application shell
+  (text/html, "<title>SimpleTexting API Documentation</title>") — an SPA
+  catch-all, not a document. Those 200s are recorded as MISSES.
+  Because nothing real was served, this repo emits NO `type: WellKnown` and NO
+  `type: SecurityTxt` pointer in apis.yml.
+documents_found: 0
+hosts:
+  - host: https://simpletexting.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+      - {path: /llms.txt, status: 404}
+  - host: https://api-app2.simpletexting.com
+    note: The OpenAPI servers[] host and the apis.yml baseURL host.
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+      - {path: /llms.txt, status: 200, type: text/html, real_document: false,
+         note: Application shell HTML, not an llms.txt.}
+  - host: https://api-doc.simpletexting.com
+    note: >-
+      Documentation host. A ReDoc SPA that answers 200 with the same HTML page
+      for every path, including paths that do not exist. Every 200 below is a
+      soft-200, not a served document.
+    documents:
+      - {path: /.well-known/security.txt, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/openid-configuration, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/api-catalog, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/agent-card.json, status: 200, type: text/html, real_document: false}
+      - {path: /.well-known/agent.json, status: 200, type: text/html, real_document: false}
+      - {path: /llms.txt, status: 200, type: text/html, real_document: false}
+  - host: https://app2.simpletexting.com
+    note: Web application host where API tokens and webhooks are configured.
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+      - {path: /llms.txt, status: 200, type: text/html, real_document: false,
+         note: Application shell HTML, not an llms.txt.}

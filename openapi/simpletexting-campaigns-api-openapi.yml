@@ -1,123 +1,666 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: SimpleTexting Campaigns API
-  description: The SimpleTexting v2 REST API lets developers send SMS and MMS messages, manage contacts and contact lists, run bulk campaigns, upload media, read custom fields and segments, and subscribe to webhook events. The API is organized around REST, uses standard HTTP verbs and response codes, accepts and returns JSON, and is authenticated with a bearer token in the Authorization header.
-  termsOfService: https://simpletexting.com/terms-of-service/
-  contact:
-    name: SimpleTexting Support
-    url: https://simpletexting.com/api/
-    email: support@simpletexting.com
-  version: '2.0'
+  title: SimpleTexting API Documentation Campaigns API
+  description: '# Introduction
+
+
+
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
+
+
+    **How it works**
+
+
+    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
+
+
+    - When using the POST request, you must specify that `content-type` is `application/json`.
+
+
+
+    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
+
+
+    # Authentication
+
+
+    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
+
+    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+
+    '
+  termsOfService: https://simpletexting.com/terms/
+  version: 2.0.0
 servers:
 - url: https://api-app2.simpletexting.com/v2
-  description: SimpleTexting v2 production API
 security:
-- bearerAuth: []
+- api_key: []
 tags:
 - name: Campaigns
-  description: Create and retrieve bulk campaigns to lists and segments.
+  description: "Send and manage campaigns directly from the SimpleTexting API. The endpoint allows you to Create and Send a campaign, get a specific campaign by its name or ID, or list all of your SimpleTexting campaigns. \n\n**Note:** If the message contains a link from a common third-party link shortener such as bit.ly, it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners)."
 paths:
   /api/campaigns:
     get:
-      operationId: getAllCampaigns
       tags:
       - Campaigns
       summary: Get all Campaigns
-      description: Returns a paginated list of campaigns.
+      description: 'Get all campaigns from the SimpleTexting system. You can filter campaigns by type using the `type` query parameter. By default, if `type` is not specified, only immediate campaigns are returned (scheduled and recurring campaigns will not be included).
+
+
+        **Example:** We request all `SENT` campaigns sent from the `8005551234` number to the list `My  First List`:
+
+
+        `https://api-app2.simpletexting.com/v2/api/campaigns?page=100&size=2&accountPhone=8005551234&state=SENT&listNameOrId=My First List&startDateFrom=2021-04-28T23:20:08.489Z&startDateTo=2021-05-28T23:20:08.489Z`'
+      operationId: getCampaigns
       parameters:
       - name: page
         in: query
+        description: An ordinal number of the page to return with the results of a request (with the campaigns sent from the given number). Please note that page numbering starts at zero (`0`)
+        required: false
         schema:
+          minimum: 0
           type: integer
+          format: int32
+          default: 0
+        example: 100
       - name: size
         in: query
+        description: The number of the returned campaigns to show per page
+        required: false
         schema:
+          maximum: 500
           type: integer
+          format: int32
+          default: 50
+        example: 2
+      - name: accountPhone
+        in: query
+        description: The phone number the campaign was sent from
+        required: false
+        schema:
+          type: string
+        example: 8005551234
+      - name: type
+        in: query
+        description: "The type of the campaigns you wish to retrieve:\n\n  - **ALL:** Returns all campaign types\n\n  - **IMMEDIATELY:** Returns immediate campaigns\n\n  - **SCHEDULED:** Returns scheduled campaigns\n\n  - **RECURRING:** Returns recurring campaigns\n\n  - **RECURRING_SCHEDULED:** Returns recurring scheduled campaigns"
+        required: false
+        schema:
+          type: string
+          enum:
+          - ALL
+          - IMMEDIATELY
+          - SCHEDULED
+          - RECURRING
+          - RECURRING_SCHEDULED
+        example: IMMEDIATELY
+      - name: state
+        in: query
+        description: "The current state of the campaigns you wish to retrieve:\n\n  - **ERROR:** Returns campaigns that were not sent because of errors\n\n  - **PAUSED:** Returns Paused campaigns on your account\n\n  - **SENDING:** Returns sending campaigns\n\n  - **COMPLETED:** Returns all successfully sent campaigns on your account\n\n  - **MONITORING:** Returns all campaigns that includes \"stop\" words or malicious links"
+        required: false
+        schema:
+          type: string
+          enum:
+          - PAUSED
+          - SENDING
+          - COMPLETED
+          - ERROR
+          - MONITORING
+        example: SENDING
+      - name: listNameOrId
+        in: query
+        description: The list name or list ID
+        required: false
+        schema:
+          type: string
+        example: My First List
+      - name: startDateFrom
+        in: query
+        description: List campaigns starting from a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2021-04-28T23:20:08.489Z'
+      - name: startDateTo
+        in: query
+        description: List campaigns up to a certain date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+        required: false
+        schema:
+          type: string
+          format: date-time
+        example: '2021-05-28T23:20:08.489Z'
       responses:
         '200':
-          description: A page of campaigns.
+          description: Success. Fetched list of campaigns
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageViewFetchedCampaignDto'
     post:
-      operationId: sendCampaign
       tags:
       - Campaigns
       summary: Send a Campaign
-      description: Sends a bulk campaign immediately to one or more lists or segments.
+      description: 'Create and send a campaign.
+
+
+        **Example:** Here we created a campaign from our short code `8005551234` and sent it to a segment identified here by its ID, along with a list called `My First List`. We also specified that the `First Name` custom field will only take up 20 characters. Finally, we specified that 2 pieces of media will be attached. One is housed on SimpleTexting and identified by its ID, the other is getting pulled from an external link:
+
+
+        `{ "title": "My first campaign", "listsOrSegments": [ "507f191e810c19729de860ea", "My First List" ], "accountPhone": "8005551234", "customFieldsMaxLength": { "firstName": 20 }, "messageTemplate": { "title": "My first campaign", "subject": "My first campaign", "text": "Hi %%firstname%%, welcome to our campaign!", "fallbackText": "My first campaign", "mediaItems": [ "https://txt.so/img.jpg", "507f1f77bcf86cd799439011" ] } }`'
+      operationId: createCampaign
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ImmediatelyCampaignRequest'
+        required: true
       responses:
-        '200':
-          description: The created campaign.
+        '201':
+          description: Success. Campaign was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIdDto'
   /api/campaigns/{campaignId}:
     get:
-      operationId: getCampaign
       tags:
       - Campaigns
       summary: Get a Campaign
+      description: 'Get a campaign via its unique ID.
+
+
+        **Example:** Below, we return the information associated with the campaign whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Campaigns](#operation/fetchCampaigns) endpoint to retrieve campaign IDs for all of your campaigns:
+
+
+        `https://api-app2.simpletexting.com/v2/api/507f1f77bcf86cd799439011`'
+      operationId: getCampaign
       parameters:
       - name: campaignId
         in: path
+        description: Campaign ID in hexadecimal format
         required: true
         schema:
           type: string
+        example: 507f1f77bcf86cd799439011
       responses:
         '200':
-          description: The requested campaign.
+          description: Success. Fetched campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchedCampaignDto'
 components:
   schemas:
-    MessageTemplate:
+    FetchedCampaignDto:
+      required:
+      - accountPhone
+      - campaignId
+      - lists
+      - messageTemplate
+      - segments
+      - state
+      - title
       type: object
+      properties:
+        campaignId:
+          type: string
+          description: 'Existing campaign ID in hexadecimal format
+
+
+            **Example:** `607f0558a7c898629dd47d7a`'
+          example: 607f0558a7c898629dd47d7a
+        title:
+          type: string
+          description: 'Campaign name
+
+
+            **Example:** `My first campaign`'
+          example: My first campaign
+        accountPhone:
+          type: string
+          description: 'Number the campaign was sent from
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        customFieldsMaxLength:
+          type: object
+          additionalProperties:
+            type: integer
+            description: Custom fields length in current campaign
+            format: int32
+          description: Custom fields length in current campaign
+          example:
+            firstname: '20'
+        state:
+          type: string
+          description: 'The current state of the campaign
+
+
+            **Example:** `COMPLETED`'
+          example: COMPLETED
+          enum:
+          - PAUSED
+          - SENDING
+          - COMPLETED
+          - ERROR
+          - MONITORING
+        type:
+          type: string
+          description: 'The type of the campaign
+
+
+            **Example:** `IMMEDIATELY`'
+          example: IMMEDIATELY
+          enum:
+          - IMMEDIATELY
+          - SCHEDULED
+          - RECURRING
+          - RECURRING_SCHEDULED
+        lists:
+          type: array
+          description: List of lists campaign was sent to
+          example:
+          - id: 5f6c760379f4e93135aac72b
+            name: My First List
+          items:
+            $ref: '#/components/schemas/ContactList'
+        segments:
+          type: array
+          description: List of segments campaign was sent to
+          example:
+          - id: 5f6c760379f4e93135aac72b
+            name: My First List
+          items:
+            $ref: '#/components/schemas/Segment'
+        created:
+          type: string
+          description: 'Created timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        modified:
+          type: string
+          description: 'Modified timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        started:
+          type: string
+          description: 'Started timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        finished:
+          type: string
+          description: 'Finished timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.
+
+
+            **Example:** `2021-04-28T23:20:08.489Z`'
+          format: date-time
+          example: '2021-04-28T23:20:08.489Z'
+        messageTemplate:
+          $ref: '#/components/schemas/FetchedMessageTemplate'
+        origin:
+          type: string
+          description: 'The origin of the campaign will be `API_V2` if sent via the API, it will be `null` in all other cases
+
+
+            **Example:** `API_V2`'
+          example: API_V2
+          enum:
+          - API_V2
+        outcome:
+          $ref: '#/components/schemas/FetchedCampaignOutcomeDto'
+        trackingLinks:
+          type: array
+          description: 'The links that were tracked with the campaign, if available
+
+
+            **Example:** `{"url": "www.simpletexting.net","clickCount": 550}`'
+          example:
+            url: www.simpletexting.net
+            clickCount: 550
+          items:
+            $ref: '#/components/schemas/TrackingLink'
+      description: Page content and number of elements is restricted by page size.
+    FetchedMessageTemplate:
+      required:
+      - text
+      type: object
+      properties:
+        category:
+          type: string
+          description: "The detected category of the message:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: MMS
+          enum:
+          - SMS
+          - MMS
+          - EXTENDED_SMS
+        subject:
+          type: string
+          description: 'The message Subject (available for MMS)
+
+
+            **Example:** `Some message from SimpleTexting`'
+          example: Some message from SimpleTexting
+        text:
+          type: string
+          description: 'The message body
+
+
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        fallbackText:
+          type: string
+          description: 'The fallback message (available for MMS)
+
+
+            **Example:** `We sent you a message!`'
+          example: We sent you a message!
+        mediaItems:
+          type: array
+          description: 'A list of attached media item IDs or URLs
+
+
+            **Example:** `["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]`'
+          example:
+          - https://txt.so/img.jpg
+          - 507f1f77bcf86cd799439333
+          items:
+            type: string
+            description: 'A list of attached media item IDs or URLs
+
+
+              **Example:** `["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]`'
+            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]'
+      description: 'Template of message sent
+
+
+        **Example:** `{"mode": "MMS","subject": "Some message from SimpleTexting","text": "Hello! How are you?","fallbackText": "Some text","mediaItems": ["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]}`'
+    ContactList:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Existing list ID
+          example: 5f6c760379f4e93135aac72a
+        name:
+          type: string
+          description: Existing list name
+          example: list name
+      description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
+      example:
+      - id: 5f6c760379f4e93135aac72b
+        name: list name
+    FetchedCampaignOutcomeDto:
+      type: object
+      properties:
+        successRate:
+          type: integer
+          description: The success rate of the campaign
+          format: int32
+          example: 100
+        optOutRate:
+          type: integer
+          description: The opt out rate of the campaign
+          format: int32
+          example: 0
+        totalSent:
+          type: integer
+          description: The total number of messages sent in the campaign
+          format: int32
+          example: 1000
+        creditsTotal:
+          type: integer
+          description: The total number of credits used
+          format: int32
+          example: 1000
+      description: 'The available stats for the campaign that was retrieved
+
+
+        **Example:** `{"successRate": 100,"optOutRate": 0,"totalSent": 1000,"creditsTotal": 1000}`'
+      example:
+        successRate: 100
+        optOutRate: 0
+        totalSent: 1000
+        creditsTotal: 1000
+    Segment:
+      type: object
+      properties:
+        segmentId:
+          title: Segment ID in hexadecimal format
+          type: string
+          example: 507f191e810c19729de860ea
+        name:
+          title: Segment name
+          type: string
+        created:
+          title: Created timestamp
+          type: string
+          format: date-time
+        updated:
+          title: Updated timestamp
+          type: string
+          format: date-time
+      description: Page content and number of elements is restricted by page size.
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    TrackingLink:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The links that were tracked in the sent campaign
+          example: www.simpletexting.net
+        clickCount:
+          type: integer
+          description: The number of clicks the links received
+          format: int32
+          example: 550
+      description: 'The links that were tracked with the campaign, if available
+
+
+        **Example:** `{"url": "www.simpletexting.net","clickCount": 550}`'
+      example:
+        url: www.simpletexting.net
+        clickCount: 550
+    ImmediatelyCampaignRequest:
+      required:
+      - messageTemplate
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'Campaign title
+
+
+            **Example:** `My first campaign`'
+          example: My first campaign
+        listIds:
+          type: array
+          description: 'Lists IDs or names
+
+
+            **Example:** `["507f191e810c19729de860ea","My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'Lists IDs or names
+
+
+              **Example:** `["507f191e810c19729de860ea","My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+        segmentIds:
+          type: array
+          description: 'Segments IDs or names
+
+
+            **Example:** `["507f191e810c19729de860ea","My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'Segments IDs or names
+
+
+              **Example:** `["507f191e810c19729de860ea","My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+        accountPhone:
+          type: string
+          description: 'Account phone, primary number is default
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        customFieldsMaxLength:
+          type: object
+          additionalProperties:
+            type: integer
+            description: 'Custom fields length in current campaign, overwrite default settings. See /custom-fields
+
+
+              **Example:** `{"firstname":"20"}`'
+            format: int32
+          description: 'Custom fields length in current campaign, overwrite default settings. See /custom-fields
+
+
+            **Example:** `{"firstname":"20"}`'
+          example:
+            firstname: '20'
+        messageTemplate:
+          $ref: '#/components/schemas/MessageTemplate'
+    MessageTemplate:
       required:
       - mode
       - text
+      type: object
       properties:
         mode:
           type: string
+          description: "SMS or MMS? AUTO by default:\n\n  - **AUTO:** this means that SimpleTexting will automatically determine the type of message you would like to send\n\n  - **SINGLE_SMS_STRICTLY:** this will send only a single SMS or return an error\n\n  - **MMS_PREFERRED:** this will send an MMS or fallback SMS if MMS is not enabled by your contacts' carriers\n\n**Example:** `MMS_PREFERRED`\n\n`AUTO` is the default value for this field.\n\n**Example:** `MMS_PREFERRED`"
+          example: MMS_PREFERRED
           enum:
           - AUTO
           - SINGLE_SMS_STRICTLY
           - MMS_PREFERRED
         subject:
           type: string
+          description: 'Subject (available for MMS)
+
+
+            **Example:** `Some message from SimpleTexting`'
+          example: My first campaign
         text:
           type: string
+          description: 'Text body
+
+
+            **Example:** `Hi %%firstname%%, welcome to our campaign!`'
+          example: Hi %%firstname%%, welcome to our campaign!
         unsubscribeText:
           type: string
+          description: 'Custom unsubscribe message will be appended to the message text. A default message will be appended if not specified.
+
+
+            **Example:** `If you no longer wish to hear from us, reply STOP`'
+          example: If you no longer wish to hear from us, reply STOP
         fallbackText:
           type: string
+          description: 'Custom fallback text if MMS cannot be received. Should contain ''[url=%%fallback_link%%]'' placeholder that will be replaced with a link to the message
+
+
+            **Example:** `Some text`'
+          example: My first campaign
         fallbackUnsubscribeText:
           type: string
+          description: 'Custom unsubscribe message will be appended to the fallback text. A default message will be appended if not specified.
+
+
+            **Example:** `If you no longer wish to hear from us, reply STOP`'
+          example: If you no longer wish to hear from us, reply STOP
         mediaItems:
           type: array
+          description: 'List of MMS media URLs for temporal storing or media items IDs
+
+
+            **Example:** `["https://txt.so/img.jpg", "507f1f77bcf86cd799439011"]`'
+          example:
+          - https://txt.so/img.jpg
+          - 507f1f77bcf86cd799439011
           items:
             type: string
-    ImmediatelyCampaignRequest:
+            description: 'List of MMS media URLs for temporal storing or media items IDs
+
+
+              **Example:** `["https://txt.so/img.jpg", "507f1f77bcf86cd799439011"]`'
+            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439011"]'
+      description: 'Campaign Template
+
+
+        **Example:** `{ "mode": "MMS_PREFERRED", "subject": "My first campaign", "text": "Hi %%firstname%%, welcome to our campaign!", "fallbackText": "My first campaign", "unsubscribeText": "If you no longer wish to hear from us, reply STOP", "fallbackUnsubscribeText": "If you no longer wish to hear from us, reply STOP", "mediaItems": [ "https://txt.so/img.jpg", "507f1f77bcf86cd799439011" ] }`'
+    PageViewFetchedCampaignDto:
       type: object
-      required:
-      - messageTemplate
-      - title
       properties:
-        title:
-          type: string
-        listIds:
+        content:
           type: array
+          description: Page content and number of elements is restricted by page size.
           items:
-            type: string
-        segmentIds:
-          type: array
-          items:
-            type: string
-        accountPhone:
-          type: string
-        customFieldsMaxLength:
-          type: object
-        messageTemplate:
-          $ref: '#/components/schemas/MessageTemplate'
+            $ref: '#/components/schemas/FetchedCampaignDto'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'Send the API token as a bearer token in the Authorization header: `Authorization: Bearer <token>`. Generate a token in the SimpleTexting web app under Settings.'
+    api_key:
+      type: apiKey
+      description: 'Bearer authentication (also called token authentication) is an authentication scheme that involves security tokens called bearer tokens. The name “Bearer authentication” can be understood as “give access to the bearer of this token.” The bearer token is a cryptic string, usually generated by the server in response to a login request. The client must send this token in the `Authorization: Bearer <token>` header when making requests to protected resources. To understand more about bearer tokens, please take a look at the following [resource](https://swagger.io/docs/specification/authentication/bearer-authentication/).'
+      name: Authorization
+      in: header
+x-tagGroups:
+- name: CAMPAIGNS & MESSAGES
+  tags:
+  - Campaigns
+  - Messages
+  - Media Items
+  - File Information
+- name: Contacts
+  tags:
+  - Contacts
+  - Contacts - Batch Operations
+  - Contact Lists
+  - Contact Segments
+  - Custom Fields
+- name: Webhook Services
+  tags:
+  - Webhooks
+  - Webhook Reports

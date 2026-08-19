@@ -1,0 +1,776 @@
+{
+  "item": [
+    {
+      "id": "4f9c1cfb-8b17-464f-9104-f676a2da3610",
+      "name": "Contact Lists",
+      "description": {
+        "content": "Create, update, and delete contact lists.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "916d06b1-cc15-42c9-9df2-b3d1ef1003ab",
+          "name": "Update a List Name",
+          "request": {
+            "name": "Update a List Name",
+            "description": {
+              "content": "Update the name of an existing list.\n\n**Example:** Here we updated a list name with a new name `My Newer List`:\n\n`{ \"name\": \"My Newer List\" }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "listId",
+                  "description": "(Required) List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My Newer list"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2eaf662a-78f3-46f9-a24f-fc3420999a5c",
+              "name": "Success. List name updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists",
+                    ":listId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "listId",
+                      "description": "(Required) List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My Newer list"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"My new list\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e536a2f2-55e7-44cd-8ee9-f2519694dc15",
+          "name": "Get all Lists",
+          "request": {
+            "name": "Get all Lists",
+            "description": {
+              "content": "Retrieves all lists from your SimpleTexting account.\n\n**Example:** Here we return all lists from an account:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists?page=100&size=2`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "An ordinal number of the page to return with the results of a request (with the lists of the given account). Please note that page numbering starts at zero (`0`)\n\n**Example:** `15`"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "50",
+                  "description": "The number of the returned lists to show per page\n\n**Example:** `50`"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cc4d0d94-ed79-4168-83d7-6997a2e2ac50",
+              "name": "Success. Returns all lists in a given SimpleTexting account.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "15"
+                    },
+                    {
+                      "key": "size",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"listId\": \"507f191e810c19729de860ea\",\n      \"name\": \"My First List\",\n      \"created\": \"2021-04-28T23:20:08.489Z\",\n      \"updated\": \"2021-04-28T23:20:08.489Z\",\n      \"description\": \"List for 'SALE' keyword\",\n      \"totalContactsCount\": 25,\n      \"activeContactsCount\": 40,\n      \"invalidContactsCount\": 1,\n      \"unsubscribedContactsCount\": 2,\n      \"keywords\": [\n        \"MYFIRSTKEYWORD\",\n        \"MYFIRSTKEYWORD\"\n      ]\n    },\n    {\n      \"listId\": \"507f191e810c19729de860ea\",\n      \"name\": \"My First List\",\n      \"created\": \"2021-04-28T23:20:08.489Z\",\n      \"updated\": \"2021-04-28T23:20:08.489Z\",\n      \"description\": \"List for 'SALE' keyword\",\n      \"totalContactsCount\": 25,\n      \"activeContactsCount\": 40,\n      \"invalidContactsCount\": 1,\n      \"unsubscribedContactsCount\": 2,\n      \"keywords\": [\n        \"MYFIRSTKEYWORD\",\n        \"MYFIRSTKEYWORD\"\n      ]\n    }\n  ],\n  \"totalPages\": 7646,\n  \"totalElements\": 5863\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a40b9400-a4b2-448b-abdb-e77618a8e522",
+          "name": "Create a List",
+          "request": {
+            "name": "Create a List",
+            "description": {
+              "content": "This endpoint is used to create a new contact list in a given SimpleTexting account.\n\n**Example:** Here we create a list whose name is `My New List`:\n\n`{ \"name\": \"My New List\" }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bee24a56-4e24-49cb-9b8a-fce699e8b28d",
+              "name": "Success. List created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"My new list\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6458b35-a580-4e75-8f8a-3b8d58498c58",
+          "name": "Add Contact To List",
+          "request": {
+            "name": "Add Contact To List",
+            "description": {
+              "content": "Add contact to specified list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "listIdOrName",
+                  "description": "(Required) List ID or name to add the contact.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhoneOrId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5964f8f8-b547-4144-b204-4990e54675d2",
+              "name": "Success. Fetched list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists",
+                    ":listIdOrName",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "listIdOrName",
+                      "description": "(Required) List ID or name to add the contact.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactPhoneOrId\": \"3051234567 / 507f1f77bcf86cd799439011\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bdf8cd3a-e991-478c-b7b0-f9a302c35dd3",
+          "name": "Get a List",
+          "request": {
+            "name": "Get a List",
+            "description": {
+              "content": "Return a contact list by its unique list ID or name.\n\n**Example:** Below, we return the information associated with the List whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Lists](#operation/getLists) endpoint to retrieve List IDs for all of your Lists:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "listIdOrName",
+                  "description": "(Required) List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c5073ecc-d753-4852-8ecc-fd6a5b9b488d",
+              "name": "Success. Fetched list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists",
+                    ":listIdOrName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "listIdOrName",
+                      "description": "(Required) List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"listId\": \"507f191e810c19729de860ea\",\n  \"name\": \"My First List\",\n  \"created\": \"2021-04-28T23:20:08.489Z\",\n  \"updated\": \"2021-04-28T23:20:08.489Z\",\n  \"description\": \"List for 'SALE' keyword\",\n  \"totalContactsCount\": 25,\n  \"activeContactsCount\": 40,\n  \"invalidContactsCount\": 1,\n  \"unsubscribedContactsCount\": 2,\n  \"keywords\": [\n    \"MYFIRSTKEYWORD\",\n    \"MYFIRSTKEYWORD\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6d6780b-b78b-426d-af01-9423882b139f",
+          "name": "Delete a List",
+          "request": {
+            "name": "Delete a List",
+            "description": {
+              "content": "Delete an existing list using the list ID or name.\n\n**Example:** Here we delete a List whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Lists] (#operation/getLists) endpoint to retrieve List IDs for all of your Lists:\n\n`https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "listIdOrName",
+                  "description": "(Required) List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "02999d70-ad09-4549-93a0-1e4c1e0eefeb",
+              "name": "Success. List was deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists",
+                    ":listIdOrName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "listIdOrName",
+                      "description": "(Required) List ID in hexadecimal format or name.\n\n**Example:** 507f1f77bcf86cd799439011 / My new list"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01de53da-00d4-4bbe-a126-dabff40e0973",
+          "name": "Remove Contact From List",
+          "request": {
+            "name": "Remove Contact From List",
+            "description": {
+              "content": "Remove contact from specified list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contact-lists",
+                ":listIdOrName",
+                "contacts",
+                ":contactPhoneOrId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "listIdOrName",
+                  "description": "(Required) List ID or name to remove the contact from.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contactPhoneOrId",
+                  "description": "(Required) Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "357b05cf-238b-4139-b9f4-60d8893b8d9d",
+              "name": "Success. Contact was removed from list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contact-lists",
+                    ":listIdOrName",
+                    "contacts",
+                    ":contactPhoneOrId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "listIdOrName",
+                      "description": "(Required) List ID or name to remove the contact from.\n\n**Example:** 507f191e810c19729de860ea / My First List"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPhoneOrId",
+                      "description": "(Required) Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f7489ac6-0f10-47dd-9c0a-4181d328b3e8",
+    "name": "SimpleTexting API Documentation Contact Lists API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

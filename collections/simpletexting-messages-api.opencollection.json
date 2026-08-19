@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Messages API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages",
+            "params": [
+              {
+                "name": "page",
+                "value": "25",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the messages of the given number). Please note that page numbering starts at zero (`0`)"
+              },
+              {
+                "name": "size",
+                "value": "50",
+                "type": "query",
+                "description": "The number of the returned messages to show per page"
+              },
+              {
+                "name": "accountPhone",
+                "value": "8005551234",
+                "type": "query",
+                "description": "The phone number on your account the messages were sent to. If blank, the request will return the messages sent to the primary account phone"
+              },
+              {
+                "name": "since",
+                "value": "2021-04-28T23:20:08.489Z",
+                "type": "query",
+                "description": "First sent/received timestamp. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format."
+              },
+              {
+                "name": "contactPhone",
+                "value": "8001234567",
+                "type": "query",
+                "description": "The contact's phone number"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all messages sent to a specific contact from a specific number on your account.\n\n**Example:** Here we return all messages from an account:\n\n`https://api-app2.simpletexting.com/v2/api/messages?page=100&size=500`"
+        },
+        {
+          "info": {
+            "name": "Send a Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send either an MMS or SMS message to a contact. Use this programmatically to send to multiple contacts.\n\nIf the message contains a link from a common third-party link shortener such as [bit.ly](http://bit.ly/), it will appear from our URL shortener instead and occupy 20 characters. [Learn more](https://help.simpletexting.com/en/articles/3362741-why-carriers-don-t-allow-bit-ly-and-other-third-party-link-shorteners).\n\nThere are limitations on Media Files with MMS messages. The size limitations of "
+        },
+        {
+          "info": {
+            "name": "Evaluate a Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages/evaluate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Evaluate the body of your message before sending it to a contact or contacts.\n\n**Example:** We evaluate a message to determine a number of properties. These include the number of credits it will use, whether it is an extended SMS or a regular SMS and any potential errors that may occur:\n\n`https://api-app2.simpletexting.com/v2/api/messages/evaluate`"
+        },
+        {
+          "info": {
+            "name": "Get a Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/messages/:messageId",
+            "params": [
+              {
+                "name": "messageId",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Message ID in hexadecimal format"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific message from the system via its message ID.\n\n**Example:** Below, we return the information associated with the message whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Messages](#operation/getMessages) endpoint to retrieve message IDs for all of your messages:\n\n`https://api-app2.simpletexting.com/v2/api/messages/507f1f77bcf86cd799439011`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

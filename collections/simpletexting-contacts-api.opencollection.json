@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SimpleTexting API Documentation Contacts API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/:contactIdOrNumber",
+            "params": [
+              {
+                "name": "contactIdOrNumber",
+                "value": "3051234567",
+                "type": "path",
+                "description": "Phone number (preferred) or Contact ID in hexadecimal format\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              }
+            ]
+          },
+          "docs": "Get a contact via their unique ID or phone number. Phone number is the preferred parameter for this call.\n\n**Example:** Below, we return the information associated with the Contact whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve contact IDs for all of your contacts:\n\n`https://api-app2.simpletexting.com/v2/api/contacts/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Update a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/:contactIdOrNumber",
+            "params": [
+              {
+                "name": "contactIdOrNumber",
+                "value": "3051234567",
+                "type": "path",
+                "description": "Contact ID in hexadecimal format or the contact's phone number.\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              },
+              {
+                "name": "upsert",
+                "value": "false",
+                "type": "query",
+                "description": "If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true.\n\n**Example:** `false`"
+              },
+              {
+                "name": "listsReplacement",
+                "value": "false",
+                "type": "query",
+                "description": "If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list.\n\n**Example:** `false`"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a contact’s phone number or any other field.\n\n**Example:** Below we update our contact, 3051234567. We declared their custom field value for `zipcode` is `12345` and that they get added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`. In our URL, we requested that the contact gets added to a new list while remaining on the current one. We also requested not to update the contact's information if they already exist within the system:\n\nURL:\n\n`https:"
+        },
+        {
+          "info": {
+            "name": "Delete a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts/:contactIdOrNumber",
+            "params": [
+              {
+                "name": "contactIdOrNumber",
+                "value": "507f1f77bcf86cd799439011",
+                "type": "path",
+                "description": "Contact ID in hexadecimal format or phone number\n\n**Example:** `3051234567 / 507f1f77bcf86cd799439011`"
+              }
+            ]
+          },
+          "docs": "Delete a contact via their unique ID or phone.\n\n**Example:** Here we delete a Contact whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve Contact IDs for all of your Contacts:\n\n`https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`"
+        },
+        {
+          "info": {
+            "name": "Get all Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts",
+            "params": [
+              {
+                "name": "page",
+                "value": "250",
+                "type": "query",
+                "description": "An ordinal number of the page to return with the results of a request (with the contacts of the given account). Please note that page numbering starts at zero (`0`)\n\n**Example:** `250`"
+              },
+              {
+                "name": "size",
+                "value": "150",
+                "type": "query",
+                "description": "The number of the returned contacts to show per page\n\n**Example:** `150`"
+              },
+              {
+                "name": "since",
+                "value": "2021-04-28T23:20:08.489Z",
+                "type": "query",
+                "description": "List contacts updated since a specified date. The time is in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.\n\n**Example:** `2021-04-28T23:20:08.489Z`"
+              },
+              {
+                "name": "direction",
+                "value": "desc",
+                "type": "query",
+                "description": "Specify the sort order of your results. By default, results are sorted by the 'updated' field:\n\n- **ASC:** Sort values in *ascending* order\n\n- **DESC:** Sort values in *descending* order\n\n**Example:** `desc`"
+              }
+            ]
+          },
+          "docs": "For a given account, return all contacts that have been created in the account. A paginated list of contacts will be returned to you:\n\n**Example:** Here we return all Contacts from an account since April 28th 2021:\n\n`https://api-app2.simpletexting.com/v2/api/contacts?page=100&size=2&since=2021-04-28T23:20:08.489Z&direction=ASC`"
+        },
+        {
+          "info": {
+            "name": "Create a Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-app2.simpletexting.com/v2/api/contacts",
+            "params": [
+              {
+                "name": "upsert",
+                "value": "false",
+                "type": "query",
+                "description": "If a contact already exists with the phone number in your request body, the contact will be updated with the information in the request when upsert is set to true."
+              },
+              {
+                "name": "listsReplacement",
+                "value": "false",
+                "type": "query",
+                "description": "If listsReplacement is set to true, a contact will be removed from their existing list. If set to false, a contact will be added to a new list and stay in their original list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new contact and add them to a specific list.\n\n**Example:** Below we created our contact, John Doe. We declared his custom field value for `zipcode` is `12345` and that he gets added to the list with an ID `507f191e810c19729de860ea` and another list called `My First List`:\n\n`{ \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"comment\": \"VIP client\", \"listIds\": [ \""
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

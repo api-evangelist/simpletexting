@@ -1,0 +1,355 @@
+{
+  "item": [
+    {
+      "id": "264a4f5f-3f8a-447a-b90a-e7b313deedad",
+      "name": "Contacts - Batch Operations",
+      "description": {
+        "content": "An endpoint to assist in batch operations on your contacts. Using these operations, you can update specific contact information, or delete contacts, all using the contacts phone as an ID.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "04986005-00bf-448c-9e08-ff2fabc8b12e",
+          "name": "Update a Group of Contacts",
+          "request": {
+            "name": "Update a Group of Contacts",
+            "description": {
+              "content": "Update multiple fields at once for a batch of contacts. You can update their first name, last name, emails, lists, and more.\n\n**Example:** Here we are updating two contacts, seen in the array. The list replacement is set to true, so they will be removed from their existing list and added to a new one:\n\n`{ \"updates\": [ { \"contactPhone\": \"1234567890\", \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john.doe@simpletexting.net\", \"birthday\": \"1985-05-15\", \"customFields\": { \"zipcode\": \"12345\" }, \"comment\": \"VIP client\", \"listIds\": [ \"507f191e810c19729de860ea\", \"My First List\" ] },{ \"contactPhone\": \"0987654321\", \"firstName\": \"Jane\", \"lastName\": \"Doe\", \"email\": \"jane.doe@simpletexting.net\", \"birthday\": \"1984-05-25\", \"customFields\": { \"zipcode\": \"54321\" }, \"comment\": \"VIP client\", \"listIds\": [ \"507f191e810c19729de860ea\", \"My First List\" ] } ], \"listsReplacement\": true }`\n\nStep 1: Start the task for the batch update with the above parameters. As a result, you receive the task ID.\n\nExample:\n\n`{ \"id\": \"6176fb3e141c0060668b2c03\" }`\n\nStep 2: Request the task result by adding task ID from Step 1 to the [Get update result](#operation/getBatchUpdateResults) request.\n\nExample:\n\n`{\n  \"status\": \"DONE\",\n  \"results\":\n[{ \"done\": true,\n  \"contactPhone\": \"1234567890\",\n  \"contactId\": \"6176f999141c0060668b258e\" },\n{ \"done\": true,\n\"contactPhone\": \"0987654321\",\n\"contactId\": \"1236f555141c0060668b123e\"}],\n\"requestedCount\": 2,\n\"processedCount\": 2\n}`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts-batch",
+                "batch-update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"updates\": [\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"contactPhone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"birthday\": \"<string>\",\n      \"customFields\": {\n        \"Merge tag\": \"<string>\"\n      },\n      \"comment\": \"<string>\",\n      \"listIds\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"listsReplacement\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e80198e6-8b03-4374-a6a8-3eb6bbd78751",
+              "name": "Success. Contacts were successfully updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts-batch",
+                    "batch-update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"updates\": [\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    },\n    {\n      \"contactPhone\": \"1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"john.doe@simpletext.org\",\n      \"birthday\": \"1985-05-15\",\n      \"customFields\": {\n        \"zipcode\": \"12345\"\n      },\n      \"comment\": \"VIP client\",\n      \"listIds\": [\n        \"507f191e810c19729de860ea\",\n        \"My First List\"\n      ]\n    }\n  ],\n  \"listsReplacement\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"507f191e810c19729de860ea\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2e032c76-5785-4dc2-84e1-8a9b0fea16ed",
+          "name": "Delete a Group of Contacts",
+          "request": {
+            "name": "Delete a Group of Contacts",
+            "description": {
+              "content": "Delete a group of contacts from SimpleTexting using their phone numbers.\n\n**Example:** Below, we delete a batch of contacts identified here by their phone number in the array:\n\n`{ \"contactPhones\": [ \"1234567890\", \"0987654321\", \"1122334455\" ] }`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts-batch",
+                "batch-delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactPhones\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6bb569f1-b550-431d-aa4e-660aa28bddd1",
+              "name": "Success. Contacts were successfully deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts-batch",
+                    "batch-delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactPhones\": [\n    \"1234567890\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"done\": true,\n      \"contactPhone\": \"1234567890\",\n      \"contactId\": \"507f1f77bcf86cd799439011\",\n      \"errorCode\": \"UNKNOWN_CONTACT_PHONE\",\n      \"errorMessage\": \"Contact with provided phone number is missing\"\n    },\n    {\n      \"done\": true,\n      \"contactPhone\": \"1234567890\",\n      \"contactId\": \"507f1f77bcf86cd799439011\",\n      \"errorCode\": \"UNKNOWN_CONTACT_PHONE\",\n      \"errorMessage\": \"Contact with provided phone number is missing\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dffc7c49-60b5-40af-bf6b-68505f892323",
+          "name": "Get the Result of a Batch Update Task",
+          "request": {
+            "name": "Get the Result of a Batch Update Task",
+            "description": {
+              "content": "Return the result of a batch update by the task id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contacts-batch",
+                "batch-update",
+                ":taskId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task for the batch update\n\n**Example:** `6176fb3e141c0060668b2c03`"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "222f9654-6c16-43fe-8894-d8117a8388e9",
+              "name": "Success. Contacts were successfully updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contacts-batch",
+                    "batch-update",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task for the batch update\n\n**Example:** `6176fb3e141c0060668b2c03`"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"IN_PROGRESS\",\n  \"results\": [\n    {\n      \"done\": true,\n      \"contactPhone\": \"1234567890\",\n      \"contactId\": \"507f1f77bcf86cd799439011\",\n      \"errorCode\": \"CONTACT_CREATE_FAILED\",\n      \"errorMessage\": \"Contacts limit is reached\"\n    },\n    {\n      \"done\": true,\n      \"contactPhone\": \"1234567890\",\n      \"contactId\": \"507f1f77bcf86cd799439011\",\n      \"errorCode\": \"CONTACT_CREATE_FAILED\",\n      \"errorMessage\": \"Contacts limit is reached\"\n    }\n  ],\n  \"requestedCount\": 400,\n  \"processedCount\": 400\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-app2.simpletexting.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "95843237-2fe0-4696-89e9-af58858e916a",
+    "name": "SimpleTexting API Documentation Contacts - Batch Operations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\n\nThousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.\n\n**How it works**\n\nOur API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:\n\n- When using the POST request, you must specify that `content-type` is `application/json`.\n\n\n- The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.\n\n# Authentication\n\nEach time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>\nPlease be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.\n\n<!-- ReDoc-Inject: <security-definitions> -->\n",
+      "type": "text/plain"
+    }
+  }
+}

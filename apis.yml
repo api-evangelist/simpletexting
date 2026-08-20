@@ -31,6 +31,18 @@ tags:
 - Communications
 - Campaigns
 - Contacts
+- Webhook
+- A2P 10DLC
+tags_raw:
+- SMS
+- MMS
+- Messaging
+- Marketing
+- Text Messaging
+- SMS Marketing
+- Communications
+- Campaigns
+- Contacts
 - Webhooks
 - A2P 10DLC
 created: '2026-06-20'
@@ -197,6 +209,8 @@ apis:
   humanURL: https://api-doc.simpletexting.com/
   baseURL: https://api-app2.simpletexting.com/v2
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -241,6 +255,8 @@ apis:
   humanURL: https://api-doc.simpletexting.com/
   baseURL: https://api-app2.simpletexting.com/v2
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI

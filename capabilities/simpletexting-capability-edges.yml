@@ -1,0 +1,42 @@
+slug: simpletexting
+provider: SimpleTexting
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Telecommunications
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Campaigns
+  spec_file: simpletexting-campaigns-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.8
+  evidence: POST /api/campaigns createCampaign Send a Campaign; schemas ImmediatelyCampaignRequest, MessageTemplate,
+    Segment
+  reason: Bulk SMS marketing campaigns to lists and segments — demand generation / lifecycle marketing
+    campaign execution.
+- tag: Contacts
+  spec_file: simpletexting-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.75
+  evidence: POST /api/contacts createContact; PUT /api/contacts/{contactIdOrNumber} updateContact; schemas
+    Contact, CustomFieldsOpenApiDescription
+  reason: CRUD over contact records with custom fields is customer/contact data management.
+- tag: Contact Segments
+  spec_file: simpletexting-contact-segments-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.7
+  evidence: GET /api/contact-segments  getSegments  Get all Segments; schemas PageViewSegment, Segment
+  reason: Explicitly exposes marketing audience segments — customer segmentation management, though read-only.

@@ -245,6 +245,8 @@ apis:
   humanURL: https://api-doc.simpletexting.com/
   baseURL: https://api-app2.simpletexting.com/v2
   tags:
+  - Tenants
+  tags_raw:
   - Tenant
   properties:
   - type: OpenAPI

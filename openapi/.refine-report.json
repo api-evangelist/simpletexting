@@ -1,7 +1,7 @@
 {
   "provider": "simpletexting",
   "sources": [
-    "simpletexting-openapi.yml"
+    "_original/simpletexting-openapi.yml"
   ],
   "outputs": [
     "simpletexting-campaigns-api-openapi.yml",
@@ -17,15 +17,27 @@
     "simpletexting-webhook-reports-api-openapi.yml",
     "simpletexting-webhooks-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/simpletexting-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "simpletexting-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "simpletexting-openapi.yml: declared missing tag: Tenant phones",
-    "apis.yml register: written (+2 apis, 12 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "simpletexting-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-contact-lists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-contact-segments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-contacts-batch-operations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-custom-fields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-media-items-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-tenant-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-tenant-phones-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-webhook-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpletexting-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

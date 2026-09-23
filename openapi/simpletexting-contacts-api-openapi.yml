@@ -4,34 +4,7 @@ info:
   description: '# Introduction
 
 
-
-    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
-
-
-    **How it works**
-
-
-    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
-
-
-    - When using the POST request, you must specify that `content-type` is `application/json`.
-
-
-
-    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
-
-
-    # Authentication
-
-
-    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
-
-    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
-
-
-    <!-- ReDoc-Inject: <security-definitions> -->
-
-    '
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message.'
   termsOfService: https://simpletexting.com/terms/
   version: 2.0.0
 servers:
@@ -50,7 +23,7 @@ paths:
       description: 'Get a contact via their unique ID or phone number. Phone number is the preferred parameter for this call.
 
 
-        **Example:** Below, we return the information associated with the Contact whose ID is `507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve contact IDs for all of your contacts:
+        **Example:** Below, we return the information associated with the Contact whose ID is `507f1f77bcf86cd799439011`. You can use the Get all Contacts endpoint to retrieve contact IDs for all of your contacts:
 
 
         `https://api-app2.simpletexting.com/v2/api/contacts/507f1f77bcf86cd799439011`'
@@ -147,7 +120,7 @@ paths:
       description: 'Delete a contact via their unique ID or phone.
 
 
-        **Example:** Here we delete a Contact whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Contacts](#operation/getContacts) endpoint to retrieve Contact IDs for all of your Contacts:
+        **Example:** Here we delete a Contact whose ID is`507f1f77bcf86cd799439011`. You can use the Get all Contacts endpoint to retrieve Contact IDs for all of your Contacts:
 
 
         `https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`'
@@ -285,21 +258,114 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
-    ContactList:
+    CustomFieldsOpenApiDescription:
+      title: Key/value pairs
+      type: object
+      properties:
+        Merge tag:
+          type: string
+          description: '**Example:** `"zipcode": "12345"`'
+          example: '{"zipcode":"12345"}'
+      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
+
+
+        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
+
+
+        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+      example:
+        zipcode: '12345'
+    PageViewContact:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Contact'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
+    ObjectIdDto:
       type: object
       properties:
         id:
           type: string
-          description: Existing list ID
-          example: 5f6c760379f4e93135aac72a
-        name:
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    SingleContactUpdate:
+      type: object
+      properties:
+        contactPhone:
           type: string
-          description: Existing list name
-          example: list name
-      description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
-      example:
-      - id: 5f6c760379f4e93135aac72b
-        name: list name
+          description: 'Contact''s phone number
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        firstName:
+          type: string
+          description: 'Contact''s first name
+
+
+            **Example:** `John`'
+          example: John
+        lastName:
+          type: string
+          description: 'Contact''s last name
+
+
+            **Example:** `Doe`'
+          example: Doe
+        email:
+          type: string
+          description: 'Contact''s email
+
+
+            **Example:** `john.doe@simpletexting.net`'
+          example: john.doe@simpletexting.net
+        birthday:
+          type: string
+          description: 'Contact''s birthday in format: yyyy-mm-dd
+
+
+            **Example:** `1985-05-15`'
+          example: '1985-05-15'
+        customFields:
+          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
+        comment:
+          type: string
+          description: 'Notes about the contact.
+
+
+            **Example:** `VIP client`'
+          example: VIP client
+        listIds:
+          type: array
+          description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
     Contact:
       required:
       - contactId
@@ -420,114 +486,21 @@ components:
           - CONFIRMATION
           - INCOMING_MESSAGE
       description: Page content and number of elements is restricted by page size.
-    ObjectIdDto:
+    ContactList:
       type: object
       properties:
         id:
           type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
-    CustomFieldsOpenApiDescription:
-      title: Key/value pairs
-      type: object
-      properties:
-        Merge tag:
+          description: Existing list ID
+          example: 5f6c760379f4e93135aac72a
+        name:
           type: string
-          description: '**Example:** `"zipcode": "12345"`'
-          example: '{"zipcode":"12345"}'
-      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
-
-
-        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
-
-
-        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+          description: Existing list name
+          example: list name
+      description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
       example:
-        zipcode: '12345'
-    PageViewContact:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/Contact'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
-    SingleContactUpdate:
-      type: object
-      properties:
-        contactPhone:
-          type: string
-          description: 'Contact''s phone number
-
-
-            **Example:** `1234567890`'
-          example: '1234567890'
-        firstName:
-          type: string
-          description: 'Contact''s first name
-
-
-            **Example:** `John`'
-          example: John
-        lastName:
-          type: string
-          description: 'Contact''s last name
-
-
-            **Example:** `Doe`'
-          example: Doe
-        email:
-          type: string
-          description: 'Contact''s email
-
-
-            **Example:** `john.doe@simpletexting.net`'
-          example: john.doe@simpletexting.net
-        birthday:
-          type: string
-          description: 'Contact''s birthday in format: yyyy-mm-dd
-
-
-            **Example:** `1985-05-15`'
-          example: '1985-05-15'
-        customFields:
-          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
-        comment:
-          type: string
-          description: 'Notes about the contact.
-
-
-            **Example:** `VIP client`'
-          example: VIP client
-        listIds:
-          type: array
-          description: 'All the lists (List IDs or names) to add the contact to or replace.
-
-
-            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
-          example:
-          - 507f191e810c19729de860ea
-          - My First List
-          items:
-            type: string
-            description: 'All the lists (List IDs or names) to add the contact to or replace.
-
-
-              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
-            example: '["507f191e810c19729de860ea","My First List"]'
+      - id: 5f6c760379f4e93135aac72b
+        name: list name
   securitySchemes:
     api_key:
       type: apiKey

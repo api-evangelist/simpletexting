@@ -4,34 +4,7 @@ info:
   description: '# Introduction
 
 
-
-    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
-
-
-    **How it works**
-
-
-    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
-
-
-    - When using the POST request, you must specify that `content-type` is `application/json`.
-
-
-
-    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
-
-
-    # Authentication
-
-
-    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
-
-    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
-
-
-    <!-- ReDoc-Inject: <security-definitions> -->
-
-    '
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message.'
   termsOfService: https://simpletexting.com/terms/
   version: 2.0.0
 servers:
@@ -40,7 +13,7 @@ security:
 - api_key: []
 tags:
 - name: Media Items
-  description: When sending messages via the SimpleTexting platform, you may need to attach various media items. This API allows you to perform various operations needed to manage your media attachments. The size limitations of these items are discussed [here](#tag/File-Information).
+  description: When sending messages via the SimpleTexting platform, you may need to attach various media items. This API allows you to perform various operations needed to manage your media attachments. The size limitations of these items are discussed here.
 paths:
   /api/mediaitems/upload:
     post:
@@ -187,7 +160,7 @@ paths:
       description: 'Remove media that you have previously uploaded to SimpleTexting.
 
 
-        **Example:** Here we delete a Media Item whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Media Items](#operation/getMediaItems) endpoint to retrieve Media Items IDs for all of your Media Items:
+        **Example:** Here we delete a Media Item whose ID is`507f1f77bcf86cd799439011`. You can use the Get all Media Items endpoint to retrieve Media Items IDs for all of your Media Items:
 
 
         `https://api-app2.simpletexting.com/v2/api/contact-lists/507f1f77bcf86cd799439011`'

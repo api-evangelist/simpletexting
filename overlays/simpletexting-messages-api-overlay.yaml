@@ -3,9 +3,9 @@ info:
   title: API Evangelist enhancements for SimpleTexting API Documentation Messages API
   version: 1.0.0
 extends: openapi/simpletexting-messages-api-openapi.yml
-generated: '2026-08-13'
-method: generated
-source: >-
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >-
   Our annotations over the SimpleTexting OpenAPI harvested verbatim on 2026-08-13 from the
   ReDoc bundle at https://api-doc.simpletexting.com/ (openapi/_original/simpletexting-openapi.yml).
   The harvested specification is never mutated; this overlay carries only API Evangelist additions.

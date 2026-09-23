@@ -4,34 +4,7 @@ info:
   description: '# Introduction
 
 
-
-    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
-
-
-    **How it works**
-
-
-    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
-
-
-    - When using the POST request, you must specify that `content-type` is `application/json`.
-
-
-
-    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
-
-
-    # Authentication
-
-
-    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
-
-    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
-
-
-    <!-- ReDoc-Inject: <security-definitions> -->
-
-    '
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message.'
   termsOfService: https://simpletexting.com/terms/
   version: 2.0.0
 servers:
@@ -43,7 +16,7 @@ tags:
   description: 'Use webhooks to communicate between the SimpleTexting platform and your server. Webhooks can be used to forward messages as well as provide info about unsubscribes and message delivery.
 
 
-    SimpleTexting can trigger webhooks for new incoming messages, delivery reports, unsubscribes, and more. Now you can build scripts that interpret and respond to events that occur in your SimpleTexting account! To set the URLs for your webhooks, visit the Webhooks tab on the API section of [settings](https://app2.simpletexting.com/integrations/webhooks).'
+    SimpleTexting can trigger webhooks for new incoming messages, delivery reports, unsubscribes, and more. Now you can build scripts that interpret and respond to events that occur in your SimpleTexting account! To set the URLs for your webhooks, visit the Webhooks tab on the API section of settings.'
 paths:
   /api/webhooks/{webhookId}:
     put:
@@ -86,7 +59,7 @@ paths:
       description: 'Delete an existing Webhook by its unique ID.
 
 
-        **Example:** Here we delete a Webhook whose ID is`507f1f77bcf86cd799439011`. You can use the [Get all Webhooks](#operation/getWebhooks) endpoint to retrieve message IDs for all of your Webhooks:
+        **Example:** Here we delete a Webhook whose ID is`507f1f77bcf86cd799439011`. You can use the Get all Webhooks endpoint to retrieve message IDs for all of your Webhooks:
 
 
         `https://api-app2.simpletexting.com/v2/api/webhooks/507f1f77bcf86cd799439011`'
@@ -170,57 +143,17 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
-    WebhookRequest:
-      required:
-      - triggers
-      - url
+    ObjectIdDto:
       type: object
       properties:
-        url:
+        id:
           type: string
-          description: 'The URL for handling a POST request
+          description: 'ID of item in hexadecimal format.
 
 
-            **Example:** `https://example.com`'
-          example: https://example.com
-        triggers:
-          type: array
-          description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-          example:
-          - INCOMING_MESSAGE
-          items:
-            type: string
-            description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-            example: '["INCOMING_MESSAGE"]'
-            enum:
-            - INCOMING_MESSAGE
-            - OUTGOING_MESSAGE
-            - DELIVERY_REPORT
-            - NON_DELIVERED_REPORT
-            - UNSUBSCRIBE_REPORT
-        requestPerSecLimit:
-          maximum: 25
-          type: integer
-          description: 'The maximum number of requests that can be sent within a second
-
-
-            **Example:** `15`'
-          format: int32
-          example: 15
-        accountPhone:
-          type: string
-          description: 'Optional: requests will come exclusively for the specified account phone number
-
-
-            **Example:** `8881234567`'
-          example: '8881234567'
-        contactPhone:
-          type: string
-          description: 'Optional: requests will come exclusively for the specified contact''s phone number
-
-
-            **Example:** `3051234567`'
-          example: '3051234567'
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
     PageViewWebhook:
       type: object
       properties:
@@ -298,17 +231,57 @@ components:
             **Example:** `3051234567`'
           example: '3051234567'
       description: Page content and number of elements is restricted by page size.
-    ObjectIdDto:
+    WebhookRequest:
+      required:
+      - triggers
+      - url
       type: object
       properties:
-        id:
+        url:
           type: string
-          description: 'ID of item in hexadecimal format.
+          description: 'The URL for handling a POST request
 
 
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
+            **Example:** `https://example.com`'
+          example: https://example.com
+        triggers:
+          type: array
+          description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example:
+          - INCOMING_MESSAGE
+          items:
+            type: string
+            description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+            example: '["INCOMING_MESSAGE"]'
+            enum:
+            - INCOMING_MESSAGE
+            - OUTGOING_MESSAGE
+            - DELIVERY_REPORT
+            - NON_DELIVERED_REPORT
+            - UNSUBSCRIBE_REPORT
+        requestPerSecLimit:
+          maximum: 25
+          type: integer
+          description: 'The maximum number of requests that can be sent within a second
+
+
+            **Example:** `15`'
+          format: int32
+          example: 15
+        accountPhone:
+          type: string
+          description: 'Optional: requests will come exclusively for the specified account phone number
+
+
+            **Example:** `8881234567`'
+          example: '8881234567'
+        contactPhone:
+          type: string
+          description: 'Optional: requests will come exclusively for the specified contact''s phone number
+
+
+            **Example:** `3051234567`'
+          example: '3051234567'
   securitySchemes:
     api_key:
       type: apiKey

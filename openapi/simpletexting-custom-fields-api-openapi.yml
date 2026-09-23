@@ -4,34 +4,7 @@ info:
   description: '# Introduction
 
 
-
-    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message. With our API, developers can access many of our platform’s features and integrate them with other websites or applications. This document details the available SimpleTexting API functions and their parameters. For additional security, our API is by approval only. If you’d like access, sign up for a trial account and email [support@simpletexting.net](mailto:support@simpletexting.net) with details about your use case.
-
-
-    **How it works**
-
-
-    Our API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). It uses standard HTTP response codes and authentication. Before you get started, there a few things to keep in mind:
-
-
-    - When using the POST request, you must specify that `content-type` is `application/json`.
-
-
-
-    - The format of responses for all requests is JSON, you can skip the `Accept` request header or set it to `application/json`.
-
-
-    # Authentication
-
-
-    Each time you make a request to our API, we use a bearer token in your header to authenticate your account. API requests without authentication will fail. Your API token can be found under [settings](https://app2.simpletexting.com/integrations/webhooks).<br><br>
-
-    Please be sure to keep your bearer token secure. Don’t share it any public areas such as GitHub, client-side code, etc.
-
-
-    <!-- ReDoc-Inject: <security-definitions> -->
-
-    '
+    Thousands of businesses rely on SimpleTexting to communicate with their audience via text message.'
   termsOfService: https://simpletexting.com/terms/
   version: 2.0.0
 servers:
@@ -40,7 +13,7 @@ security:
 - api_key: []
 tags:
 - name: Custom Fields
-  description: SimpleTexting's Custom Fields feature plays a key role in managing your customer data. Not only does it give you enormous flexibility when it comes to [collecting](https://help.simpletexting.com/using-simpletexting/apps-and-features/collecting-subscriber-data) or [importing](https://help.simpletexting.com/using-simpletexting/lists-and-contacts/importing-contacts) data, it also lets you quickly and easily personalize each message in a [mass text](https://simpletexting.com/mass-texting/) campaign.
+  description: SimpleTexting's Custom Fields feature plays a key role in managing your customer data. Not only does it give you enormous flexibility when it comes to collecting or importing data, it also lets you quickly and easily personalize each message in a mass text campaign.
 paths:
   /api/custom-fields:
     get:
@@ -92,23 +65,6 @@ paths:
                 $ref: '#/components/schemas/PageViewCustomField'
 components:
   schemas:
-    PageViewCustomField:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/CustomField'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
     CustomField:
       type: object
       properties:
@@ -130,6 +86,23 @@ components:
           format: int32
           example: 30
       description: Page content and number of elements is restricted by page size.
+    PageViewCustomField:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/CustomField'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
     api_key:
       type: apiKey

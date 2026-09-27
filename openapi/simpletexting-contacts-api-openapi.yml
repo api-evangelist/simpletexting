@@ -258,40 +258,6 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
-    CustomFieldsOpenApiDescription:
-      title: Key/value pairs
-      type: object
-      properties:
-        Merge tag:
-          type: string
-          description: '**Example:** `"zipcode": "12345"`'
-          example: '{"zipcode":"12345"}'
-      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
-
-
-        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
-
-
-        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
-      example:
-        zipcode: '12345'
-    PageViewContact:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/Contact'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
     ObjectIdDto:
       type: object
       properties:
@@ -486,6 +452,40 @@ components:
           - CONFIRMATION
           - INCOMING_MESSAGE
       description: Page content and number of elements is restricted by page size.
+    PageViewContact:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Contact'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
+    CustomFieldsOpenApiDescription:
+      title: Key/value pairs
+      type: object
+      properties:
+        Merge tag:
+          type: string
+          description: '**Example:** `"zipcode": "12345"`'
+          example: '{"zipcode":"12345"}'
+      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
+
+
+        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
+
+
+        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+      example:
+        zipcode: '12345'
     ContactList:
       type: object
       properties:

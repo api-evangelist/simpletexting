@@ -58,23 +58,6 @@ paths:
                 $ref: '#/components/schemas/PageViewSegment'
 components:
   schemas:
-    PageViewSegment:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/Segment'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
     Segment:
       type: object
       properties:
@@ -94,6 +77,23 @@ components:
           type: string
           format: date-time
       description: Page content and number of elements is restricted by page size.
+    PageViewSegment:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Segment'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
     api_key:
       type: apiKey

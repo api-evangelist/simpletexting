@@ -258,6 +258,18 @@ components:
           description: Total number of elements.
           format: int64
       description: Page representation for search/fetch result
+    ListDto:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A list name containing less than 42 characters
+
+
+            **Example:** `My new list`'
+          example: My new list
     List:
       type: object
       properties:
@@ -345,6 +357,16 @@ components:
               **Example:** `["SALE","MYFIRSTKEYWORD"]`'
             example: MYFIRSTKEYWORD
       description: Page content and number of elements is restricted by page size.
+    ContactPhoneOrIdDto:
+      type: object
+      properties:
+        contactPhoneOrId:
+          type: string
+          description: 'Contact ID in hexadecimal format or the contact''s phone number.
+
+
+            **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
+          example: 3051234567 / 507f1f77bcf86cd799439011
     ObjectIdDto:
       type: object
       properties:
@@ -356,28 +378,6 @@ components:
             **Example:** `507f191e810c19729de860ea`'
           example: 507f191e810c19729de860ea
       description: ID of created or modified object
-    ContactPhoneOrIdDto:
-      type: object
-      properties:
-        contactPhoneOrId:
-          type: string
-          description: 'Contact ID in hexadecimal format or the contact''s phone number.
-
-
-            **Example:** `3051234567 / 507f1f77bcf86cd799439011`'
-          example: 3051234567 / 507f1f77bcf86cd799439011
-    ListDto:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'A list name containing less than 42 characters
-
-
-            **Example:** `My new list`'
-          example: My new list
   securitySchemes:
     api_key:
       type: apiKey

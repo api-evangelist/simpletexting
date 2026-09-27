@@ -170,60 +170,6 @@ paths:
                 $ref: '#/components/schemas/FetchedCampaignDto'
 components:
   schemas:
-    FetchedMessageTemplate:
-      required:
-      - text
-      type: object
-      properties:
-        category:
-          type: string
-          description: "The detected category of the message:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
-          example: MMS
-          enum:
-          - SMS
-          - MMS
-          - EXTENDED_SMS
-        subject:
-          type: string
-          description: 'The message Subject (available for MMS)
-
-
-            **Example:** `Some message from SimpleTexting`'
-          example: Some message from SimpleTexting
-        text:
-          type: string
-          description: 'The message body
-
-
-            **Example:** `Hello! How are you?`'
-          example: Hello! How are you?
-        fallbackText:
-          type: string
-          description: 'The fallback message (available for MMS)
-
-
-            **Example:** `We sent you a message!`'
-          example: We sent you a message!
-        mediaItems:
-          type: array
-          description: 'A list of attached media item IDs or URLs
-
-
-            **Example:** `["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]`'
-          example:
-          - https://txt.so/img.jpg
-          - 507f1f77bcf86cd799439333
-          items:
-            type: string
-            description: 'A list of attached media item IDs or URLs
-
-
-              **Example:** `["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]`'
-            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]'
-      description: 'Template of message sent
-
-
-        **Example:** `{"mode": "MMS","subject": "Some message from SimpleTexting","text": "Hello! How are you?","fallbackText": "Some text","mediaItems": ["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]}`'
     FetchedCampaignOutcomeDto:
       type: object
       properties:
@@ -256,77 +202,6 @@ components:
         optOutRate: 0
         totalSent: 1000
         creditsTotal: 1000
-    ImmediatelyCampaignRequest:
-      required:
-      - messageTemplate
-      - title
-      type: object
-      properties:
-        title:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'Campaign title
-
-
-            **Example:** `My first campaign`'
-          example: My first campaign
-        listIds:
-          type: array
-          description: 'Lists IDs or names
-
-
-            **Example:** `["507f191e810c19729de860ea","My First List"]`'
-          example:
-          - 507f191e810c19729de860ea
-          - My First List
-          items:
-            type: string
-            description: 'Lists IDs or names
-
-
-              **Example:** `["507f191e810c19729de860ea","My First List"]`'
-            example: '["507f191e810c19729de860ea","My First List"]'
-        segmentIds:
-          type: array
-          description: 'Segments IDs or names
-
-
-            **Example:** `["507f191e810c19729de860ea","My First List"]`'
-          example:
-          - 507f191e810c19729de860ea
-          - My First List
-          items:
-            type: string
-            description: 'Segments IDs or names
-
-
-              **Example:** `["507f191e810c19729de860ea","My First List"]`'
-            example: '["507f191e810c19729de860ea","My First List"]'
-        accountPhone:
-          type: string
-          description: 'Account phone, primary number is default
-
-
-            **Example:** `8005551234`'
-          example: '8005551234'
-        customFieldsMaxLength:
-          type: object
-          additionalProperties:
-            type: integer
-            description: 'Custom fields length in current campaign, overwrite default settings. See /custom-fields
-
-
-              **Example:** `{"firstname":"20"}`'
-            format: int32
-          description: 'Custom fields length in current campaign, overwrite default settings. See /custom-fields
-
-
-            **Example:** `{"firstname":"20"}`'
-          example:
-            firstname: '20'
-        messageTemplate:
-          $ref: '#/components/schemas/MessageTemplate'
     FetchedCampaignDto:
       required:
       - accountPhone
@@ -466,53 +341,6 @@ components:
           items:
             $ref: '#/components/schemas/TrackingLink'
       description: Page content and number of elements is restricted by page size.
-    TrackingLink:
-      type: object
-      properties:
-        url:
-          type: string
-          description: The links that were tracked in the sent campaign
-          example: www.simpletexting.net
-        clickCount:
-          type: integer
-          description: The number of clicks the links received
-          format: int32
-          example: 550
-      description: 'The links that were tracked with the campaign, if available
-
-
-        **Example:** `{"url": "www.simpletexting.net","clickCount": 550}`'
-      example:
-        url: www.simpletexting.net
-        clickCount: 550
-    ObjectIdDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
-    PageViewFetchedCampaignDto:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/FetchedCampaignDto'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
     Segment:
       type: object
       properties:
@@ -601,6 +429,167 @@ components:
 
 
         **Example:** `{ "mode": "MMS_PREFERRED", "subject": "My first campaign", "text": "Hi %%firstname%%, welcome to our campaign!", "fallbackText": "My first campaign", "unsubscribeText": "If you no longer wish to hear from us, reply STOP", "fallbackUnsubscribeText": "If you no longer wish to hear from us, reply STOP", "mediaItems": [ "https://txt.so/img.jpg", "507f1f77bcf86cd799439011" ] }`'
+    FetchedMessageTemplate:
+      required:
+      - text
+      type: object
+      properties:
+        category:
+          type: string
+          description: "The detected category of the message:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: MMS
+          enum:
+          - SMS
+          - MMS
+          - EXTENDED_SMS
+        subject:
+          type: string
+          description: 'The message Subject (available for MMS)
+
+
+            **Example:** `Some message from SimpleTexting`'
+          example: Some message from SimpleTexting
+        text:
+          type: string
+          description: 'The message body
+
+
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        fallbackText:
+          type: string
+          description: 'The fallback message (available for MMS)
+
+
+            **Example:** `We sent you a message!`'
+          example: We sent you a message!
+        mediaItems:
+          type: array
+          description: 'A list of attached media item IDs or URLs
+
+
+            **Example:** `["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]`'
+          example:
+          - https://txt.so/img.jpg
+          - 507f1f77bcf86cd799439333
+          items:
+            type: string
+            description: 'A list of attached media item IDs or URLs
+
+
+              **Example:** `["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]`'
+            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]'
+      description: 'Template of message sent
+
+
+        **Example:** `{"mode": "MMS","subject": "Some message from SimpleTexting","text": "Hello! How are you?","fallbackText": "Some text","mediaItems": ["https://txt.so/img.jpg","507f1f77bcf86cd799439333"]}`'
+    PageViewFetchedCampaignDto:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/FetchedCampaignDto'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
+    TrackingLink:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The links that were tracked in the sent campaign
+          example: www.simpletexting.net
+        clickCount:
+          type: integer
+          description: The number of clicks the links received
+          format: int32
+          example: 550
+      description: 'The links that were tracked with the campaign, if available
+
+
+        **Example:** `{"url": "www.simpletexting.net","clickCount": 550}`'
+      example:
+        url: www.simpletexting.net
+        clickCount: 550
+    ImmediatelyCampaignRequest:
+      required:
+      - messageTemplate
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'Campaign title
+
+
+            **Example:** `My first campaign`'
+          example: My first campaign
+        listIds:
+          type: array
+          description: 'Lists IDs or names
+
+
+            **Example:** `["507f191e810c19729de860ea","My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'Lists IDs or names
+
+
+              **Example:** `["507f191e810c19729de860ea","My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+        segmentIds:
+          type: array
+          description: 'Segments IDs or names
+
+
+            **Example:** `["507f191e810c19729de860ea","My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'Segments IDs or names
+
+
+              **Example:** `["507f191e810c19729de860ea","My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+        accountPhone:
+          type: string
+          description: 'Account phone, primary number is default
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        customFieldsMaxLength:
+          type: object
+          additionalProperties:
+            type: integer
+            description: 'Custom fields length in current campaign, overwrite default settings. See /custom-fields
+
+
+              **Example:** `{"firstname":"20"}`'
+            format: int32
+          description: 'Custom fields length in current campaign, overwrite default settings. See /custom-fields
+
+
+            **Example:** `{"firstname":"20"}`'
+          example:
+            firstname: '20'
+        messageTemplate:
+          $ref: '#/components/schemas/MessageTemplate'
     ContactList:
       type: object
       properties:
@@ -616,6 +605,17 @@ components:
       example:
       - id: 5f6c760379f4e93135aac72b
         name: list name
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
   securitySchemes:
     api_key:
       type: apiKey

@@ -57,18 +57,6 @@ paths:
                 $ref: '#/components/schemas/PageViewTenantPhone'
 components:
   schemas:
-    TenantPhone:
-      type: object
-      properties:
-        number:
-          title: Phone number
-          type: string
-          example: '1234567890'
-        name:
-          title: Phone name
-          type: string
-          example: Primary phone
-      description: Page content and number of elements is restricted by page size.
     PageViewTenantPhone:
       type: object
       properties:
@@ -86,6 +74,18 @@ components:
           description: Total number of elements.
           format: int64
       description: Page representation for search/fetch result
+    TenantPhone:
+      type: object
+      properties:
+        number:
+          title: Phone number
+          type: string
+          example: '1234567890'
+        name:
+          title: Phone name
+          type: string
+          example: Primary phone
+      description: Page content and number of elements is restricted by page size.
   securitySchemes:
     api_key:
       type: apiKey

@@ -134,62 +134,14 @@ paths:
                 $ref: '#/components/schemas/ContactsBatchUpdateResult'
 components:
   schemas:
-    CustomFieldsOpenApiDescription:
-      title: Key/value pairs
+    ContactsBatchDeleteResult:
       type: object
       properties:
-        Merge tag:
-          type: string
-          description: '**Example:** `"zipcode": "12345"`'
-          example: '{"zipcode":"12345"}'
-      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
-
-
-        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
-
-
-        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
-      example:
-        zipcode: '12345'
-    ContactUpdateResult:
-      type: object
-      properties:
-        done:
-          type: boolean
-          description: 'If operation was successful
-
-
-            **Example:** `true`'
-          example: true
-        contactPhone:
-          type: string
-          description: 'Contact phone from update request
-
-
-            **Example:** `1234567890`'
-          example: '1234567890'
-        contactId:
-          type: string
-          description: 'Contact ID if contact exists
-
-
-            **Example:** `507f1f77bcf86cd799439011`'
-          example: 507f1f77bcf86cd799439011
-        errorCode:
-          type: string
-          description: "Operation error code, if operation has failed:\n\n  - **CONTACT_CREATE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_UPDATE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_IMPORT_LIMIT_IS_REACHED:** Your account has reached its import limit. Please reach out to SimpleTexting support to raise this limit\n\n  - **CONTACT_CREATE_FAILED:** Some error occurred while creating your contact. Please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_IMPORT_LIMIT_IS_REACHED:** Your account has reached its import limit. Please reach out to SimpleTexting support to raise this limit\n\n  - **CONTACT_UPDATE_FAILED:** Some error occurred while updating your contact. Please reach out to SimpleTexting support for further investigation\n\n**Example:** `CONTACT_CREATE_FAILED`"
-          example: CONTACT_CREATE_FAILED
-          enum:
-          - CONTACT_CREATE_INTERNAL_ERROR
-          - CONTACT_UPDATE_INTERNAL_ERROR
-          - CONTACT_IMPORT_LIMIT_IS_REACHED
-          - CONTACT_CREATE_FAILED
-          - CONTACT_UPDATE_FAILED
-        errorMessage:
-          type: string
-          description: Additional error message if operation has failed
-          example: Contacts limit is reached
-      description: List of update results
+        results:
+          type: array
+          description: List of the deleted contacts
+          items:
+            $ref: '#/components/schemas/ContactDeleteResult'
     ContactsBatchDelete:
       required:
       - contactPhones
@@ -213,71 +165,6 @@ components:
             type: string
             example: '["1234567890"]'
       description: ContactsBatchDelete
-    ContactsBatchUpdateResult:
-      type: object
-      properties:
-        status:
-          title: Task status
-          type: string
-          enum:
-          - IN_PROGRESS
-          - DONE
-        results:
-          type: array
-          description: List of update results
-          items:
-            $ref: '#/components/schemas/ContactUpdateResult'
-        requestedCount:
-          title: Total count
-          type: integer
-          description: Contacts count that were requested to be updated/added
-          format: int32
-          example: 400
-        processedCount:
-          title: Processed count
-          type: integer
-          description: Contacts count that were updated/added
-          format: int32
-          example: 400
-    ContactDeleteResult:
-      type: object
-      properties:
-        done:
-          type: boolean
-          description: 'If operation was successful
-
-
-            **Example:** `true`'
-          example: true
-        contactPhone:
-          type: string
-          description: 'Contact''s phone number from the delete request
-
-
-            **Example:** `1234567890`'
-          example: '1234567890'
-        contactId:
-          type: string
-          description: 'Contact ID if contact was found
-
-
-            **Example:** `507f1f77bcf86cd799439011`'
-          example: 507f1f77bcf86cd799439011
-        errorCode:
-          type: string
-          description: "Contact's phone number from the delete request\n\n  - **UNKNOWN_CONTACT_PHONE:** A contact with that phone number could not be found on your account\n\n  - **CONTACT_DELETE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n**Example:** `UNKNOWN_CONTACT_PHONE`"
-          example: UNKNOWN_CONTACT_PHONE
-          enum:
-          - UNKNOWN_CONTACT_PHONE
-          - CONTACT_DELETE_INTERNAL_ERROR
-        errorMessage:
-          type: string
-          description: 'Additional error message if the operation has failed
-
-
-            **Example:** `Contact with provided phone number is missing`'
-          example: Contact with provided phone number is missing
-      description: List of the deleted contacts
     ContactsBatchUpdate:
       required:
       - updates
@@ -298,17 +185,6 @@ components:
           items:
             $ref: '#/components/schemas/ContactUpdate'
       description: Add new contacts or update existing, based on unique contact phone. One contact per object in the array
-    ObjectIdDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
     ContactUpdate:
       required:
       - contactPhone
@@ -378,14 +254,138 @@ components:
               **Example:** `["507f191e810c19729de860ea", "My First List"]`'
             example: '["507f191e810c19729de860ea","My First List"]'
       description: List of updates for contacts
-    ContactsBatchDeleteResult:
+    ContactDeleteResult:
       type: object
       properties:
+        done:
+          type: boolean
+          description: 'If operation was successful
+
+
+            **Example:** `true`'
+          example: true
+        contactPhone:
+          type: string
+          description: 'Contact''s phone number from the delete request
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        contactId:
+          type: string
+          description: 'Contact ID if contact was found
+
+
+            **Example:** `507f1f77bcf86cd799439011`'
+          example: 507f1f77bcf86cd799439011
+        errorCode:
+          type: string
+          description: "Contact's phone number from the delete request\n\n  - **UNKNOWN_CONTACT_PHONE:** A contact with that phone number could not be found on your account\n\n  - **CONTACT_DELETE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n**Example:** `UNKNOWN_CONTACT_PHONE`"
+          example: UNKNOWN_CONTACT_PHONE
+          enum:
+          - UNKNOWN_CONTACT_PHONE
+          - CONTACT_DELETE_INTERNAL_ERROR
+        errorMessage:
+          type: string
+          description: 'Additional error message if the operation has failed
+
+
+            **Example:** `Contact with provided phone number is missing`'
+          example: Contact with provided phone number is missing
+      description: List of the deleted contacts
+    CustomFieldsOpenApiDescription:
+      title: Key/value pairs
+      type: object
+      properties:
+        Merge tag:
+          type: string
+          description: '**Example:** `"zipcode": "12345"`'
+          example: '{"zipcode":"12345"}'
+      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
+
+
+        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
+
+
+        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+      example:
+        zipcode: '12345'
+    ContactUpdateResult:
+      type: object
+      properties:
+        done:
+          type: boolean
+          description: 'If operation was successful
+
+
+            **Example:** `true`'
+          example: true
+        contactPhone:
+          type: string
+          description: 'Contact phone from update request
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        contactId:
+          type: string
+          description: 'Contact ID if contact exists
+
+
+            **Example:** `507f1f77bcf86cd799439011`'
+          example: 507f1f77bcf86cd799439011
+        errorCode:
+          type: string
+          description: "Operation error code, if operation has failed:\n\n  - **CONTACT_CREATE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_UPDATE_INTERNAL_ERROR:** An internal error has occurred, please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_IMPORT_LIMIT_IS_REACHED:** Your account has reached its import limit. Please reach out to SimpleTexting support to raise this limit\n\n  - **CONTACT_CREATE_FAILED:** Some error occurred while creating your contact. Please reach out to SimpleTexting support for further investigation\n\n  - **CONTACT_IMPORT_LIMIT_IS_REACHED:** Your account has reached its import limit. Please reach out to SimpleTexting support to raise this limit\n\n  - **CONTACT_UPDATE_FAILED:** Some error occurred while updating your contact. Please reach out to SimpleTexting support for further investigation\n\n**Example:** `CONTACT_CREATE_FAILED`"
+          example: CONTACT_CREATE_FAILED
+          enum:
+          - CONTACT_CREATE_INTERNAL_ERROR
+          - CONTACT_UPDATE_INTERNAL_ERROR
+          - CONTACT_IMPORT_LIMIT_IS_REACHED
+          - CONTACT_CREATE_FAILED
+          - CONTACT_UPDATE_FAILED
+        errorMessage:
+          type: string
+          description: Additional error message if operation has failed
+          example: Contacts limit is reached
+      description: List of update results
+    ContactsBatchUpdateResult:
+      type: object
+      properties:
+        status:
+          title: Task status
+          type: string
+          enum:
+          - IN_PROGRESS
+          - DONE
         results:
           type: array
-          description: List of the deleted contacts
+          description: List of update results
           items:
-            $ref: '#/components/schemas/ContactDeleteResult'
+            $ref: '#/components/schemas/ContactUpdateResult'
+        requestedCount:
+          title: Total count
+          type: integer
+          description: Contacts count that were requested to be updated/added
+          format: int32
+          example: 400
+        processedCount:
+          title: Processed count
+          type: integer
+          description: Contacts count that were updated/added
+          format: int32
+          example: 400
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
   securitySchemes:
     api_key:
       type: apiKey

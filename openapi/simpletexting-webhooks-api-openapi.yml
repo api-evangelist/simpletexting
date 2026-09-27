@@ -143,34 +143,6 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
-    ObjectIdDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
-    PageViewWebhook:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/Webhook'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
     Webhook:
       required:
       - triggers
@@ -231,6 +203,23 @@ components:
             **Example:** `3051234567`'
           example: '3051234567'
       description: Page content and number of elements is restricted by page size.
+    PageViewWebhook:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Webhook'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
     WebhookRequest:
       required:
       - triggers
@@ -282,6 +271,17 @@ components:
 
             **Example:** `3051234567`'
           example: '3051234567'
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
   securitySchemes:
     api_key:
       type: apiKey

@@ -178,23 +178,6 @@ paths:
           description: Success. Media was deleted.
 components:
   schemas:
-    PageViewStFileDto:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/StFileDto'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
     StFileDto:
       type: object
       properties:
@@ -283,6 +266,23 @@ components:
             **Example:** `https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg`'
           example: https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg
       description: UploadByLink Request
+    PageViewStFileDto:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/StFileDto'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
     api_key:
       type: apiKey

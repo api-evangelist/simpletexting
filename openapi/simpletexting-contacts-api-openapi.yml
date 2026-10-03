@@ -258,80 +258,21 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
-    ObjectIdDto:
+    ContactList:
       type: object
       properties:
         id:
           type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
-    SingleContactUpdate:
-      type: object
-      properties:
-        contactPhone:
+          description: Existing list ID
+          example: 5f6c760379f4e93135aac72a
+        name:
           type: string
-          description: 'Contact''s phone number
-
-
-            **Example:** `1234567890`'
-          example: '1234567890'
-        firstName:
-          type: string
-          description: 'Contact''s first name
-
-
-            **Example:** `John`'
-          example: John
-        lastName:
-          type: string
-          description: 'Contact''s last name
-
-
-            **Example:** `Doe`'
-          example: Doe
-        email:
-          type: string
-          description: 'Contact''s email
-
-
-            **Example:** `john.doe@simpletexting.net`'
-          example: john.doe@simpletexting.net
-        birthday:
-          type: string
-          description: 'Contact''s birthday in format: yyyy-mm-dd
-
-
-            **Example:** `1985-05-15`'
-          example: '1985-05-15'
-        customFields:
-          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
-        comment:
-          type: string
-          description: 'Notes about the contact.
-
-
-            **Example:** `VIP client`'
-          example: VIP client
-        listIds:
-          type: array
-          description: 'All the lists (List IDs or names) to add the contact to or replace.
-
-
-            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
-          example:
-          - 507f191e810c19729de860ea
-          - My First List
-          items:
-            type: string
-            description: 'All the lists (List IDs or names) to add the contact to or replace.
-
-
-              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
-            example: '["507f191e810c19729de860ea","My First List"]'
+          description: Existing list name
+          example: list name
+      description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
+      example:
+      - id: 5f6c760379f4e93135aac72b
+        name: list name
     Contact:
       required:
       - contactId
@@ -452,23 +393,17 @@ components:
           - CONFIRMATION
           - INCOMING_MESSAGE
       description: Page content and number of elements is restricted by page size.
-    PageViewContact:
+    ObjectIdDto:
       type: object
       properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/Contact'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
     CustomFieldsOpenApiDescription:
       title: Key/value pairs
       type: object
@@ -486,21 +421,86 @@ components:
         For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
       example:
         zipcode: '12345'
-    ContactList:
+    SingleContactUpdate:
       type: object
       properties:
-        id:
+        contactPhone:
           type: string
-          description: Existing list ID
-          example: 5f6c760379f4e93135aac72a
-        name:
+          description: 'Contact''s phone number
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        firstName:
           type: string
-          description: Existing list name
-          example: list name
-      description: Array of objects (Contact list) All the lists where the contact is stored subscriptionStatus
-      example:
-      - id: 5f6c760379f4e93135aac72b
-        name: list name
+          description: 'Contact''s first name
+
+
+            **Example:** `John`'
+          example: John
+        lastName:
+          type: string
+          description: 'Contact''s last name
+
+
+            **Example:** `Doe`'
+          example: Doe
+        email:
+          type: string
+          description: 'Contact''s email
+
+
+            **Example:** `john.doe@simpletexting.net`'
+          example: john.doe@simpletexting.net
+        birthday:
+          type: string
+          description: 'Contact''s birthday in format: yyyy-mm-dd
+
+
+            **Example:** `1985-05-15`'
+          example: '1985-05-15'
+        customFields:
+          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
+        comment:
+          type: string
+          description: 'Notes about the contact.
+
+
+            **Example:** `VIP client`'
+          example: VIP client
+        listIds:
+          type: array
+          description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+    PageViewContact:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Contact'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
   securitySchemes:
     api_key:
       type: apiKey

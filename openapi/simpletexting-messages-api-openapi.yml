@@ -168,6 +168,17 @@ paths:
                 $ref: '#/components/schemas/Message'
 components:
   schemas:
+    MessageRequestInfo:
+      type: object
+      properties:
+        id:
+          title: Object ID in hexadecimal format
+          type: string
+          example: 507f191e810c19729de860ea
+        credits:
+          title: Actual credits amount. Can be negative.
+          type: integer
+          format: int64
     PageViewMessage:
       type: object
       properties:
@@ -236,83 +247,85 @@ components:
 
               **Example:** `["https://txt.so/img.jpg", "507f1f77bcf86cd799439011"]`'
             example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439011"]'
-    SendMessageRequest:
-      required:
-      - contactPhone
-      - mode
-      - text
+    MessageInfo:
       type: object
       properties:
-        contactPhone:
+        detectedCategory:
           type: string
-          description: 'Contact''s phone
-
-
-            **Example:** `1234567890`'
-          example: '1234567890'
-        accountPhone:
-          type: string
-          description: 'The account phone to send from. If this field is left blank, the primary account number will be used as a default
-
-
-            **Example:** `8005551234`'
-          example: '8005551234'
-        mode:
-          type: string
-          description: "Determines how your message will be presented:\n\n  - **AUTO:** this means that SimpleTexting will find more relative types for your message content\n\n  - **SINGLE_SMS_STRICTLY:** this will send only a single SMS or return an error\n\n  - **MMS_PREFERRED:** this will send an MMS or fallback SMS if MMS is not enabled by your contacts' carriers\n\n**Example:** `MMS_PREFERRED`\n\n`AUTO` is the default value for this field."
-          example: MMS_PREFERRED
+          description: "Autodetected category of message:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: SMS
           enum:
-          - AUTO
-          - SINGLE_SMS_STRICTLY
-          - MMS_PREFERRED
-        subject:
-          type: string
-          description: 'MMS Subject (available for MMS)
+          - SMS
+          - MMS
+          - EXTENDED_SMS
+        length:
+          type: integer
+          description: 'The message length in characters
 
 
-            **Example:** `Some message from SimpleTexting`'
-          example: Some message from SimpleTexting
-        text:
-          type: string
-          description: 'Text Body
+            **Example:** `134`'
+          format: int32
+          example: 134
+        remains:
+          type: integer
+          description: 'The remaining characters
 
 
-            **Example:** `Hello! How are you?`'
-          example: Hello! How are you?
-        fallbackText:
-          type: string
-          description: 'Custom fallback text if MMS cannot be received. Should contain ''[url=%%fallback_link%%]'' placeholder that will be replaced with a link to the message
+            **Example:** `23`'
+          format: int32
+          example: 23
+        maxLength:
+          type: integer
+          description: 'The maximum message length in characters with the current message type and encoding
 
 
-            **Example:** `[url=%%fallback_link%%]`'
-          example: '[url=%%fallback_link%%]'
-        mediaItems:
+            **Example:** `150`'
+          format: int32
+          example: 150
+        unicode:
+          type: boolean
+          description: 'Returns true if there is some number of Latin-1 or GSM-7 characters present
+
+
+            **Example:** `true`'
+          example: true
+        sumOfCredits:
+          type: integer
+          description: 'How much credits message will cost
+
+
+            **Example:** `1`'
+          format: int32
+          example: 1
+        warnings:
           type: array
-          description: 'List of MMS media URLs for temporal storing or media items IDs
+          description: 'A list of warning messages if present
 
 
-            **Example:** `[\"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\"]`'
-          example:
-          - https://txt.so/img.jpg
-          - 507f1f77bcf86cd799439011
+            **Example:** `["Text is blank"]`'
+          example: Text is blank
           items:
             type: string
-            description: 'List of MMS media URLs for temporal storing or media items IDs
+            description: 'A list of warning messages if present
 
 
-              **Example:** `[\"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\"]`'
-            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439011"]'
-    MessageRequestInfo:
-      type: object
-      properties:
-        id:
-          title: Object ID in hexadecimal format
-          type: string
-          example: 507f191e810c19729de860ea
-        credits:
-          title: Actual credits amount. Can be negative.
-          type: integer
-          format: int64
+              **Example:** `["Text is blank"]`'
+            example: Text is blank
+        errors:
+          type: array
+          description: 'List of error messages if present
+
+
+            **Example:** `["Invalid phone number"]`'
+          example:
+          - Invalid phone number
+          items:
+            type: string
+            description: 'List of error messages if present
+
+
+              **Example:** `["Invalid phone number"]`'
+            example: '["Invalid phone number"]'
     Message:
       type: object
       properties:
@@ -398,85 +411,72 @@ components:
               **Example:** `["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]`'
             example: '["507f1f77bcf86cd799439011","507f1f77bcf86cd799439333"]'
       description: Page content and number of elements is restricted by page size.
-    MessageInfo:
+    SendMessageRequest:
+      required:
+      - contactPhone
+      - mode
+      - text
       type: object
       properties:
-        detectedCategory:
+        contactPhone:
           type: string
-          description: "Autodetected category of message:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
-          example: SMS
+          description: 'Contact''s phone
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        accountPhone:
+          type: string
+          description: 'The account phone to send from. If this field is left blank, the primary account number will be used as a default
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        mode:
+          type: string
+          description: "Determines how your message will be presented:\n\n  - **AUTO:** this means that SimpleTexting will find more relative types for your message content\n\n  - **SINGLE_SMS_STRICTLY:** this will send only a single SMS or return an error\n\n  - **MMS_PREFERRED:** this will send an MMS or fallback SMS if MMS is not enabled by your contacts' carriers\n\n**Example:** `MMS_PREFERRED`\n\n`AUTO` is the default value for this field."
+          example: MMS_PREFERRED
           enum:
-          - SMS
-          - MMS
-          - EXTENDED_SMS
-        length:
-          type: integer
-          description: 'The message length in characters
+          - AUTO
+          - SINGLE_SMS_STRICTLY
+          - MMS_PREFERRED
+        subject:
+          type: string
+          description: 'MMS Subject (available for MMS)
 
 
-            **Example:** `134`'
-          format: int32
-          example: 134
-        remains:
-          type: integer
-          description: 'The remaining characters
+            **Example:** `Some message from SimpleTexting`'
+          example: Some message from SimpleTexting
+        text:
+          type: string
+          description: 'Text Body
 
 
-            **Example:** `23`'
-          format: int32
-          example: 23
-        maxLength:
-          type: integer
-          description: 'The maximum message length in characters with the current message type and encoding
+            **Example:** `Hello! How are you?`'
+          example: Hello! How are you?
+        fallbackText:
+          type: string
+          description: 'Custom fallback text if MMS cannot be received. Should contain ''[url=%%fallback_link%%]'' placeholder that will be replaced with a link to the message
 
 
-            **Example:** `150`'
-          format: int32
-          example: 150
-        unicode:
-          type: boolean
-          description: 'Returns true if there is some number of Latin-1 or GSM-7 characters present
-
-
-            **Example:** `true`'
-          example: true
-        sumOfCredits:
-          type: integer
-          description: 'How much credits message will cost
-
-
-            **Example:** `1`'
-          format: int32
-          example: 1
-        warnings:
+            **Example:** `[url=%%fallback_link%%]`'
+          example: '[url=%%fallback_link%%]'
+        mediaItems:
           type: array
-          description: 'A list of warning messages if present
+          description: 'List of MMS media URLs for temporal storing or media items IDs
 
 
-            **Example:** `["Text is blank"]`'
-          example: Text is blank
-          items:
-            type: string
-            description: 'A list of warning messages if present
-
-
-              **Example:** `["Text is blank"]`'
-            example: Text is blank
-        errors:
-          type: array
-          description: 'List of error messages if present
-
-
-            **Example:** `["Invalid phone number"]`'
+            **Example:** `[\"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\"]`'
           example:
-          - Invalid phone number
+          - https://txt.so/img.jpg
+          - 507f1f77bcf86cd799439011
           items:
             type: string
-            description: 'List of error messages if present
+            description: 'List of MMS media URLs for temporal storing or media items IDs
 
 
-              **Example:** `["Invalid phone number"]`'
-            example: '["Invalid phone number"]'
+              **Example:** `[\"https://txt.so/img.jpg\", \"507f1f77bcf86cd799439011\"]`'
+            example: '["https://txt.so/img.jpg","507f1f77bcf86cd799439011"]'
   securitySchemes:
     api_key:
       type: apiKey

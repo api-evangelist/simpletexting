@@ -143,6 +143,68 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    WebhookRequest:
+      required:
+      - triggers
+      - url
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'The URL for handling a POST request
+
+
+            **Example:** `https://example.com`'
+          example: https://example.com
+        triggers:
+          type: array
+          description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example:
+          - INCOMING_MESSAGE
+          items:
+            type: string
+            description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+            example: '["INCOMING_MESSAGE"]'
+            enum:
+            - INCOMING_MESSAGE
+            - OUTGOING_MESSAGE
+            - DELIVERY_REPORT
+            - NON_DELIVERED_REPORT
+            - UNSUBSCRIBE_REPORT
+        requestPerSecLimit:
+          maximum: 25
+          type: integer
+          description: 'The maximum number of requests that can be sent within a second
+
+
+            **Example:** `15`'
+          format: int32
+          example: 15
+        accountPhone:
+          type: string
+          description: 'Optional: requests will come exclusively for the specified account phone number
+
+
+            **Example:** `8881234567`'
+          example: '8881234567'
+        contactPhone:
+          type: string
+          description: 'Optional: requests will come exclusively for the specified contact''s phone number
+
+
+            **Example:** `3051234567`'
+          example: '3051234567'
     Webhook:
       required:
       - triggers
@@ -220,68 +282,6 @@ components:
           description: Total number of elements.
           format: int64
       description: Page representation for search/fetch result
-    WebhookRequest:
-      required:
-      - triggers
-      - url
-      type: object
-      properties:
-        url:
-          type: string
-          description: 'The URL for handling a POST request
-
-
-            **Example:** `https://example.com`'
-          example: https://example.com
-        triggers:
-          type: array
-          description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-          example:
-          - INCOMING_MESSAGE
-          items:
-            type: string
-            description: "Trigger a webhook based on a specific platform event:\n\n  - **INCOMING_MESSAGE:** Trigger a webhook event based on an incoming message\n\n  - **OUTGOING_MESSAGE:** Trigger a webhook event based on an outgoing message\n\n  - **DELIVERY_REPORT:** Trigger a webhook when a delivery confirmation is received from a contact\n\n  - **NON_DELIVERED_REPORT:** Trigger a webhook when a failed delivery is reported from a contact\n\n  - **UNSUBSCRIBE_REPORT:** Trigger a webhook when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-            example: '["INCOMING_MESSAGE"]'
-            enum:
-            - INCOMING_MESSAGE
-            - OUTGOING_MESSAGE
-            - DELIVERY_REPORT
-            - NON_DELIVERED_REPORT
-            - UNSUBSCRIBE_REPORT
-        requestPerSecLimit:
-          maximum: 25
-          type: integer
-          description: 'The maximum number of requests that can be sent within a second
-
-
-            **Example:** `15`'
-          format: int32
-          example: 15
-        accountPhone:
-          type: string
-          description: 'Optional: requests will come exclusively for the specified account phone number
-
-
-            **Example:** `8881234567`'
-          example: '8881234567'
-        contactPhone:
-          type: string
-          description: 'Optional: requests will come exclusively for the specified contact''s phone number
-
-
-            **Example:** `3051234567`'
-          example: '3051234567'
-    ObjectIdDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
   securitySchemes:
     api_key:
       type: apiKey

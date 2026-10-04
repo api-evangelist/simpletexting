@@ -98,6 +98,136 @@ paths:
         variables: {}
 components:
   schemas:
+    WebhookDeliveryReportDto:
+      type: object
+      properties:
+        messageId:
+          type: string
+          description: 'Message ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        category:
+          type: string
+          description: "Message category:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
+          example: SMS
+        referenceType:
+          type: string
+          description: 'Reference type (available only for MT messages)
+
+
+            **Example:** `API`'
+          example: API
+        accountPhone:
+          type: string
+          description: 'Account phone (primary or secondary)
+
+
+            **Example:** `8005551234`'
+          example: '8005551234'
+        contactPhone:
+          type: string
+          description: 'Contact phone
+
+
+            **Example:** `8001234567`'
+          example: '8001234567'
+        carrier:
+          type: string
+          description: 'Name of carrier
+
+
+            **Example:** `Verizon`'
+          example: Verizon
+      description: Report content
+    SingleReportDtoWebhookUnsubscribeReportDto:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: 'Unique report ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        webhookId:
+          type: string
+          description: 'Webhook ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        type:
+          type: string
+          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example: UNSUBSCRIBE_REPORT
+          enum:
+          - INCOMING_MESSAGE
+          - OUTGOING_MESSAGE
+          - DELIVERY_REPORT
+          - NON_DELIVERED_REPORT
+          - UNSUBSCRIBE_REPORT
+        values:
+          $ref: '#/components/schemas/WebhookUnsubscribeReportDto'
+    SingleReportDtoWebhookDeliveryReportDto:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: 'Unique report ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        webhookId:
+          type: string
+          description: 'Webhook ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        type:
+          type: string
+          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example: UNSUBSCRIBE_REPORT
+          enum:
+          - INCOMING_MESSAGE
+          - OUTGOING_MESSAGE
+          - DELIVERY_REPORT
+          - NON_DELIVERED_REPORT
+          - UNSUBSCRIBE_REPORT
+        values:
+          $ref: '#/components/schemas/WebhookDeliveryReportDto'
+    SingleReportDtoWebhookMessageDto:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: 'Unique report ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        webhookId:
+          type: string
+          description: 'Webhook ID in hexadecimal format
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+        type:
+          type: string
+          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
+          example: UNSUBSCRIBE_REPORT
+          enum:
+          - INCOMING_MESSAGE
+          - OUTGOING_MESSAGE
+          - DELIVERY_REPORT
+          - NON_DELIVERED_REPORT
+          - UNSUBSCRIBE_REPORT
+        values:
+          $ref: '#/components/schemas/WebhookMessageDto'
     WebhookUnsubscribeReportDto:
       type: object
       properties:
@@ -190,136 +320,6 @@ components:
             **Example:** `API`'
           example: API
       description: Report content
-    WebhookDeliveryReportDto:
-      type: object
-      properties:
-        messageId:
-          type: string
-          description: 'Message ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        category:
-          type: string
-          description: "Message category:\n\n  - **SMS:** SMS are regular texts, 160 characters or below\n\n  - **MMS:** Multimedia messages. Messages over 306 characters, or with media attached\n\n  - **EXTENDED_SMS:** Messages which are above 160 characters, but below 306 characters\n\n**Example:** `SMS`"
-          example: SMS
-        referenceType:
-          type: string
-          description: 'Reference type (available only for MT messages)
-
-
-            **Example:** `API`'
-          example: API
-        accountPhone:
-          type: string
-          description: 'Account phone (primary or secondary)
-
-
-            **Example:** `8005551234`'
-          example: '8005551234'
-        contactPhone:
-          type: string
-          description: 'Contact phone
-
-
-            **Example:** `8001234567`'
-          example: '8001234567'
-        carrier:
-          type: string
-          description: 'Name of carrier
-
-
-            **Example:** `Verizon`'
-          example: Verizon
-      description: Report content
-    SingleReportDtoWebhookMessageDto:
-      type: object
-      properties:
-        reportId:
-          type: string
-          description: 'Unique report ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        webhookId:
-          type: string
-          description: 'Webhook ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        type:
-          type: string
-          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-          example: UNSUBSCRIBE_REPORT
-          enum:
-          - INCOMING_MESSAGE
-          - OUTGOING_MESSAGE
-          - DELIVERY_REPORT
-          - NON_DELIVERED_REPORT
-          - UNSUBSCRIBE_REPORT
-        values:
-          $ref: '#/components/schemas/WebhookMessageDto'
-    SingleReportDtoWebhookUnsubscribeReportDto:
-      type: object
-      properties:
-        reportId:
-          type: string
-          description: 'Unique report ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        webhookId:
-          type: string
-          description: 'Webhook ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        type:
-          type: string
-          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-          example: UNSUBSCRIBE_REPORT
-          enum:
-          - INCOMING_MESSAGE
-          - OUTGOING_MESSAGE
-          - DELIVERY_REPORT
-          - NON_DELIVERED_REPORT
-          - UNSUBSCRIBE_REPORT
-        values:
-          $ref: '#/components/schemas/WebhookUnsubscribeReportDto'
-    SingleReportDtoWebhookDeliveryReportDto:
-      type: object
-      properties:
-        reportId:
-          type: string
-          description: 'Unique report ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        webhookId:
-          type: string
-          description: 'Webhook ID in hexadecimal format
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-        type:
-          type: string
-          description: "Webhook report content type:\n\n **UNSUBSCRIBE_REPORT:** Triggered when a contact unsubscribes\n\n**Example:** `UNSUBSCRIBE_REPORT`"
-          example: UNSUBSCRIBE_REPORT
-          enum:
-          - INCOMING_MESSAGE
-          - OUTGOING_MESSAGE
-          - DELIVERY_REPORT
-          - NON_DELIVERED_REPORT
-          - UNSUBSCRIBE_REPORT
-        values:
-          $ref: '#/components/schemas/WebhookDeliveryReportDto'
   securitySchemes:
     api_key:
       type: apiKey

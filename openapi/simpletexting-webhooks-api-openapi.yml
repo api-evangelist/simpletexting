@@ -143,6 +143,83 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
+    PageViewWebhook:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/Webhook'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
+    Webhook:
+      required:
+      - triggers
+      - url
+      type: object
+      properties:
+        webhookId:
+          type: string
+          description: Webhook ID in hexadecimal format
+          example: 507f191e810c19729de860ea
+        url:
+          type: string
+          description: 'URL for handling POST request
+
+
+            **Example:** `https://example.com`'
+          example: https://example.com
+        triggers:
+          type: array
+          description: 'Trigger a webhook on specific platform events
+
+
+            **Example:** `INCOMING_MESSAGE`'
+          example: INCOMING_MESSAGE
+          items:
+            type: string
+            description: 'Trigger a webhook on specific platform events
+
+
+              **Example:** `INCOMING_MESSAGE`'
+            example: INCOMING_MESSAGE
+            enum:
+            - INCOMING_MESSAGE
+            - OUTGOING_MESSAGE
+            - DELIVERY_REPORT
+            - NON_DELIVERED_REPORT
+            - UNSUBSCRIBE_REPORT
+        requestPerSecLimit:
+          type: integer
+          description: 'The maximum number of requests that can be sent within one second
+
+
+            **Example:** `20`'
+          format: int32
+          example: 20
+        accountPhone:
+          type: string
+          description: 'Optional: requests will come exclusively for the specified account phone number
+
+
+            **Example:** `8881234567`'
+          example: '8881234567'
+        contactPhone:
+          type: string
+          description: 'Optional: requests will come exclusively for the specified contact phone number
+
+
+            **Example:** `3051234567`'
+          example: '3051234567'
+      description: Page content and number of elements is restricted by page size.
     ObjectIdDto:
       type: object
       properties:
@@ -205,83 +282,6 @@ components:
 
             **Example:** `3051234567`'
           example: '3051234567'
-    Webhook:
-      required:
-      - triggers
-      - url
-      type: object
-      properties:
-        webhookId:
-          type: string
-          description: Webhook ID in hexadecimal format
-          example: 507f191e810c19729de860ea
-        url:
-          type: string
-          description: 'URL for handling POST request
-
-
-            **Example:** `https://example.com`'
-          example: https://example.com
-        triggers:
-          type: array
-          description: 'Trigger a webhook on specific platform events
-
-
-            **Example:** `INCOMING_MESSAGE`'
-          example: INCOMING_MESSAGE
-          items:
-            type: string
-            description: 'Trigger a webhook on specific platform events
-
-
-              **Example:** `INCOMING_MESSAGE`'
-            example: INCOMING_MESSAGE
-            enum:
-            - INCOMING_MESSAGE
-            - OUTGOING_MESSAGE
-            - DELIVERY_REPORT
-            - NON_DELIVERED_REPORT
-            - UNSUBSCRIBE_REPORT
-        requestPerSecLimit:
-          type: integer
-          description: 'The maximum number of requests that can be sent within one second
-
-
-            **Example:** `20`'
-          format: int32
-          example: 20
-        accountPhone:
-          type: string
-          description: 'Optional: requests will come exclusively for the specified account phone number
-
-
-            **Example:** `8881234567`'
-          example: '8881234567'
-        contactPhone:
-          type: string
-          description: 'Optional: requests will come exclusively for the specified contact phone number
-
-
-            **Example:** `3051234567`'
-          example: '3051234567'
-      description: Page content and number of elements is restricted by page size.
-    PageViewWebhook:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/Webhook'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
   securitySchemes:
     api_key:
       type: apiKey

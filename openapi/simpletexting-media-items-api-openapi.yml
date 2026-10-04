@@ -178,6 +178,19 @@ paths:
           description: Success. Media was deleted.
 components:
   schemas:
+    UploadByLink:
+      required:
+      - link
+      type: object
+      properties:
+        link:
+          type: string
+          description: 'The URL you will upload your media to
+
+
+            **Example:** `https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg`'
+          example: https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg
+      description: UploadByLink Request
     StFileDto:
       type: object
       properties:
@@ -253,19 +266,6 @@ components:
 
             **Example:** `true`'
           example: true
-    UploadByLink:
-      required:
-      - link
-      type: object
-      properties:
-        link:
-          type: string
-          description: 'The URL you will upload your media to
-
-
-            **Example:** `https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg`'
-          example: https://simpletexting.com/wp-content/uploads/2019/08/7kAnVTq5Pb9TxEJbBNMDwh-768-80-1.jpg
-      description: UploadByLink Request
     PageViewStFileDto:
       type: object
       properties:

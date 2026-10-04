@@ -65,6 +65,23 @@ paths:
                 $ref: '#/components/schemas/PageViewCustomField'
 components:
   schemas:
+    PageViewCustomField:
+      type: object
+      properties:
+        content:
+          type: array
+          description: Page content and number of elements is restricted by page size.
+          items:
+            $ref: '#/components/schemas/CustomField'
+        totalPages:
+          type: integer
+          description: The total number of pages. This is the number of elements divided by the page size.
+          format: int32
+        totalElements:
+          type: integer
+          description: Total number of elements.
+          format: int64
+      description: Page representation for search/fetch result
     CustomField:
       type: object
       properties:
@@ -86,23 +103,6 @@ components:
           format: int32
           example: 30
       description: Page content and number of elements is restricted by page size.
-    PageViewCustomField:
-      type: object
-      properties:
-        content:
-          type: array
-          description: Page content and number of elements is restricted by page size.
-          items:
-            $ref: '#/components/schemas/CustomField'
-        totalPages:
-          type: integer
-          description: The total number of pages. This is the number of elements divided by the page size.
-          format: int32
-        totalElements:
-          type: integer
-          description: Total number of elements.
-          format: int64
-      description: Page representation for search/fetch result
   securitySchemes:
     api_key:
       type: apiKey

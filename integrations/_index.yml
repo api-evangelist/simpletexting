@@ -267,7 +267,6 @@
   arazzo: null
 - slug: simpletexting-monday-com
   label: monday.com
-  partner: monday-com
   partner_name: monday.com
   category: Project Management
   type: marketplace
@@ -275,7 +274,7 @@
   channel: ipaas-usage
   evidence: https://zapier.com/apps/simpletexting/integrations/monday
   source: edge
-  status: pending-generation
+  status: pending-partner-spec
   arazzo: null
 - slug: simpletexting-wix
   label: Wix
@@ -398,7 +397,6 @@
   arazzo: null
 - slug: simpletexting-microsoft-excel
   label: Microsoft Excel
-  partner: microsoft-excel
   partner_name: Microsoft Excel
   category: Microsoft
   type: marketplace
@@ -406,7 +404,7 @@
   channel: ipaas-usage
   evidence: https://zapier.com/apps/simpletexting/integrations/excel
   source: edge
-  status: pending-generation
+  status: pending-partner-spec
   arazzo: null
 - slug: simpletexting-tiktok-lead-generation
   label: TikTok Lead Generation
@@ -418,4 +416,29 @@
   evidence: https://zapier.com/apps/simpletexting/integrations/tiktok-lead-generation
   source: edge
   status: pending-partner-spec
+  arazzo: null
+- slug: simpletexting-zapier
+  label: Zapier
+  partner: zapier
+  partner_name: Zapier
+  type: marketplace
+  marketplace: zapier-directory
+  channel: ipaas-listing
+  evidence: https://zapier.com/apps/simpletexting/integrations
+  source: edge
+  relationship: ipaas-bridge
+  contract_reference:
+    register: Zapier app directory (zapier.com/api/v4/apps)
+    spec_file: null
+    role: ipaas-connector:zapier
+    registered_name: SimpleTexting
+    matched_domain: simpletexting.com
+    matched_by: domain
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: simpletexting
+    beta: false
+    builder: unknown (not in the directory record)
+  status: pending-generation
   arazzo: null

@@ -143,6 +143,17 @@ paths:
                 $ref: '#/components/schemas/ObjectIdDto'
 components:
   schemas:
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
     PageViewWebhook:
       type: object
       properties:
@@ -220,17 +231,6 @@ components:
             **Example:** `3051234567`'
           example: '3051234567'
       description: Page content and number of elements is restricted by page size.
-    ObjectIdDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
     WebhookRequest:
       required:
       - triggers

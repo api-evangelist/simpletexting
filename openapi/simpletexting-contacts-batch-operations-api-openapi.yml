@@ -134,6 +134,43 @@ paths:
                 $ref: '#/components/schemas/ContactsBatchUpdateResult'
 components:
   schemas:
+    ObjectIdDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID of item in hexadecimal format.
+
+
+            **Example:** `507f191e810c19729de860ea`'
+          example: 507f191e810c19729de860ea
+      description: ID of created or modified object
+    ContactsBatchUpdateResult:
+      type: object
+      properties:
+        status:
+          title: Task status
+          type: string
+          enum:
+          - IN_PROGRESS
+          - DONE
+        results:
+          type: array
+          description: List of update results
+          items:
+            $ref: '#/components/schemas/ContactUpdateResult'
+        requestedCount:
+          title: Total count
+          type: integer
+          description: Contacts count that were requested to be updated/added
+          format: int32
+          example: 400
+        processedCount:
+          title: Processed count
+          type: integer
+          description: Contacts count that were updated/added
+          format: int32
+          example: 400
     ContactUpdateResult:
       type: object
       properties:
@@ -173,129 +210,6 @@ components:
           description: Additional error message if operation has failed
           example: Contacts limit is reached
       description: List of update results
-    ObjectIdDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID of item in hexadecimal format.
-
-
-            **Example:** `507f191e810c19729de860ea`'
-          example: 507f191e810c19729de860ea
-      description: ID of created or modified object
-    ContactsBatchUpdateResult:
-      type: object
-      properties:
-        status:
-          title: Task status
-          type: string
-          enum:
-          - IN_PROGRESS
-          - DONE
-        results:
-          type: array
-          description: List of update results
-          items:
-            $ref: '#/components/schemas/ContactUpdateResult'
-        requestedCount:
-          title: Total count
-          type: integer
-          description: Contacts count that were requested to be updated/added
-          format: int32
-          example: 400
-        processedCount:
-          title: Processed count
-          type: integer
-          description: Contacts count that were updated/added
-          format: int32
-          example: 400
-    CustomFieldsOpenApiDescription:
-      title: Key/value pairs
-      type: object
-      properties:
-        Merge tag:
-          type: string
-          description: '**Example:** `"zipcode": "12345"`'
-          example: '{"zipcode":"12345"}'
-      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
-
-
-        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
-
-
-        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
-      example:
-        zipcode: '12345'
-    ContactUpdate:
-      required:
-      - contactPhone
-      type: object
-      properties:
-        contactPhone:
-          type: string
-          description: 'Contact''s phone number
-
-
-            **Example:** `1234567890`'
-          example: '1234567890'
-        firstName:
-          maxLength: 100
-          type: string
-          description: 'Contact''s first name.
-
-
-            **Example:** `John`'
-          example: John
-        lastName:
-          maxLength: 100
-          type: string
-          description: 'Contact''s last name
-
-
-            **Example:** `Doe`'
-          example: Doe
-        email:
-          type: string
-          description: 'Contact''s email
-
-
-            **Example:** `john.doe@simpletext.org`'
-          example: john.doe@simpletext.org
-        birthday:
-          type: string
-          description: 'Contact''s birthday in format (yyyy-mm-dd)
-
-
-            **Example:** `1985-05-15`'
-          example: '1985-05-15'
-        customFields:
-          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
-        comment:
-          maxLength: 1000
-          type: string
-          description: 'Notes about the contact.
-
-
-            **Example:** `VIP client`'
-          example: VIP client
-        listIds:
-          type: array
-          description: 'All the lists (List IDs or names) to add the contact to or replace.
-
-
-            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
-          example:
-          - 507f191e810c19729de860ea
-          - My First List
-          items:
-            type: string
-            description: 'All the lists (List IDs or names) to add the contact to or replace.
-
-
-              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
-            example: '["507f191e810c19729de860ea","My First List"]'
-      description: List of updates for contacts
     ContactsBatchDeleteResult:
       type: object
       properties:
@@ -366,6 +280,23 @@ components:
             type: string
             example: '["1234567890"]'
       description: ContactsBatchDelete
+    CustomFieldsOpenApiDescription:
+      title: Key/value pairs
+      type: object
+      properties:
+        Merge tag:
+          type: string
+          description: '**Example:** `"zipcode": "12345"`'
+          example: '{"zipcode":"12345"}'
+      description: 'Object that contains custom field values, where you should use a Name or a Merge tag in a property name and a field value as a property value.
+
+
+        To find a merge tag, please see the **Contacts > Custom Fields** section for your account.
+
+
+        For example: if you have a custom field with the name Street address and the merge tag `%%street_address%%`, you would use the `"Street address": "1625 N Central Ave"` parameter or the  `"street_address": "1625 N Central Ave"` parameter.'
+      example:
+        zipcode: '12345'
     ContactsBatchUpdate:
       required:
       - updates
@@ -386,6 +317,75 @@ components:
           items:
             $ref: '#/components/schemas/ContactUpdate'
       description: Add new contacts or update existing, based on unique contact phone. One contact per object in the array
+    ContactUpdate:
+      required:
+      - contactPhone
+      type: object
+      properties:
+        contactPhone:
+          type: string
+          description: 'Contact''s phone number
+
+
+            **Example:** `1234567890`'
+          example: '1234567890'
+        firstName:
+          maxLength: 100
+          type: string
+          description: 'Contact''s first name.
+
+
+            **Example:** `John`'
+          example: John
+        lastName:
+          maxLength: 100
+          type: string
+          description: 'Contact''s last name
+
+
+            **Example:** `Doe`'
+          example: Doe
+        email:
+          type: string
+          description: 'Contact''s email
+
+
+            **Example:** `john.doe@simpletext.org`'
+          example: john.doe@simpletext.org
+        birthday:
+          type: string
+          description: 'Contact''s birthday in format (yyyy-mm-dd)
+
+
+            **Example:** `1985-05-15`'
+          example: '1985-05-15'
+        customFields:
+          $ref: '#/components/schemas/CustomFieldsOpenApiDescription'
+        comment:
+          maxLength: 1000
+          type: string
+          description: 'Notes about the contact.
+
+
+            **Example:** `VIP client`'
+          example: VIP client
+        listIds:
+          type: array
+          description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+            **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+          example:
+          - 507f191e810c19729de860ea
+          - My First List
+          items:
+            type: string
+            description: 'All the lists (List IDs or names) to add the contact to or replace.
+
+
+              **Example:** `["507f191e810c19729de860ea", "My First List"]`'
+            example: '["507f191e810c19729de860ea","My First List"]'
+      description: List of updates for contacts
   securitySchemes:
     api_key:
       type: apiKey

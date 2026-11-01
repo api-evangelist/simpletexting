@@ -1,4 +1,4 @@
-# SimpleTexting (simpletexting)
+# SimpleTexting
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,173 +66,175 @@
 
 SimpleTexting is a business SMS and MMS marketing platform. Its v2 REST API lets developers send single text messages, run bulk campaigns to lists and segments, manage contacts and contact lists, upload MMS media, provision sending numbers, and subscribe to delivery and incoming-message webhooks, all authenticated with a bearer token.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/simpletexting/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/simpletexting/refs/heads/main/apis.yml)
+**Areas:** SMS · MMS · Messaging · Marketing · Text Messaging · SMS Marketing · Communications · Campaigns · Contacts · Webhook · A2P 10DLC
 
-## Tags
+## SimpleTexting on APIs.io
 
-- SMS
-- MMS
-- Messaging
-- Marketing
-- Text Messaging
+Everything profiled for SimpleTexting is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/simpletexting/](https://apis.io/providers/simpletexting/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (12)
 
-- **Created:** 2026-06-20
-- **Modified:** 2026-06-20
+- [SimpleTexting Campaigns API](https://apis.io/apis/simpletexting/simpletexting-campaigns-api/) — Create and retrieve bulk campaigns to lists and segments.
+- [SimpleTexting Contact Lists API](https://apis.io/apis/simpletexting/simpletexting-contact-lists-api/) — Manage contact lists and list membership.
+- [SimpleTexting Contact Segments API](https://apis.io/apis/simpletexting/simpletexting-contact-segments-api/) — Read dynamic contact segments.
+- [SimpleTexting Contacts API](https://apis.io/apis/simpletexting/simpletexting-contacts-api/) — Create, read, update, and delete individual contacts.
+- [SimpleTexting Contacts - Batch Operations API](https://apis.io/apis/simpletexting/simpletexting-contacts-batch-operations-api/) — Batch update and delete groups of contacts.
+- [SimpleTexting Custom Fields API](https://apis.io/apis/simpletexting/simpletexting-custom-fields-api/) — Read account custom fields / merge tags.
+- [SimpleTexting Media Items API](https://apis.io/apis/simpletexting/simpletexting-media-items-api/) — Upload and manage MMS media items.
+- [SimpleTexting Messages API](https://apis.io/apis/simpletexting/simpletexting-messages-api/) — Send and retrieve one-to-one SMS / MMS messages.
+- [SimpleTexting Tenant API](https://apis.io/apis/simpletexting/simpletexting-tenant-api/) — Account information and sending phone numbers.
+- [SimpleTexting Webhooks API](https://apis.io/apis/simpletexting/simpletexting-webhooks-api/) — Subscribe to platform events via HTTP callbacks.
+- [SimpleTexting Tenant phones API](https://apis.io/apis/simpletexting/simpletexting-tenant-phones-api/) — The Tenant phones API from SimpleTexting — 1 operation(s) for tenant phones.
+- [SimpleTexting Webhook Reports API](https://apis.io/apis/simpletexting/simpletexting-webhook-reports-api/) — Use webhooks to communicate between the SimpleTexting platform and your server. Webhooks can be used to forward messages as well as provide info about…
 
-## APIs
+### Published properties
 
-### SimpleTexting Messages API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Send a single SMS or MMS message to one contact, evaluate a message body for credit cost and segment count before sending, and retrieve sent and received messages with pagination.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://api-doc.simpletexting.com/](https://api-doc.simpletexting.com/)
-- **Base URL:** `https://api-app2.simpletexting.com/v2`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Simpletexting Webhooks](https://apis.io/asyncapis/simpletexting/simpletexting-webhooks/)
 
-- Messages
-- SMS
-- MMS
+#### MCP servers (1)
 
-#### Properties
+Model Context Protocol servers that expose the API to agents.
 
-- [Documentation](https://simpletexting.com/api/docs/)
-- [API Reference](https://api-doc.simpletexting.com/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/simpletexting.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpletexting.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [simpletexting](https://apis.io/servers/simpletexting/simpletexting/)
 
-### SimpleTexting Contacts API
+#### Agentic access (1)
 
-Create, read, update, upsert, and delete individual contacts with first/last name, email, birthday, custom fields, and list membership, plus asynchronous batch update and batch delete operations and access to custom fields and dynamic segments.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://api-doc.simpletexting.com/](https://api-doc.simpletexting.com/)
-- **Base URL:** `https://api-app2.simpletexting.com/v2`
+- [Simpletexting Agentic Access](https://apis.io/agentic-access/simpletexting/simpletexting-agentic-access/)
 
-#### Tags
+#### Collections (13)
 
-- Contacts
-- CRM
+Postman and Open Collection request collections.
 
-#### Properties
+- [SimpleTexting API Documentation](https://apis.io/collections/simpletexting/open-simpletexting/)
+- [SimpleTexting API Documentation Campaigns API](https://apis.io/collections/simpletexting/open-simpletexting-campaigns-api/)
+- [SimpleTexting API Documentation Contact Lists API](https://apis.io/collections/simpletexting/open-simpletexting-contact-lists-api/)
+- [SimpleTexting API Documentation Contact Segments API](https://apis.io/collections/simpletexting/open-simpletexting-contact-segments-api/)
+- [SimpleTexting API Documentation Contacts API](https://apis.io/collections/simpletexting/open-simpletexting-contacts-api/)
+- [SimpleTexting API Documentation Contacts - Batch Operations API](https://apis.io/collections/simpletexting/open-simpletexting-contacts-batch-operations-api/)
+- [SimpleTexting API Documentation Custom Fields API](https://apis.io/collections/simpletexting/open-simpletexting-custom-fields-api/)
+- [SimpleTexting API Documentation Media Items API](https://apis.io/collections/simpletexting/open-simpletexting-media-items-api/)
+- [SimpleTexting API Documentation Messages API](https://apis.io/collections/simpletexting/open-simpletexting-messages-api/)
+- [SimpleTexting API Documentation Tenant API](https://apis.io/collections/simpletexting/open-simpletexting-tenant-api/)
+- [SimpleTexting API Documentation Tenant phones API](https://apis.io/collections/simpletexting/open-simpletexting-tenant-phones-api/)
+- [SimpleTexting API Documentation Webhook Reports API](https://apis.io/collections/simpletexting/open-simpletexting-webhook-reports-api/)
+- [SimpleTexting API Documentation Webhooks API](https://apis.io/collections/simpletexting/open-simpletexting-webhooks-api/)
 
-- [Documentation](https://simpletexting.com/api/docs/)
-- [API Reference](https://api-doc.simpletexting.com/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/simpletexting.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpletexting.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Overlays (12)
 
-### SimpleTexting Lists API
+OpenAPI overlays, including conversational phrasing for each operation.
 
-Create, read, rename, and delete contact lists, and add or remove contacts from a list by phone number or contact id.
+- [Simpletexting Campaigns Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-campaigns-api-overlay/)
+- [Simpletexting Contact Lists Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-contact-lists-api-overlay/)
+- [Simpletexting Contact Segments Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-contact-segments-api-overlay/)
+- [Simpletexting Contacts Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-contacts-api-overlay/)
+- [Simpletexting Contacts Batch Operations Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-contacts-batch-operations-api-overlay/)
+- [Simpletexting Custom Fields Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-custom-fields-api-overlay/)
+- [Simpletexting Media Items Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-media-items-api-overlay/)
+- [Simpletexting Messages Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-messages-api-overlay/)
+- [Simpletexting Tenant Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-tenant-api-overlay/)
+- [Simpletexting Tenant Phones Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-tenant-phones-api-overlay/)
+- [Simpletexting Webhook Reports Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-webhook-reports-api-overlay/)
+- [Simpletexting Webhooks Api Overlay](https://apis.io/overlays/simpletexting/simpletexting-webhooks-api-overlay/)
 
-- **Human URL:** [https://api-doc.simpletexting.com/](https://api-doc.simpletexting.com/)
-- **Base URL:** `https://api-app2.simpletexting.com/v2`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Lists
-- Segments
+- [Simpletexting Authentication](https://apis.io/security/simpletexting/simpletexting-authentication/)
+- [Simpletexting Domain Security](https://apis.io/security/simpletexting/simpletexting-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://simpletexting.com/api/docs/)
-- [API Reference](https://api-doc.simpletexting.com/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/simpletexting.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpletexting.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### SimpleTexting Campaigns API
+- [Simpletexting Plans Pricing](https://apis.io/plans/simpletexting/simpletexting-plans-pricing/)
 
-Send a bulk campaign immediately to one or more lists or segments using a message template, and retrieve campaigns with pagination.
+#### Rate limits (1)
 
-- **Human URL:** [https://api-doc.simpletexting.com/](https://api-doc.simpletexting.com/)
-- **Base URL:** `https://api-app2.simpletexting.com/v2`
+Published request limits.
 
-#### Tags
+- [Simpletexting Rate Limits](https://apis.io/rate-limits/simpletexting/simpletexting-rate-limits/)
 
-- Campaigns
-- Bulk Messaging
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://simpletexting.com/api/docs/)
-- [API Reference](https://api-doc.simpletexting.com/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/simpletexting.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpletexting.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Simpletexting Finops](https://apis.io/finops/simpletexting/simpletexting-finops/)
 
-### SimpleTexting Autoresponders API
+## Where to find this API
 
-Keyword and autoresponder workflows, including renting and configuring keywords and exporting autoresponder analytics, exposed through the SimpleTexting v1 API surface that complements the v2 REST API.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://simpletexting.com/api/docs/](https://simpletexting.com/api/docs/)
-- **Base URL:** `https://app2.simpletexting.com/v1`
-
-#### Tags
-
-- Autoresponders
-- Drip
-- Keywords
-
-#### Properties
-
-- [Documentation](https://simpletexting.com/api/docs/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### SimpleTexting Sending Numbers API
-
-Retrieve the sending phone numbers provisioned on the account and general tenant information, including the account credit balance.
-
-- **Human URL:** [https://api-doc.simpletexting.com/](https://api-doc.simpletexting.com/)
-- **Base URL:** `https://api-app2.simpletexting.com/v2`
-
-#### Tags
-
-- Sending Numbers
-- Phones
-
-#### Properties
-
-- [Documentation](https://simpletexting.com/api/docs/)
-- [API Reference](https://api-doc.simpletexting.com/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/simpletexting.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpletexting.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### SimpleTexting Webhooks API
-
-Create, read, update, and delete webhooks that fire on incoming and outgoing messages, delivery and non-delivery reports, and unsubscribe events, with an optional per-second request rate limit.
-
-- **Human URL:** [https://api-doc.simpletexting.com/](https://api-doc.simpletexting.com/)
-- **Base URL:** `https://api-app2.simpletexting.com/v2`
-
-#### Tags
-
-- Webhooks
-- Events
-
-#### Properties
-
-- [Documentation](https://simpletexting.com/api/docs/)
-- [API Reference](https://api-doc.simpletexting.com/)
-- [OpenAPI](openapi/simpletexting-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Review](review.yml)
-- [Postman Collection](collections/simpletexting.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpletexting.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/simpletexting)
 - [Website](https://simpletexting.com/)
 - [Documentation](https://simpletexting.com/api/docs/)
-- [Plans](plans/simpletexting-plans-pricing.yml)
-- [Rate Limits](rate-limits/simpletexting-rate-limits.yml)
-- [Fin Ops](finops/simpletexting-finops.yml)
+- [API reference](https://api-doc.simpletexting.com/)
+- [Pricing](https://simpletexting.com/pricing/)
+- [Sign up](https://app2.simpletexting.com/sign-up)
+- [Support](https://help.simpletexting.com/en/)
+- [Blog](https://simpletexting.com/feed/)
+- [Terms of service](https://simpletexting.com/terms/)
+- [Privacy policy](https://simpletexting.com/privacy-policy/)
+- [Status](https://status.simpletexting.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 52.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 57.7 |
+| Contract governance | 4.5 |
+| Operational transparency | 55.3 |
+| Developer ergonomics | 41.1 |
+| Access clarity | 67.1 |
+
+**Agent readiness 39.3** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 30.8** — Telecommunications
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/simpletexting/](https://apis.io/providers/simpletexting/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for SimpleTexting: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/simpletexting/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
